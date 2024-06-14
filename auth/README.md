@@ -1,0 +1,1 @@
+Auth module responsible for managing user accounts and authorizing access
