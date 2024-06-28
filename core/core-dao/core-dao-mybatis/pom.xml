@@ -13,4 +13,17 @@
     <groupId>io.github.pavansharma36.saas.core.dao</groupId>
     <artifactId>mybatis</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis.spring.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

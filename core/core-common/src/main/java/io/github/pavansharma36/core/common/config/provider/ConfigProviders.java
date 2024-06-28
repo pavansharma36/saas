@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class ConfigProviders {
 
@@ -24,6 +26,7 @@ public abstract class ConfigProviders {
 
   public static String getConfig(String key) {
     for (ConfigProvider provider : providers) {
+
       String a = provider.getConfig(key);
       if (a != null) {
         return a;

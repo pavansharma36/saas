@@ -9,8 +9,4 @@ import org.springframework.context.annotation.Import;
 @Import(WebSecurityConfig.class)
 public class GalaxyServerConfiguration {
 
-  @Bean
-  public Boolean bool() {
-    return true;
-  }
 }

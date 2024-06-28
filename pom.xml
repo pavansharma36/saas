@@ -30,10 +30,13 @@
         <spring.data.version>2024.0.0</spring.data.version>
         <spring.security.version>6.3.0</spring.security.version>
         <jackson.version>2.17.1</jackson.version>
-        <commons.lang.version>3.14.0</commons.lang.version>
-        <commons.text.version>1.12.0</commons.text.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <feign.version>13.2.1</feign.version>
+        <mybatis.spring.version>3.0.3</mybatis.spring.version>
+
+        <!-- Commons -->
+        <commons.lang.version>3.14.0</commons.lang.version>
+        <commons.text.version>1.12.0</commons.text.version>
 
         <!-- PLUGINS -->
         <mybatis.generator.plugin.version>1.4.2</mybatis.generator.plugin.version>

@@ -48,7 +48,7 @@ public class WebSecurityConfig {
     http
         .authorizeHttpRequests(requests -> requests.requestMatchers(
                 new AntPathRequestMatcher("/api/open/**")).permitAll()
-            .anyRequest().authenticated()
+            .anyRequest().fullyAuthenticated()
         ).logout(LogoutConfigurer::permitAll)
         .csrf(CsrfConfigurer::disable)
         .logout(AbstractHttpConfigurer::disable)

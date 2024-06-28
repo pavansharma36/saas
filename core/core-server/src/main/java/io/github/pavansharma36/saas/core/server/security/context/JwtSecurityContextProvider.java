@@ -4,12 +4,10 @@ import io.github.pavansharma36.saas.core.server.security.jwt.JwtPayload;
 import io.github.pavansharma36.saas.core.server.security.jwt.JwtService;
 import io.github.pavansharma36.saas.utils.Constants;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.annotation.Order;
@@ -37,18 +35,16 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
   }
 
   @Override
-  public Optional<Authentication> authentication(HttpRequestResponseHolder requestResponseHolder,
-                                                 Set<GrantedAuthority> additionalAuthorities) {
+  public Optional<Authentication> authentication(HttpRequestResponseHolder requestResponseHolder) {
     Pair<JwtPayload, Date> response =
         jwtService.parse(
             requestResponseHolder.getRequest().getHeader(Constants.AUTHORIZATION_HEADER));
     if (response != null) {
       JwtPayload payload = response.getLeft();
-      Collection<GrantedAuthority> authorities = new HashSet<>(additionalAuthorities);
-      authorities.addAll(payload.getRoles().stream().map(r -> (GrantedAuthority) () -> r)
-          .toList());
       Authentication authentication = new UsernamePasswordAuthenticationToken(payload.getUsername(),
-          null, authorities);
+          null, payload.getRoles().stream()
+          .map(r -> (GrantedAuthority) () -> r).collect(Collectors.toSet()));
+      authentication.setAuthenticated(true);
       addNewAuthTokenIfRequired(requestResponseHolder, authentication, response.getRight());
       return Optional.of(authentication);
     }
