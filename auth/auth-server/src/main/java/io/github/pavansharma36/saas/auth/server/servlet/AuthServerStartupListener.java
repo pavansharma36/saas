@@ -5,7 +5,9 @@ import io.github.pavansharma36.core.common.config.provider.PropertiesFileConfigP
 import io.github.pavansharma36.saas.core.server.listener.StartupListener;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.annotation.WebListener;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @WebListener
 public class AuthServerStartupListener extends StartupListener {
 

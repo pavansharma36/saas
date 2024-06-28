@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.auth.server.security;
 
 import io.github.pavansharma36.saas.auth.server.dao.UserSessionDao;
+import io.github.pavansharma36.saas.core.dto.ResponseObject;
 import io.github.pavansharma36.saas.core.server.security.jwt.JwtService;
-import io.github.pavansharma36.saas.core.server.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
