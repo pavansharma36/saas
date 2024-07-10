@@ -1,11 +1,6 @@
 package io.github.pavansharma36.core.common.context;
 
-public interface ThreadLocalContext<T> {
-
-  T get();
-
-  void set(T value);
-
+public interface ThreadLocalContext {
   /**
    * to clear all context after procesing request.
    */

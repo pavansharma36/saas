@@ -1,0 +1,14 @@
+services:
+  galaxy-postgres:
+    container_name: "galaxy-postgres"
+    image: postgres
+    user: $UID:1000
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - /opt/saas/data/postgres/galaxy:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: galaxy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata

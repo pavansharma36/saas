@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class ThreadLocalContextProviders {
 
-  private static final Set<ThreadLocalContext<?>> CONTEXTS = new HashSet<>();
+  private static final Set<ThreadLocalContext> CONTEXTS = new HashSet<>();
 
-  public static synchronized void register(ThreadLocalContext<?> context) {
+  public static synchronized void register(ThreadLocalContext context) {
     CONTEXTS.add(context);
   }
 

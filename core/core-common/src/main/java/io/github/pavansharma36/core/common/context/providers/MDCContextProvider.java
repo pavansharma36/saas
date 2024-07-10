@@ -1,28 +1,19 @@
 package io.github.pavansharma36.core.common.context.providers;
 
-import io.github.pavansharma36.core.common.context.MDCContext;
 import io.github.pavansharma36.core.common.context.ThreadLocalContext;
+import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
+import io.github.pavansharma36.saas.utils.json.JsonUtils;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.MDC;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MDCContextProvider implements ThreadLocalContext<Void> {
-
-  private static final MDCContext MDC_CONTEXT = new MDCContext();
+public class MDCContextProvider implements ThreadLocalContext {
 
   public static void put(String key, String value) {
     MDC.put(key, value);
-  }
-
-  @Override
-  public Void get() {
-    return null;
-  }
-
-  @Override
-  public void set(Void value) {
-
   }
 
   @Override
@@ -32,11 +23,19 @@ public class MDCContextProvider implements ThreadLocalContext<Void> {
 
   @Override
   public byte[] toByteArray() {
-    return new byte[0];
+    Map<String, String> mdc = MDC.getCopyOfContextMap();
+    if (CollectionUtils.isEmpty(mdc)) {
+      return new byte[0];
+    }
+    String json = JsonUtils.toJson(mdc);
+    return json.getBytes(StandardCharsets.UTF_8);
   }
 
   @Override
   public void setFromByteArray(byte[] value) {
-
+    Map<String, String> mdc =
+        JsonUtils.mapFromJson(new String(value, StandardCharsets.UTF_8), String.class,
+            String.class);
+    mdc.forEach(MDC::put);
   }
 }

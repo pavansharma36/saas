@@ -1,8 +1,11 @@
 package io.github.pavansharma36.core.common.config;
 
+import static io.github.pavansharma36.core.common.config.provider.ConfigProviders.getAll;
 import static io.github.pavansharma36.core.common.config.provider.ConfigProviders.getConfig;
 
 import io.github.pavansharma36.saas.utils.ex.AppConfigurationException;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +45,12 @@ public abstract class Config {
   public static long getLong(String key, long def) {
     String value = getConfig(key);
     return value == null ? def : Long.parseLong(value);
+  }
+
+  public static Map<String, String> getAllByPrefix(String prefix) {
+    return getAll().entrySet().stream()
+        .filter(e -> e.getKey().startsWith(prefix))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
 }

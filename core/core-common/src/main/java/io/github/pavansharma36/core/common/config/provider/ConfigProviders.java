@@ -1,8 +1,10 @@
 package io.github.pavansharma36.core.common.config.provider;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +18,8 @@ public abstract class ConfigProviders {
   static {
     registerConfigProvider(new SystemConfigProvider());
     registerConfigProvider(new EnvConfigProvider());
-    registerConfigProvider(new PropertiesFileConfigProvider("conf/common.properties", Integer.MAX_VALUE - 20));
+    registerConfigProvider(
+        new PropertiesFileConfigProvider("conf/common.properties", Integer.MAX_VALUE - 20));
   }
 
   public static synchronized void registerConfigProvider(ConfigProvider provider) {
@@ -33,6 +36,14 @@ public abstract class ConfigProviders {
       }
     }
     return null;
+  }
+
+  public static Map<String, String> getAll() {
+    Map<String, String> m = new HashMap<>();
+    for (ConfigProvider provider : providers) {
+      m.putAll(provider.getAll());
+    }
+    return m;
   }
 
 }

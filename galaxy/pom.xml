@@ -18,6 +18,8 @@
         <module>galaxy-api</module>
         <module>galaxy-common</module>
         <module>galaxy-server</module>
+        <module>galaxy-core</module>
+        <module>galaxy-client</module>
     </modules>
 
 </project>

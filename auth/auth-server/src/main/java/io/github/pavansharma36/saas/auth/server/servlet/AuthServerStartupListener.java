@@ -6,6 +6,7 @@ import io.github.pavansharma36.saas.core.server.listener.StartupListener;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.annotation.WebListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @WebListener

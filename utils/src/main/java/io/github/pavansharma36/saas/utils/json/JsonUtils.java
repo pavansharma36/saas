@@ -2,8 +2,11 @@ package io.github.pavansharma36.saas.utils.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +37,15 @@ public class JsonUtils {
   public static <T> T fromJson(String json, Class<T> clazz) {
     try {
       return MAPPER.readValue(json, clazz);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+
+  public static <K, V> Map<K, V> mapFromJson(String json, Class<K> keyType, Class<V> valueType) {
+    try {
+      return MAPPER.readValue(json, new TypeReference<HashMap<K, V>>() {
+      });
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e.getMessage(), e);
     }

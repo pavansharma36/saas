@@ -1,6 +1,8 @@
 package io.github.pavansharma36.saas.core.server.security.context;
 
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.crypto.CryptUtil;
+import io.github.pavansharma36.core.common.crypto.KeyType;
 import io.github.pavansharma36.saas.core.server.security.b2b.B2BAuthentication;
 import io.github.pavansharma36.saas.utils.Constants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ public class B2BSecurityContextProvider implements AppSecurityContextProvider {
   @Override
   public Optional<Authentication> authentication(HttpRequestResponseHolder requestResponseHolder) {
     String header = requestResponseHolder.getRequest().getHeader(Constants.B2B_SECRET_HEADER);
-    if (header != null && header.equals(B2B_HEADER_VALUE)) {
+    if (header != null && CryptUtil.decrypt(KeyType.DEFAULT, header).equals(B2B_HEADER_VALUE)) {
       for (AppSecurityContextProvider provider : appSecurityContextProviders) {
         Optional<Authentication> authentication =
             provider.authentication(requestResponseHolder);
