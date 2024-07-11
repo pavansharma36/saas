@@ -74,6 +74,9 @@ public class CryptManager {
   }
 
   public byte[] decrypt(String keyAlias, byte[] encryptedData) {
+    if (encryptedData.length < IV_LENGTH) {
+      throw new CryptException("Invalid encrypted data");
+    }
     KeyInfo keyInfo = keys.getKey(keyAlias);
     try {
       Cipher cipher = Cipher.getInstance(ALGORITHM);

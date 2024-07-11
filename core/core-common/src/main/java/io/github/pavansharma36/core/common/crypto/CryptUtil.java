@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class CryptUtil {
 
-  private static final String DEFAULT_KEYSTORE_FILE = "keystore.p12";
+  private static final String DEFAULT_KEYSTORE_FILE = "conf/keystore.p12";
   private static final String DEFAULT_KEYSTORE_PASSWORD = "password";
   private static final String KEYSTORE_TYPE = "PKCS12";
 

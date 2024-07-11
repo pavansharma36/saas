@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.galaxy.common.dao.config;
+package io.github.pavansharma36.saas.galaxy.common.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -7,11 +7,11 @@ import io.github.pavansharma36.saas.core.dao.mybatis.config.MyBatisConfig;
 import java.util.Map;
 import java.util.Properties;
 import javax.sql.DataSource;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 @Configuration
+@MapperScan("io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper")
 public class GalaxyMyBatisConfig extends MyBatisConfig {
 
   private static final String DATASOURCE_CONF_PREFIX = "galaxy.hikari.";
@@ -27,8 +27,4 @@ public class GalaxyMyBatisConfig extends MyBatisConfig {
     return new HikariDataSource(config);
   }
 
-  @Override
-  protected Resource[] mapperLocationss() {
-    return new Resource[] {new ClassPathResource("mybatis-mappers/*")};
-  }
 }

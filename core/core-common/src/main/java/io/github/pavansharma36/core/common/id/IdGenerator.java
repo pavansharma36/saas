@@ -1,5 +1,6 @@
 package io.github.pavansharma36.core.common.id;
 
+import io.github.pavansharma36.core.common.id.utils.Base32Utils;
 import io.github.pavansharma36.core.common.utils.XorShiftRandom;
 import java.io.Serializable;
 import java.nio.ByteBuffer;

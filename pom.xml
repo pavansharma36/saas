@@ -35,7 +35,9 @@
 
         <hikaricp.version>5.1.0</hikaricp.version>
         <mybatis.version>3.5.16</mybatis.version>
+        <mybatis.dynamic.sql.version>1.5.2</mybatis.dynamic.sql.version>
         <mybatis.spring.version>3.0.3</mybatis.spring.version>
+        <postgres.driver.version>42.7.3</postgres.driver.version>
 
         <!-- Commons -->
         <commons.lang.version>3.14.0</commons.lang.version>
@@ -44,6 +46,7 @@
         <!-- PLUGINS -->
         <mybatis.generator.plugin.version>1.4.2</mybatis.generator.plugin.version>
         <mybatis.generator.verbose>true</mybatis.generator.verbose>
+        <mybatis.generator.overwrite>true</mybatis.generator.overwrite>
         <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
         <maven.dependency.plugin.version>3.6.1</maven.dependency.plugin.version>
         <maven.war.plugin.version>3.4.0</maven.war.plugin.version>
@@ -180,6 +183,18 @@
                     <groupId>org.mybatis.generator</groupId>
                     <artifactId>mybatis-generator-maven-plugin</artifactId>
                     <version>${mybatis.generator.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>${postgres.driver.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
+                            <artifactId>mybatis</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>

@@ -40,7 +40,7 @@ public abstract class ConfigProviders {
 
   public static Map<String, String> getAll() {
     Map<String, String> m = new HashMap<>();
-    for (ConfigProvider provider : providers) {
+    for (ConfigProvider provider : providers.reversed()) {
       m.putAll(provider.getAll());
     }
     return m;

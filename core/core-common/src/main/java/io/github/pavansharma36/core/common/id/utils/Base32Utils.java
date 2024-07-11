@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common.id;
+package io.github.pavansharma36.core.common.id.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
