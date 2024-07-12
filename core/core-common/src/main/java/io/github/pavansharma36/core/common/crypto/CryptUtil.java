@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -53,6 +54,10 @@ public abstract class CryptUtil {
   public static String decryptEncoded(String encodedValue) {
     SafeTuple safeTuple = SafeTuple.parse(encodedValue);
     return decrypt(safeTuple.getKey(), safeTuple.getEncryptedValue());
+  }
+
+  public static Key getLatestKey(KeyType keyType) {
+    return keys.getLatestKey(keyType).getKey();
   }
 
 }

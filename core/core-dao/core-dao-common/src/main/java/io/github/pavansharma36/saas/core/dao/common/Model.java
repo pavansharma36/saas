@@ -7,8 +7,14 @@ public interface Model extends Serializable {
 
   String getId();
 
+  void setId(String id);
+
   String getCreatedBy();
 
+  void setCreatedBy(String createdBy);
+
   Date getCreatedAt();
+
+  void setCreatedAt(Date createdAt);
 
 }

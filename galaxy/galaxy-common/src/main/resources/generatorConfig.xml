@@ -34,7 +34,7 @@
                       value="io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper.BaseMapper"/>
         </javaClientGenerator>
 
-        <table tableName="config">
+        <table tableName="galaxy">
             <property name="modelType" value="flat"/>
             <!--            <columnOverride column="enabled" javaType="boolean"/>-->
         </table>

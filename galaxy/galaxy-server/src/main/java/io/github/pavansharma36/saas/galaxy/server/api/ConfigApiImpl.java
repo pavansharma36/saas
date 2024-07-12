@@ -7,9 +7,7 @@ import io.github.pavansharma36.saas.core.server.security.b2b.B2BGrantedAuthority
 import io.github.pavansharma36.saas.galaxy.api.ConfigApi;
 import io.github.pavansharma36.saas.galaxy.common.dto.mapper.ConfigDTOMapper;
 import io.github.pavansharma36.saas.galaxy.common.service.ConfigService;
-import io.github.pavansharma36.saas.galaxy.dto.config.ConfigDTO;
 import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDTO;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,10 +27,11 @@ public class ConfigApiImpl implements ConfigApi {
   }
 
   @Override
-  public ListResponseObject<ConfigDTO> getAll() {
+  public ListResponseObject<ConfigValueDTO> getAll(String appName,
+                                                   String appType) {
     return ListResponseObject.success(
-        configService.getAllConfigs().stream().map(ConfigDTOMapper::mapTo)
-            .collect(Collectors.toList())
+        configService.getAllConfigs(appName, appType).stream().map(ConfigDTOMapper::mapToValue)
+            .toList()
     );
   }
 }

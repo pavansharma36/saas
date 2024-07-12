@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum KeyType {
   DEFAULT("default"),
-  DB("db");
+  DB("db"),
+  JWT("jwt");
 
   private final String prefix;
 }
