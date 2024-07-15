@@ -12,8 +12,7 @@ public class SafeTuple {
   public static final String SEPARATOR = ",";
   @NonNull
   private final String key;
-  @NonNull
-  private final byte[] encryptedValue;
+  private final byte @NonNull [] encryptedValue;
 
   public static SafeTuple parse(String s) {
     String[] payload = s.split(SEPARATOR);

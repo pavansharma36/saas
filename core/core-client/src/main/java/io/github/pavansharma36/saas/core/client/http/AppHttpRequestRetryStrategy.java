@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.client;
+package io.github.pavansharma36.saas.core.client.http;
 
 import java.io.IOException;
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;

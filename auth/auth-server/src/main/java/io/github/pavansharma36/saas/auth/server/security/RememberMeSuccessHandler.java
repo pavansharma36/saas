@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.auth.server.security;
 
-import io.github.pavansharma36.saas.core.server.security.jwt.JwtService;
+import io.github.pavansharma36.saas.core.server.security.context.JwtSecurityContextProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,14 +11,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 public class RememberMeSuccessHandler implements AuthenticationSuccessHandler {
 
-  private final JwtService jwtService = new JwtService();
-
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request,
                                       HttpServletResponse response,
                                       Authentication authentication)
       throws IOException, ServletException {
-    response.setHeader("auth", jwtService.generate((UserDetails) authentication.getPrincipal()));
+    JwtSecurityContextProvider.setJWTResponseHeader(response,
+        (UserDetails) authentication.getPrincipal());
     // Navigate to original request after adding auth token.
     request.getRequestDispatcher(request.getRequestURI()).forward(request, response);
   }

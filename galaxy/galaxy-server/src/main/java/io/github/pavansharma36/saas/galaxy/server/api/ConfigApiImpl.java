@@ -1,8 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.server.api;
 
-import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.saas.core.dto.ListResponseObject;
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
 import io.github.pavansharma36.saas.core.server.security.b2b.B2BGrantedAuthority;
 import io.github.pavansharma36.saas.galaxy.api.ConfigApi;
 import io.github.pavansharma36.saas.galaxy.common.dto.mapper.ConfigDTOMapper;
@@ -20,13 +18,6 @@ public class ConfigApiImpl implements ConfigApi {
 
   @Override
   @Secured(B2BGrantedAuthority.ROLE_B2B)
-  public ResponseObject<ConfigValueDTO> getValue(String key) {
-    return ResponseObject.<ConfigValueDTO>builder()
-        .data(new ConfigValueDTO(key, Config.get(key)))
-        .build();
-  }
-
-  @Override
   public ListResponseObject<ConfigValueDTO> getAll(String appName,
                                                    String appType) {
     return ListResponseObject.success(

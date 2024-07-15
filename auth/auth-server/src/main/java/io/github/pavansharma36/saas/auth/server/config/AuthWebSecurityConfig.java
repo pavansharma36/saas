@@ -5,6 +5,7 @@ import io.github.pavansharma36.saas.core.server.security.config.WebSecurityConfi
 import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -33,6 +34,8 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
   }
 
   @Bean
+  @Primary
+  @Override
   public UserDetailsService userDetailsService() {
     // TODO
     User user =
@@ -40,7 +43,6 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
     return new InMemoryUserDetailsManager(Collections.singleton(user));
   }
 
-  @Bean
   public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder,
                                                        UserDetailsService userDetailsService) {
     DaoAuthenticationProvider daoAuthenticationProvider =
@@ -49,7 +51,6 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
     return daoAuthenticationProvider;
   }
 
-  @Bean
   public AuthenticationManager authenticationManager(
       AuthenticationProvider authenticationProvider) {
     return new ProviderManager(
@@ -59,10 +60,12 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
 
 
   @Override
-  protected void customize(HttpSecurity http, AuthenticationManager authenticationManager) {
-    super.customize(http, authenticationManager);
+  protected void customize(HttpSecurity http) {
+    super.customize(http);
     http.addFilterBefore(
-        new RestAuthenticationProcessingFilter(authenticationManager, null, rememberMeServices()),
+        new RestAuthenticationProcessingFilter(
+            authenticationManager(authenticationProvider(passwordEncoder(), userDetailsService())),
+            null, rememberMeServices()),
         UsernamePasswordAuthenticationFilter.class);
   }
 }

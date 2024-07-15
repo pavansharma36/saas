@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.client;
+package io.github.pavansharma36.saas.core.client.http;
 
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.saas.utils.Constants;

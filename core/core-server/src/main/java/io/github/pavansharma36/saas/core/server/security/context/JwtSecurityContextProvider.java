@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class JwtSecurityContextProvider implements AppSecurityContextProvider {
 
   private static final JwtService jwtService = new JwtService();
-  // private final UserDetailsService userDetailsService;
+  private final UserDetailsService userDetailsService;
 
   public static void setJWTResponseHeader(HttpServletResponse response, UserDetails userDetails) {
     response.setHeader(Constants.AUTHORIZATION_HEADER,
@@ -41,9 +42,9 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
     if (expiry.getTime() < (System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1))) {
       log.info("JWT is about to expire, generating new");
 
-//      UserDetails user = userDetailsService.loadUserByUsername(payload.getUsername());
-//      holder.getResponse().setHeader(Constants.AUTHORIZATION_HEADER,
-//          String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER, jwtService.generate(user)));
+      UserDetails user = userDetailsService.loadUserByUsername(payload.getUsername());
+      holder.getResponse().setHeader(Constants.AUTHORIZATION_HEADER,
+          String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER, jwtService.generate(user)));
     }
   }
 

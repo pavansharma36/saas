@@ -4,10 +4,12 @@ import io.github.pavansharma36.saas.utils.Constants;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 import org.slf4j.MDC;
 
 @Getter
 @Builder
+@Jacksonized
 public class ListResponseObject<T> {
 
   private final boolean success;

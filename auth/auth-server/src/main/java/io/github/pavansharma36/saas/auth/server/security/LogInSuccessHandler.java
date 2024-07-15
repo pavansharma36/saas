@@ -3,7 +3,6 @@ package io.github.pavansharma36.saas.auth.server.security;
 import io.github.pavansharma36.saas.auth.server.dao.UserSessionDao;
 import io.github.pavansharma36.saas.core.dto.ResponseObject;
 import io.github.pavansharma36.saas.core.server.security.context.JwtSecurityContextProvider;
-import io.github.pavansharma36.saas.core.server.security.jwt.JwtService;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +17,6 @@ public class LogInSuccessHandler implements AuthenticationSuccessHandler {
 
   private final UserSessionDao userSessionDaoService;
   private final RememberMeServices rememberMeServices;
-  private final JwtService jwtService = new JwtService();
 
   public LogInSuccessHandler(final UserSessionDao userSessionDaoService,
                              final RememberMeServices rememberMeServices) {

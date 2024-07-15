@@ -30,13 +30,6 @@ public class JwtService {
   private static final Deserializer<Map<String, ?>> deserializer = new JacksonDeserializer<>(
       Collections.singletonMap(CLAIM_PAYLOAD_KEY, JwtPayload.class));
 
-//  static {
-//    byte[] keyValue =
-//        new byte[] {34, 60, 74, -58, 79, 115, 120, 66, -46, 40, 93, 20, 121, -63, 69, -112, -83, 81,
-//            -11, 52, 18, -111, 94, -114, -60, 115, 12, 36, -108, 100, -37, 115};
-//    key = Keys.hmacShaKeyFor(keyValue);
-//  }
-
   public String generate(UserDetails userAccount) {
     return Jwts.builder().setSubject(userAccount.getUsername())
         .signWith(key).claim(CLAIM_PAYLOAD_KEY, new JwtPayload(userAccount.getUsername(),

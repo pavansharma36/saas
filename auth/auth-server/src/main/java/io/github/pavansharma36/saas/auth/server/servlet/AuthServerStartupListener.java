@@ -1,12 +1,14 @@
 package io.github.pavansharma36.saas.auth.server.servlet;
 
+import io.github.pavansharma36.auth.common.utils.AuthConstants;
 import io.github.pavansharma36.core.common.config.provider.ConfigProviders;
 import io.github.pavansharma36.core.common.config.provider.PropertiesFileConfigProvider;
 import io.github.pavansharma36.saas.core.server.listener.StartupListener;
+import io.github.pavansharma36.saas.galaxy.client.config.GalaxyConfigProvider;
+import io.github.pavansharma36.saas.utils.Enums;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.annotation.WebListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @WebListener
@@ -16,6 +18,8 @@ public class AuthServerStartupListener extends StartupListener {
   public void contextInitialized(ServletContextEvent event) {
     ConfigProviders.registerConfigProvider(
         new PropertiesFileConfigProvider("conf/auth.properties", 100));
+    ConfigProviders.registerConfigProvider(
+        new GalaxyConfigProvider(AuthConstants.APP_NAME, Enums.AppType.WEB));
     super.contextInitialized(event);
   }
 }
