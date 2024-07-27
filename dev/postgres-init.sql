@@ -1,0 +1,2 @@
+CREATE DATABASE galaxy;
+CREATE DATABASE auth;

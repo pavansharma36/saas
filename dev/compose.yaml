@@ -1,32 +1,16 @@
 services:
-  galaxy-postgres:
-    container_name: "galaxy-postgres"
+  saas-postgres:
+    container_name: "saas-postgres"
     image: postgres
-    user: 1000:1000
     restart: always
     shm_size: 128mb
     volumes:
-      - /opt/saas/data/postgres/galaxy:/var/lib/postgresql/data
+      - /opt/saas/data/postgres:/var/lib/postgresql/data
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_DB: galaxy
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - 5432:5432
-
-  auth-postgres:
-    container_name: "auth-postgres"
-    image: postgres
-    user: 1000:1000
-    restart: always
-    shm_size: 128mb
-    volumes:
-      - /opt/saas/data/postgres/auth:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: auth
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - 5433:5432

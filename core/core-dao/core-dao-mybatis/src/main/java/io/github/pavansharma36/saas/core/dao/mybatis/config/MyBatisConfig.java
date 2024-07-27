@@ -5,9 +5,11 @@ import javax.sql.DataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
+@ComponentScan("io.github.pavansharma36.saas.core.dao.mybatis")
 public abstract class MyBatisConfig {
 
   protected abstract DataSource dataSourceInternal();
