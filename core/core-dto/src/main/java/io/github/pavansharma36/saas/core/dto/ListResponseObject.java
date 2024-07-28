@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.MDC;
 
 @Getter
@@ -13,7 +14,7 @@ import org.slf4j.MDC;
 public class ListResponseObject<T> {
 
   private final boolean success;
-  private final String reqId = MDC.get(Constants.REQUEST_ID_MDC_KEY);
+  private final String reqId;
   private final Long totalCount;
   private final List<T> data;
   private final List<Message> messages;
@@ -32,7 +33,12 @@ public class ListResponseObject<T> {
         .data((List<Object>) data)
         .messages(messages)
         .totalCount(totalCount)
+        .reqId(MDC.get(Constants.REQUEST_ID_MDC_KEY))
         .build();
   }
 
+  @Override
+  public String toString() {
+    return ReflectionToStringBuilder.toString(this);
+  }
 }

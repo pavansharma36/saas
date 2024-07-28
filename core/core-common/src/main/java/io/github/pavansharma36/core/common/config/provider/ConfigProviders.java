@@ -29,7 +29,6 @@ public abstract class ConfigProviders {
 
   public static String getConfig(String key) {
     for (ConfigProvider provider : providers) {
-
       String a = provider.getConfig(key);
       if (a != null) {
         return a;

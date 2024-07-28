@@ -70,15 +70,15 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
     ListResponseObject<ConfigValueDTO>
         res = configApi.getAll(appName, appType.name());
     if (res.isSuccess()) {
-      Map<String, String> confs = CollectionUtils.nullSafeList(res.getData()).stream()
+      Map<String, String> c = CollectionUtils.nullSafeList(res.getData()).stream()
           .collect(Collectors.toMap(ConfigValueDTO::getKey, ConfigValueDTO::getValue));
       Set<String> existingKey = this.confs.keySet();
-      existingKey.removeAll(confs.keySet());
+      existingKey.removeAll(c.keySet());
       if (!existingKey.isEmpty()) {
         log.info("{} keys are not present removing from cache", existingKey);
         existingKey.forEach(this.confs::remove);
       }
-      this.confs.putAll(confs);
+      this.confs.putAll(c);
     } else {
       log.warn("Non success response from config api {}", res);
     }

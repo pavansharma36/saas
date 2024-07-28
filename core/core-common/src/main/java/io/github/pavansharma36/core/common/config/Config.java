@@ -47,6 +47,15 @@ public abstract class Config {
     return value == null ? def : Long.parseLong(value);
   }
 
+  public static boolean getBoolean(String key) {
+    return Boolean.parseBoolean(getStringOrThrow(key));
+  }
+
+  public static boolean getBoolean(String key, boolean def) {
+    String value = getConfig(key);
+    return value == null ? def : Boolean.parseBoolean(value);
+  }
+
   public static Map<String, String> getAllByPrefix(String prefix) {
     return getAll().entrySet().stream()
         .filter(e -> e.getKey().startsWith(prefix))

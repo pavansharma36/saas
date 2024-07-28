@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,10 +66,11 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
     }
     JwtPayload payload = jwtService.parse(jwt);
     if (payload != null) {
-      Authentication authentication = new UsernamePasswordAuthenticationToken(payload.getUsername(),
+      Authentication authentication = new UsernamePasswordAuthenticationToken(
+          (AuthenticatedPrincipal) payload::getUsername,
           null, payload.getRoles().stream()
           .map(r -> (GrantedAuthority) () -> r).collect(Collectors.toSet()));
-      authentication.setAuthenticated(true);
+      // authentication.setAuthenticated(true);
       addNewAuthTokenIfRequired(requestResponseHolder, payload);
       return Optional.of(authentication);
     }
