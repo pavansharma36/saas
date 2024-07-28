@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class GalaxyClientFactory {
 
-  private static final String GALAXY_URL = Config.get("galaxy_url");
+  private static final String GALAXY_URL = Config.get("galaxy.url");
 
   public static ConfigApi configApi() {
     return Feign.builder()

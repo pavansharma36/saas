@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.auth.server.servlet;
 
-import io.github.pavansharma36.auth.common.utils.AuthConstants;
 import io.github.pavansharma36.core.common.config.provider.ConfigProviders;
 import io.github.pavansharma36.core.common.config.provider.PropertiesFileConfigProvider;
+import io.github.pavansharma36.saas.auth.common.utils.AuthConstants;
 import io.github.pavansharma36.saas.core.server.listener.StartupListener;
 import io.github.pavansharma36.saas.galaxy.client.config.GalaxyConfigProvider;
 import io.github.pavansharma36.saas.utils.Enums;

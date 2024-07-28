@@ -1,6 +1,7 @@
 package io.github.pavansharma36.saas.galaxy.client.config;
 
 import io.github.pavansharma36.core.common.cache.InmemoryCache;
+import io.github.pavansharma36.core.common.cache.InmemoryCaches;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.config.provider.ConfigProvider;
 import io.github.pavansharma36.saas.core.dto.ListResponseObject;
@@ -27,6 +28,7 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
     this.appName = appName;
     this.appType = appType;
     cacheConfs();
+    InmemoryCaches.register(this);
   }
 
   @Override
@@ -61,7 +63,7 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
 
   @Override
   public int cacheValiditySeconds() {
-    return Config.getInt("galaxy_config_cache_interval", 1800);
+    return Config.getInt("galaxy.config.cache.interval", 1800);
   }
 
   private void cacheConfs() {

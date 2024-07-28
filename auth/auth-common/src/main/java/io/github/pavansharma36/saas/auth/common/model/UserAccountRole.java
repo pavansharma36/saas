@@ -1,4 +1,4 @@
-package io.github.pavansharma36.auth.common.model;
+package io.github.pavansharma36.saas.auth.common.model;
 
 import io.github.pavansharma36.saas.core.dao.common.Model;
 import java.util.Date;

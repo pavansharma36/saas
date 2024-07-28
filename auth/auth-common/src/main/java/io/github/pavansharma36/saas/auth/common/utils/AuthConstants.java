@@ -1,4 +1,4 @@
-package io.github.pavansharma36.auth.common.utils;
+package io.github.pavansharma36.saas.auth.common.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

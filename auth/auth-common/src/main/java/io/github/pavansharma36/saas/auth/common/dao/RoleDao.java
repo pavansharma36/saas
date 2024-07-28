@@ -1,6 +1,6 @@
-package io.github.pavansharma36.auth.common.dao;
+package io.github.pavansharma36.saas.auth.common.dao;
 
-import io.github.pavansharma36.auth.common.model.Role;
+import io.github.pavansharma36.saas.auth.common.model.Role;
 import java.util.Collections;
 import java.util.List;
 

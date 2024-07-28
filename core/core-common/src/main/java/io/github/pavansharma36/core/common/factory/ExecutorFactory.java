@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common;
+package io.github.pavansharma36.core.common.factory;
 
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
@@ -36,7 +36,7 @@ public abstract class ExecutorFactory {
   private static void init() {
     synchronized (LOCK) {
       if (executorService == null) {
-        int corePoolSize = Config.getInt("executor_core_pool_size", 5);
+        int corePoolSize = Config.getInt("executor.core.pool.size", 5);
         executorService = Executors.newFixedThreadPool(corePoolSize);
         ExecutorFactory.registerShutdownHook(executorService);
       }
@@ -46,7 +46,7 @@ public abstract class ExecutorFactory {
   private static void initScheduled() {
     synchronized (LOCK) {
       if (scheduledExecutorService == null) {
-        int corePoolSize = Config.getInt("scheduled_executor_core_pool_size", 3);
+        int corePoolSize = Config.getInt("scheduled.executor.core.pool.size", 3);
         scheduledExecutorService = new ScheduledThreadPoolExecutor(corePoolSize);
         ExecutorFactory.registerShutdownHook(scheduledExecutorService);
       }
@@ -54,10 +54,11 @@ public abstract class ExecutorFactory {
   }
 
   private static void registerShutdownHook(ExecutorService executorService) {
+    long executorShutdownGracePeriod = Config.getLong("executor.shutdown.grace.period", 30);
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
       executorService.shutdown();
       try {
-        boolean s = executorService.awaitTermination(30, TimeUnit.SECONDS);
+        boolean s = executorService.awaitTermination(executorShutdownGracePeriod, TimeUnit.SECONDS);
         if (s) {
           log.info("Shutdown of executor service {}, success {}", executorService, s);
         } else {

@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>io.github.pavansharma36.saas.core.dao</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>mybatis</artifactId>
             <version>${project.version}</version>
         </dependency>
 
