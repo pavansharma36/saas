@@ -159,6 +159,8 @@
     </dependencies>
 
     <build>
+        <!--suppress UnresolvedMavenProperty -->
+        <finalName>${project.parent.name}-${artifactId}-${version}</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
