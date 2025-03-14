@@ -1,7 +1,5 @@
 package io.github.pavansharma36.saas.auth.server.servlet;
 
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebServlet;
 import lombok.extern.slf4j.Slf4j;

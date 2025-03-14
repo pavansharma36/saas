@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ConfigApi {
   @GetMapping
   ListResponseObject<ConfigValueDTO> getAll(
-      @RequestHeader(Constants.APP_NAME_HEADER) String appName,
-      @RequestHeader(Constants.APP_TYPE_HEADER) String appType);
+      @RequestHeader(Constants.Header.APP_NAME_HEADER) String appName,
+      @RequestHeader(Constants.Header.APP_TYPE_HEADER) String appType);
 }

@@ -7,5 +7,5 @@ public interface TenantService {
   TenantDTO getTenantById(String id);
 
   TenantDTO getTenantByName(String name);
-  
+
 }

@@ -12,6 +12,7 @@ public class B2BRequestInterceptor implements RequestInterceptor {
 
   @Override
   public void apply(RequestTemplate requestTemplate) {
-    requestTemplate.header(Constants.B2B_SECRET_HEADER, CryptUtil.encrypt(B2B_SECRET).value());
+    requestTemplate.header(Constants.Header.B2B_SECRET_HEADER,
+        CryptUtil.encrypt(B2B_SECRET).value());
   }
 }

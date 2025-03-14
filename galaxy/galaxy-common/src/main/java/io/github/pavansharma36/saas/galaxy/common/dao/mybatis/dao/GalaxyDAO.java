@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GalaxyDAO extends AbstractDAO<Galaxy, GalaxyMapper> {
 
-    protected GalaxyDAO(GalaxyMapper mapper) {
-        super(Galaxy.class, IdGeneratorUtils.random32(), mapper);
-    }
+  protected GalaxyDAO(GalaxyMapper mapper) {
+    super(Galaxy.class, IdGeneratorUtils.random32(), mapper);
+  }
 }

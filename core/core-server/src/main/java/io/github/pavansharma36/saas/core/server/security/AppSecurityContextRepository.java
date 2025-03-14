@@ -28,7 +28,8 @@ public class AppSecurityContextRepository implements SecurityContextRepository {
 
   @Override
   public SecurityContext loadContext(HttpRequestResponseHolder requestResponseHolder) {
-    Optional<Authentication> auth = b2BSecurityContextProvider.authentication(requestResponseHolder);
+    Optional<Authentication> auth =
+        b2BSecurityContextProvider.authentication(requestResponseHolder);
     if (auth.isPresent()) {
       return new SecurityContextImpl(auth.get());
     }

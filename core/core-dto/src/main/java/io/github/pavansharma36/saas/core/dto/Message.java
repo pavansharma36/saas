@@ -1,7 +1,6 @@
 package io.github.pavansharma36.saas.core.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class Message {
@@ -12,7 +11,7 @@ public class Message {
   private final String field;
 
   public Message(Severity severity, String summary, String detail) {
-    this(severity,summary,detail, null);
+    this(severity, summary, detail, null);
   }
 
   public Message(Severity severity, String summary, String detail, String field) {

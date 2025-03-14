@@ -8,18 +8,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class IdGeneratorUtils {
 
-    private static final IdGenerator RANDOM_32;
+  private static final IdGenerator RANDOM_32;
 
-    static {
-        RANDOM_32 = IdGeneratorBuilder.advanced()
-                .appendSchemaIdToken(8)
-                .appendTimestamp()
-                .appendRandom(16)
-                .build();
-    }
+  static {
+    RANDOM_32 = IdGeneratorBuilder.advanced()
+        .appendSchemaIdToken(8)
+        .appendTimestamp()
+        .appendRandom(16)
+        .build();
+  }
 
-    public static IdGenerator random32() {
-        return RANDOM_32;
-    }
+  public static IdGenerator random32() {
+    return RANDOM_32;
+  }
 
 }

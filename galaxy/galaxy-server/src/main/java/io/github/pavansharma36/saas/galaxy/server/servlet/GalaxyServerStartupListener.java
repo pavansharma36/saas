@@ -11,7 +11,8 @@ public class GalaxyServerStartupListener extends StartupListener {
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
-    ConfigProviders.registerConfigProvider(new PropertiesFileConfigProvider("conf/galaxy.properties", 100));
+    ConfigProviders.registerConfigProvider(
+        new PropertiesFileConfigProvider("conf/galaxy.properties", 100));
     super.contextInitialized(event);
   }
 }

@@ -24,7 +24,7 @@ public abstract class RestTemplateFactory {
     List<HttpMessageConverter<?>> converters = Stream.concat(
         Stream.of(new MappingJackson2HttpMessageConverter(JsonUtils.mapper())),
         temp.getMessageConverters()
-        .stream().filter(c -> !(c instanceof MappingJackson2HttpMessageConverter))).toList();
+            .stream().filter(c -> !(c instanceof MappingJackson2HttpMessageConverter))).toList();
     httpMessageConverters = converters;
     restTemplate = new RestTemplate(converters);
   }

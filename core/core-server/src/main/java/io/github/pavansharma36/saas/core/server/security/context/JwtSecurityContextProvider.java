@@ -32,7 +32,7 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
   private final UserDetailsService userDetailsService;
 
   public static void setJWTResponseHeader(HttpServletResponse response, UserDetails userDetails) {
-    response.setHeader(Constants.AUTHORIZATION_HEADER,
+    response.setHeader(Constants.Header.AUTHORIZATION_HEADER,
         String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER,
             jwtService.generate(userDetails)));
   }
@@ -44,14 +44,15 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
       log.info("JWT is about to expire, generating new");
 
       UserDetails user = userDetailsService.loadUserByUsername(payload.getUsername());
-      holder.getResponse().setHeader(Constants.AUTHORIZATION_HEADER,
+      holder.getResponse().setHeader(Constants.Header.AUTHORIZATION_HEADER,
           String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER, jwtService.generate(user)));
     }
   }
 
   @Override
   public Optional<Authentication> authentication(HttpRequestResponseHolder requestResponseHolder) {
-    String auth = requestResponseHolder.getRequest().getHeader(Constants.AUTHORIZATION_HEADER);
+    String auth =
+        requestResponseHolder.getRequest().getHeader(Constants.Header.AUTHORIZATION_HEADER);
     if (auth == null) {
       return Optional.empty();
     }
@@ -79,7 +80,7 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
 
   @Override
   public boolean containsContext(HttpServletRequest request) {
-    String header = request.getHeader(Constants.AUTHORIZATION_HEADER);
+    String header = request.getHeader(Constants.Header.AUTHORIZATION_HEADER);
     return header != null && header.startsWith(Constants.AUTHORIZATION_TYPE_BEARER);
   }
 }
