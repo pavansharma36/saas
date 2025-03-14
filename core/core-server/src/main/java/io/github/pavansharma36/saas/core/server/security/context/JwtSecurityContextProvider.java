@@ -71,7 +71,6 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
           (AuthenticatedPrincipal) payload::getUsername,
           null, payload.getRoles().stream()
           .map(r -> (GrantedAuthority) () -> r).collect(Collectors.toSet()));
-      // authentication.setAuthenticated(true);
       addNewAuthTokenIfRequired(requestResponseHolder, payload);
       return Optional.of(authentication);
     }

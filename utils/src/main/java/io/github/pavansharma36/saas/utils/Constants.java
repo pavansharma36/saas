@@ -3,6 +3,9 @@ package io.github.pavansharma36.saas.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * class for all constants.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class Constants {
 
@@ -12,13 +15,16 @@ public abstract class Constants {
   public static final String B2B_SECRET_CONF = "b2b.secret";
 
 
+  /**
+   * class for all headers.
+   */
   public static class Header {
-    public static final String REQUEST_ID_HEADER = "x-request-id";
+    public static final String REQUEST_ID_HEADER = "X-Request-Id";
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String B2B_SECRET_HEADER = "x-b2b-secret";
-    public static final String APP_SECRET_HEADER = "x-app-secret";
-    public static final String APP_NAME_HEADER = "x-app-name";
-    public static final String APP_TYPE_HEADER = "x-app-type";
+    public static final String B2B_SECRET_HEADER = "X-b2b-Secret";
+    public static final String APP_NAME_HEADER = "X-App-Name";
+    public static final String APP_TYPE_HEADER = "X-App-Type";
+    public static final String FORWARDED_FOR_HEADER = "X-Forwarded-For";
   }
 
 }

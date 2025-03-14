@@ -12,6 +12,7 @@ import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.Con
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.ConfigDynamicSqlSupport.updatedBy;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
+import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Config;
 import jakarta.annotation.Generated;
 import java.util.Collection;

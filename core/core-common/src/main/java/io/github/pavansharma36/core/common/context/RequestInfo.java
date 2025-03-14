@@ -11,4 +11,5 @@ public class RequestInfo {
   private String ip;
   private String appName;
   private String appType;
+  private String authHeader;
 }

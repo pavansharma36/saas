@@ -22,4 +22,5 @@ public abstract class AbstractWebConfig implements WebMvcConfigurer {
     converters.removeIf(MappingJackson2HttpMessageConverter.class::isInstance);
     converters.add(new MappingJackson2HttpMessageConverter(JsonUtils.mapper()));
   }
+
 }

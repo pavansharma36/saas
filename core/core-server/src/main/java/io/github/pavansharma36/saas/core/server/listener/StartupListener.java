@@ -1,6 +1,7 @@
 package io.github.pavansharma36.saas.core.server.listener;
 
 import io.github.pavansharma36.core.common.listener.AppLoaderListener;
+import io.github.pavansharma36.saas.utils.Enums;
 import jakarta.servlet.ServletContextEvent;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ public class StartupListener extends ContextLoaderListener {
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
+    System.setProperty("app.type", Enums.AppType.WEB.getName());
     super.contextInitialized(event);
     WebApplicationContext context =
         WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());

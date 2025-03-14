@@ -31,7 +31,7 @@
             <property name="dynamicSqlSupportPackage"
                       value="io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support"/>
             <property name="rootInterface"
-                      value="io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper.BaseMapper"/>
+                      value="io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper"/>
         </javaClientGenerator>
 
         <table tableName="galaxy">

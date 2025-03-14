@@ -1,8 +1,8 @@
-package io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao;
+package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
 import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.core.dao.mybatis.model.MyBatisModel;
-import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper.BaseMapper;
 import java.util.Date;
 
 public class AbstractDAO<T extends MyBatisModel, M extends BaseMapper<T>>

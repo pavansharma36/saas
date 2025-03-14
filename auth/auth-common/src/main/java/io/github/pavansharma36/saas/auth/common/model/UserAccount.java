@@ -4,12 +4,15 @@ import io.github.pavansharma36.saas.core.dao.common.Model;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class UserAccount implements Model {
   private String id;
   private String username;
+  @ToString.Exclude
   private String password;
   private boolean enabled;
   private boolean accountNonExpired;

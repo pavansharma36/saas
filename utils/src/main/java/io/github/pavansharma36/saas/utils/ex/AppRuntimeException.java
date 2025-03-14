@@ -9,8 +9,5 @@ public abstract class AppRuntimeException extends RuntimeException {
     super(message, cause);
   }
 
-  public abstract String getUIMessage();
-
   public abstract boolean isError();
-
 }

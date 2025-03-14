@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper;
+package io.github.pavansharma36.saas.core.dao.mybatis.mapper;
 
 import io.github.pavansharma36.saas.core.dao.common.Model;
 import jakarta.annotation.Generated;

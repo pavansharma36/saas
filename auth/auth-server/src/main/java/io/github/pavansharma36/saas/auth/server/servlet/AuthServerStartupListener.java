@@ -17,7 +17,9 @@ public class AuthServerStartupListener extends StartupListener {
   @Override
   public void contextInitialized(ServletContextEvent event) {
     ConfigProviders.registerConfigProvider(
-        new PropertiesFileConfigProvider("conf/auth.properties", 100));
+        new PropertiesFileConfigProvider("conf/app_type/web.properties", 20000));
+    ConfigProviders.registerConfigProvider(
+        new PropertiesFileConfigProvider("conf/app_name/auth.properties", 10000));
     ConfigProviders.registerConfigProvider(
         new GalaxyConfigProvider(AuthConstants.APP_NAME, Enums.AppType.WEB));
     super.contextInitialized(event);

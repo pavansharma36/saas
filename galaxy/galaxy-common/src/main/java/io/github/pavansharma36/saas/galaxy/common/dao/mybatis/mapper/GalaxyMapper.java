@@ -15,6 +15,7 @@ import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.Gal
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.GalaxyDynamicSqlSupport.urlScheme;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
+import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Galaxy;
 import jakarta.annotation.Generated;
 import java.util.Collection;

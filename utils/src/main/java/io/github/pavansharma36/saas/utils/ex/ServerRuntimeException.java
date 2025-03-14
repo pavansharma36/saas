@@ -11,11 +11,6 @@ public class ServerRuntimeException extends AppRuntimeException {
   }
 
   @Override
-  public String getUIMessage() {
-    return getMessage();
-  }
-
-  @Override
   public boolean isError() {
     return true;
   }
