@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.galaxy.dto.tenant;
+package io.github.pavansharma36.saas.core.dto.tenant;
 
 import io.github.pavansharma36.saas.core.dto.BaseDTO;
 import java.util.Map;

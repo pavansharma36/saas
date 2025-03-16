@@ -1,8 +1,7 @@
-package io.github.pavansharma36.saas.galaxy.core.context;
+package io.github.pavansharma36.core.common.context;
 
-import io.github.pavansharma36.core.common.context.AbstractThreadLocalContext;
-import io.github.pavansharma36.saas.galaxy.core.service.TenantService;
-import io.github.pavansharma36.saas.galaxy.dto.tenant.TenantDTO;
+import io.github.pavansharma36.core.common.service.TenantService;
+import io.github.pavansharma36.saas.core.dto.tenant.TenantDTO;
 import java.nio.charset.StandardCharsets;
 
 public class TenantContext extends AbstractThreadLocalContext<TenantDTO> {

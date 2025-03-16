@@ -1,8 +1,6 @@
 package io.github.pavansharma36.core.common.crypto;
 
-import java.util.Base64;
-
-public class Main {
+public class RunCryptUtil {
 
   public static void main(String[] args) {
     if (args.length != 2) {
@@ -10,9 +8,11 @@ public class Main {
     }
 
     switch (args[0]) {
+      case "p":
+        System.out.println(CryptUtil.encrypt(args[1]).encoded());
+        break;
       case "e":
-        System.out.println(
-            Base64.getEncoder().encodeToString(CryptUtil.encrypt(args[1]).getEncryptedValue()));
+        System.out.println(CryptUtil.encrypt(args[1]).value());
         break;
       case "d":
         System.out.println(CryptUtil.decryptEncoded(args[1]));

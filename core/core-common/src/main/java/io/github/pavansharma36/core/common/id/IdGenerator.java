@@ -80,7 +80,8 @@ public interface IdGenerator {
     private static final Map<Class<?>, String> PREFIX_MAP = new ConcurrentHashMap<>();
 
     public SchemaIdToken(int length) {
-      super(SCHEMA_ID, length, length > 4 ?
+      super(SCHEMA_ID, length, length > 4
+          ?
           clazz -> {
             long[] hash = MurmurHash3.hash128(clazz.getName().getBytes(StandardCharsets.UTF_8));
             ByteBuffer buffer = ByteBuffer.allocate(hash.length * Long.BYTES);

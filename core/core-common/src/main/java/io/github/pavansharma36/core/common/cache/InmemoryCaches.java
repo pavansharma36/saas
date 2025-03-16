@@ -31,8 +31,8 @@ public abstract class InmemoryCaches {
     CACHES.values().forEach(c -> {
       try {
         long t = CACHE_CLEAN_TIMESTAMP.getOrDefault(c.cacheName(), 0L);
-        if (TimeUnit.MILLISECONDS.toSeconds(currentTs - t) >
-            c.cacheValiditySeconds()) {
+        if (TimeUnit.MILLISECONDS.toSeconds(currentTs - t)
+            > c.cacheValiditySeconds()) {
           log.info("Cleaning up cache {}", c.cacheName());
           c.cleanCache();
           CACHE_CLEAN_TIMESTAMP.put(c.cacheName(), currentTs);
