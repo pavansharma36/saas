@@ -27,11 +27,6 @@
             <artifactId>dto</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jasypt</groupId>
-            <artifactId>jasypt</artifactId>
-            <version>${jasypt.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

@@ -23,7 +23,7 @@ public class FlywayMigrationListener implements AppLoaderListener {
 
   @Override
   public void onStop(ApplicationContext applicationContext) {
-
+    // nothing to do.
   }
 
 }

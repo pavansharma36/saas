@@ -10,33 +10,18 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jasypt.encryption.StringEncryptor;
-import org.jasypt.properties.PropertyValueEncryptionUtils;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class ConfigProviders {
 
   private static final List<ConfigProvider> PROVIDERS = new LinkedList<>();
-  private static final StringEncryptor ENCRYPTOR;
 
   static {
     registerConfigProvider(new SystemConfigProvider());
     registerConfigProvider(new EnvConfigProvider());
     registerConfigProvider(
         new PropertiesFileConfigProvider("conf/common.properties", Integer.MAX_VALUE - 20));
-
-    ENCRYPTOR = new StringEncryptor() {
-      @Override
-      public String encrypt(String s) {
-        return CryptUtil.encrypt(s).encoded();
-      }
-
-      @Override
-      public String decrypt(String s) {
-        return CryptUtil.decryptEncoded(s);
-      }
-    };
   }
 
   public static synchronized void registerConfigProvider(ConfigProvider provider) {
@@ -64,10 +49,19 @@ public abstract class ConfigProviders {
   }
 
   public static String decryptIfEncrypted(String value) {
-    if (!PropertyValueEncryptionUtils.isEncryptedValue(value)) {
+    if (!isEncryptedValue(value)) {
       return value;
     }
-    return PropertyValueEncryptionUtils.decrypt(value, ENCRYPTOR);
+    return CryptUtil.decryptEncoded(value.substring("ENC(".length(), value.length() - ")".length()));
+  }
+
+  private static boolean isEncryptedValue(String value) {
+    if (value == null) {
+      return false;
+    } else {
+      String trimmedValue = value.trim();
+      return trimmedValue.startsWith("ENC(") && trimmedValue.endsWith(")");
+    }
   }
 
 }

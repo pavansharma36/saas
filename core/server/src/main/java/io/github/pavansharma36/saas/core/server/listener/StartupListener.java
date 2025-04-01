@@ -14,7 +14,7 @@ public class StartupListener extends ContextLoaderListener {
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
-    System.setProperty("app.type", Enums.AppType.WEB.getName());
+    setWebAppType();
     super.contextInitialized(event);
     WebApplicationContext context =
         WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
@@ -30,6 +30,21 @@ public class StartupListener extends ContextLoaderListener {
   @Override
   public void contextDestroyed(ServletContextEvent event) {
     log.info("[Context Destroyed] {}", event.getServletContext().getContextPath());
+
+    WebApplicationContext context =
+        WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
+    log.info("[Context Initialized] {}:{}", event.getServletContext(), context);
+    Map<String, AppLoaderListener> listeners =
+        context.getBeansOfType(AppLoaderListener.class);
+    listeners.values().forEach(l -> {
+      log.info("Invoking on start on {}", l.getClass());
+      l.onStop(context);
+    });
+
     super.contextDestroyed(event);
+  }
+
+  protected void setWebAppType() {
+    System.setProperty("app.type", Enums.AppType.WEB.getName());
   }
 }

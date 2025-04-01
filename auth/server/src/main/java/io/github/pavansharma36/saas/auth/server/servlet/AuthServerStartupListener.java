@@ -16,6 +16,7 @@ public class AuthServerStartupListener extends StartupListener {
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
+    setWebAppType();
     ConfigProviders.registerConfigProvider(
         new PropertiesFileConfigProvider("conf/app_type/web.properties", 20000));
     ConfigProviders.registerConfigProvider(
