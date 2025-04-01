@@ -14,11 +14,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>galaxy-dto</module>
-        <module>galaxy-api</module>
-        <module>galaxy-common</module>
-        <module>galaxy-server</module>
-        <module>galaxy-client</module>
+        <module>dto</module>
+        <module>api</module>
+        <module>common</module>
+        <module>server</module>
+        <module>client</module>
     </modules>
 
 </project>

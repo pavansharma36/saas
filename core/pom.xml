@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -15,12 +15,12 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>core-common</module>
-        <module>core-dao</module>
-        <module>core-server</module>
-        <module>core-dto</module>
-        <module>core-client</module>
-        <module>core-api</module>
+        <module>common</module>
+        <module>dao</module>
+        <module>server</module>
+        <module>dto</module>
+        <module>client</module>
+        <module>api</module>
     </modules>
 
     <dependencies>

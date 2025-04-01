@@ -13,8 +13,6 @@
         <module>utils</module>
         <module>core</module>
         <module>auth</module>
-        <module>auth/auth-common</module>
-        <module>auth/auth-api</module>
         <module>galaxy</module>
     </modules>
 
