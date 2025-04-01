@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.authserver.dto;
+package io.github.pavansharma36.saas.auth.dto;
 
 import lombok.Data;
 

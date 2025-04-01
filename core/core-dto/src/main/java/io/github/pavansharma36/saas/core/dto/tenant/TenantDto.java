@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.dto.tenant;
 
-import io.github.pavansharma36.saas.core.dto.BaseDTO;
+import io.github.pavansharma36.saas.core.dto.Dto;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class TenantDTO extends BaseDTO {
+public class TenantDto extends Dto {
   private String name;
   private String code;
   private int incrementalId;

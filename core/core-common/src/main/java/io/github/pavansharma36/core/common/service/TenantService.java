@@ -1,11 +1,11 @@
 package io.github.pavansharma36.core.common.service;
 
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDTO;
+import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
 
 public interface TenantService {
 
-  TenantDTO getTenantById(String id);
+  TenantDto getTenantById(String id);
 
-  TenantDTO getTenantByName(String name);
+  TenantDto getTenantByName(String name);
 
 }

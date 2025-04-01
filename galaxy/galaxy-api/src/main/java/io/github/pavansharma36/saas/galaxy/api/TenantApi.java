@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.galaxy.api;
 
 import io.github.pavansharma36.saas.core.dto.ResponseObject;
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDTO;
+import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface TenantApi {
 
   @GetMapping
-  ResponseObject<TenantDTO> getTenantByIdOrName(
+  ResponseObject<TenantDto> getTenantByIdOrName(
       @RequestParam(name = "id", required = false) String id,
       @RequestParam(name = "name", required = false) String name);
 

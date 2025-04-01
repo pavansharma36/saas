@@ -1,10 +1,10 @@
 package io.github.pavansharma36.core.common.context;
 
 import io.github.pavansharma36.core.common.service.TenantService;
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDTO;
+import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
 import java.nio.charset.StandardCharsets;
 
-public class TenantContext extends AbstractThreadLocalContext<TenantDTO> {
+public class TenantContext extends AbstractThreadLocalContext<TenantDto> {
 
   private final TenantService tenantService;
 

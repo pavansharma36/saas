@@ -7,7 +7,7 @@ import io.github.pavansharma36.core.common.config.provider.ConfigProvider;
 import io.github.pavansharma36.saas.core.dto.ListResponseObject;
 import io.github.pavansharma36.saas.galaxy.api.ConfigApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;
-import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDTO;
+import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDto;
 import io.github.pavansharma36.saas.utils.Enums;
 import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
 import java.util.Map;
@@ -67,11 +67,11 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
   }
 
   private void cacheConfs() {
-    ListResponseObject<ConfigValueDTO>
+    ListResponseObject<ConfigValueDto>
         res = configApi.getAll(appName, appType.name());
     if (res.isSuccess()) {
       Map<String, String> c = CollectionUtils.nullSafeList(res.getData()).stream()
-          .collect(Collectors.toMap(ConfigValueDTO::getKey, ConfigValueDTO::getValue));
+          .collect(Collectors.toMap(ConfigValueDto::getKey, ConfigValueDto::getValue));
       Set<String> existingKey = this.confs.keySet();
       existingKey.removeAll(c.keySet());
       if (!existingKey.isEmpty()) {

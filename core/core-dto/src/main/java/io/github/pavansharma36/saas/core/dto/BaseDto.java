@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class BaseDTO implements Serializable {
+@ToString
+public class BaseDto implements Serializable {
   protected String id;
   protected String createdBy;
   protected Date createdAt;

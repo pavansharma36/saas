@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.auth.server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pavansharma36.saas.auth.dto.LoginDto;
 import io.github.pavansharma36.saas.auth.server.dao.UserSessionDao;
-import io.github.pavansharma36.saas.authserver.dto.LoginDto;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
