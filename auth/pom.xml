@@ -18,7 +18,7 @@
         <module>api</module>
         <module>common</module>
         <module>client</module>
-        <module>server</module>
+        <module>web</module>
     </modules>
 
 </project>

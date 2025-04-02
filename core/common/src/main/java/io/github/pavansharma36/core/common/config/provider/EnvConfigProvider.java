@@ -1,7 +1,9 @@
 package io.github.pavansharma36.core.common.config.provider;
 
 import java.util.Map;
+import lombok.ToString;
 
+@ToString
 public class EnvConfigProvider implements ConfigProvider {
   @Override
   public String getConfig(String key) {

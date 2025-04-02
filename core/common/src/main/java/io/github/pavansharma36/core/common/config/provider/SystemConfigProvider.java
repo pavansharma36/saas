@@ -2,7 +2,9 @@ package io.github.pavansharma36.core.common.config.provider;
 
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.ToString;
 
+@ToString
 public class SystemConfigProvider implements ConfigProvider {
   @Override
   public String getConfig(String key) {

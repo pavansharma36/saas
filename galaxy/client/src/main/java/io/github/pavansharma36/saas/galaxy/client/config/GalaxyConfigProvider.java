@@ -83,4 +83,9 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
       log.warn("Non success response from config api {}", res);
     }
   }
+
+  @Override
+  public String toString() {
+    return String.format("GalaxyConfigProvider(appName=%s, appType=%s)", appName, appType);
+  }
 }

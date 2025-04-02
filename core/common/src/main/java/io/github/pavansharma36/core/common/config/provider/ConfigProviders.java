@@ -15,13 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class ConfigProviders {
 
+  private static final String ENC_PREFIX = "ENC(";
+  private static final String ENC_SUFFIX = ")";
+  private static final int ENC_PREFIX_LENGTH = ENC_PREFIX.length();
+  private static final int ENC_SUFFIX_LENGTH = ENC_SUFFIX.length();
   private static final List<ConfigProvider> PROVIDERS = new LinkedList<>();
 
   static {
     registerConfigProvider(new SystemConfigProvider());
     registerConfigProvider(new EnvConfigProvider());
-    registerConfigProvider(
-        new PropertiesFileConfigProvider("conf/common.properties", Integer.MAX_VALUE - 20));
   }
 
   public static synchronized void registerConfigProvider(ConfigProvider provider) {
@@ -33,6 +35,7 @@ public abstract class ConfigProviders {
     for (ConfigProvider provider : PROVIDERS) {
       String a = provider.getConfig(key);
       if (a != null) {
+        log.info("Config {} found in {}", key, provider);
         return decryptIfEncrypted(a);
       }
     }
@@ -48,11 +51,12 @@ public abstract class ConfigProviders {
         .collect(Collectors.toMap(Map.Entry::getKey, e -> decryptIfEncrypted(e.getValue())));
   }
 
-  public static String decryptIfEncrypted(String value) {
+  private static String decryptIfEncrypted(String value) {
     if (!isEncryptedValue(value)) {
       return value;
     }
-    return CryptUtil.decryptEncoded(value.substring("ENC(".length(), value.length() - ")".length()));
+    return CryptUtil.decryptEncoded(
+        value.substring(ENC_PREFIX_LENGTH, value.length() - ENC_SUFFIX_LENGTH));
   }
 
   private static boolean isEncryptedValue(String value) {

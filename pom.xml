@@ -42,6 +42,9 @@
         <postgres.driver.version>42.7.3</postgres.driver.version>
         <flyway.version>10.16.0</flyway.version>
 
+        <!-- data tools -->
+        <rabbitmq.client.version>5.25.0</rabbitmq.client.version>
+
         <!-- Commons -->
         <commons.lang.version>3.14.0</commons.lang.version>
         <commons.text.version>1.12.0</commons.text.version>
@@ -165,7 +168,7 @@
 
     <build>
         <!--suppress UnresolvedMavenProperty -->
-        <finalName>${project.parent.name}-${artifactId}-${version}</finalName>
+        <finalName>${project.parent.name}-${project.artifactId}-${project.version}</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
