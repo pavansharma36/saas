@@ -42,6 +42,14 @@ public class JsonUtils {
     }
   }
 
+  public static <T> T fromJson(String json, TypeReference<T> typeReference) {
+    try {
+      return MAPPER.readValue(json, typeReference);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+
   public static <K, V> Map<K, V> mapFromJson(String json, Class<K> keyType, Class<V> valueType) {
     try {
       return MAPPER.readValue(json, new TypeReference<HashMap<K, V>>() {

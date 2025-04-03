@@ -15,8 +15,10 @@ public class B2BClientBuilder {
     return Feign.builder()
         .decoder(new JacksonDecoder(JsonUtils.mapper()))
         .encoder(new JacksonEncoder(JsonUtils.mapper()))
+        .errorDecoder(new Custom5xxErrorDecoder())
         .contract(new SpringContract())
         .requestInterceptor(new B2BRequestInterceptor())
+        .retryer(new CustomRetryer())
         .target(clazz, target);
   }
 

@@ -6,6 +6,8 @@ public interface ErrorCode {
 
   String code();
 
-  String uiMessage(Map<String, Object> params);
+  String title(Map<String, Object> params);
+
+  String message(Map<String, Object> params);
 
 }

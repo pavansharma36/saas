@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * AGlobal filter responsible for setting request id context and logging request.
@@ -26,21 +27,34 @@ public class AGlobalFilter extends HttpFilter {
   @Override
   protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
       throws IOException, ServletException {
-
-    setMdcContext(req, res);
-    String clientIp = getClientIp(req);
-    String appName = req.getHeader(Constants.Header.APP_NAME_HEADER);
-    String appType = req.getHeader(Constants.Header.APP_TYPE_HEADER);
-    setRequestInfoContext(clientIp, appName, appType);
     long startTime = System.currentTimeMillis();
-    super.doFilter(req, res, chain);
-    long millis = System.currentTimeMillis() - startTime;
+    setMdcContext(req, res);
+    RequestInfo requestInfo = createRequestInfoContext(req);
+    try {
 
-    log.info("Request {}-{} from IP:{} App:{}-{}, response status:{} in {} millis", req.getMethod(),
-        req.getRequestURI(), clientIp, appName, appType,
-        res.getStatus(), millis);
+      String attemptCount = req.getHeader(Constants.Header.RETRY_ATTEMPT_HEADER);
+      if (NumberUtils.isCreatable(attemptCount)) {
+        int retryAttempt = NumberUtils.toInt(attemptCount);
+        requestInfo.setRetryAttempt(retryAttempt);
 
-    ThreadLocalContextProviders.clearAll();
+        MDCContextProvider.put(Constants.ATTEMPT_ID_MDC_KEY, requestInfo.getAttemptId());
+        log.info("Retry >>> {} request received {}-{} from App: {}-{}", retryAttempt,
+            req.getMethod(),
+            req.getRequestURI(),
+            requestInfo.getAppName(), requestInfo.getAppType());
+      }
+      super.doFilter(req, res, chain);
+
+    } finally {
+      long millis = System.currentTimeMillis() - startTime;
+      log.info("Request {}-{} from IP: {} App: {}-{}, response status:{} in {} millis",
+          req.getMethod(),
+          req.getRequestURI(), requestInfo.getIp(), requestInfo.getAppName(),
+          requestInfo.getAppType(),
+          res.getStatus(), millis);
+      ThreadLocalContextProviders.clearAll();
+    }
+
   }
 
   private void setMdcContext(HttpServletRequest req, HttpServletResponse res) {
@@ -58,12 +72,20 @@ public class AGlobalFilter extends HttpFilter {
     return reqId;
   }
 
-  private void setRequestInfoContext(String ip, String appName, String appType) {
+  private RequestInfo createRequestInfoContext(HttpServletRequest req) {
+    String clientIp = getClientIp(req);
+    String appName = req.getHeader(Constants.Header.APP_NAME_HEADER);
+    String appType = req.getHeader(Constants.Header.APP_TYPE_HEADER);
+    String attemptId = req.getHeader(Constants.Header.ATTEMPT_ID_HEADER);
+
     RequestInfo info = new RequestInfo();
-    info.setIp(ip);
+    info.setIp(clientIp);
     info.setAppName(appName);
     info.setAppType(appType);
+    info.setAttemptId(attemptId);
     RequestInfoContextProvider.getInstance().set(info);
+
+    return info;
   }
 
   private String getClientIp(HttpServletRequest req) {
