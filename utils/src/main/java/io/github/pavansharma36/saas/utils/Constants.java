@@ -29,6 +29,7 @@ public abstract class Constants {
     public static final String FORWARDED_FOR_HEADER = "X-Forwarded-For";
     public static final String RETRY_AFTER_HEADER = "Retry-After";
     public static final String RETRY_ATTEMPT_HEADER = "X-Retry-Attempt";
+    public static final String CONTENT_TYPE = "Content-Type";
   }
 
 }

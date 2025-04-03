@@ -10,4 +10,8 @@ public abstract class AppRuntimeException extends RuntimeException {
   }
 
   public abstract boolean isError();
+
+  public int statusCode() {
+    return 500;
+  }
 }

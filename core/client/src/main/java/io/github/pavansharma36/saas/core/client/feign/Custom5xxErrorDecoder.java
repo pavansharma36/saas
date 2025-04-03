@@ -6,14 +6,17 @@ import feign.Request;
 import feign.Response;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
+import io.github.pavansharma36.saas.core.dto.ResponseObject;
 import io.github.pavansharma36.saas.core.dto.ex.ResponseRuntimeException;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+@Slf4j
 public class Custom5xxErrorDecoder implements ErrorDecoder {
 
   private static final Set<Request.HttpMethod> NON_RETRYABLE_METHODS =
@@ -23,9 +26,10 @@ public class Custom5xxErrorDecoder implements ErrorDecoder {
   @Override
   public Exception decode(String methodKey, Response response) {
     FeignException exception = feign.FeignException.errorStatus(methodKey, response);
+    log.error("Request failed : {}", exception.getMessage());
     int status = response.status();
     if (!NON_RETRYABLE_METHODS.contains(response.request().httpMethod()) &&
-        (status >= 500 || CLIENT_ERROR_RETRY_STATUSES.contains(status))) {
+        (status > 500 || CLIENT_ERROR_RETRY_STATUSES.contains(status))) {
 
       Long retryAfter = null;
       if (NumberUtils.isCreatable(
@@ -46,13 +50,23 @@ public class Custom5xxErrorDecoder implements ErrorDecoder {
           response.request());
     }
 
-    String responseStr = exception.contentUTF8();
-    if (StringUtils.isNotEmpty(responseStr)) {
-      return new ResponseRuntimeException(exception.getMessage(), status,
-          JsonUtils.fromJson(responseStr, new TypeReference<>() {
-          }));
+    if (isJsonResponse(response)) {
+      String responseStr = exception.contentUTF8();
+      if (StringUtils.isNotEmpty(responseStr)) {
+        ResponseObject<Object> res = JsonUtils.fromJson(responseStr, new TypeReference<>() {
+        });
+        return new ResponseRuntimeException(exception.getMessage(), status, res);
+      }
+    } else {
+      log.warn(
+          "Request not retryable, throwing unknown error as content type is not application/json");
     }
 
     return exception;
+  }
+
+  private boolean isJsonResponse(Response response) {
+    return response.headers().get(Constants.Header.CONTENT_TYPE).stream().findAny()
+        .map(c -> c.startsWith("application/json")).orElse(false);
   }
 }
