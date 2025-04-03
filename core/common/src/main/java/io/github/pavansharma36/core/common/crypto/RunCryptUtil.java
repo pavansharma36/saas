@@ -1,8 +1,11 @@
 package io.github.pavansharma36.core.common.crypto;
 
+import io.github.pavansharma36.core.common.config.provider.ConfigProviders;
+
 public class RunCryptUtil {
 
   public static void main(String[] args) {
+    System.out.println(ConfigProviders.class);
     if (args.length != 2) {
       throw new IllegalArgumentException("2 args required");
     }

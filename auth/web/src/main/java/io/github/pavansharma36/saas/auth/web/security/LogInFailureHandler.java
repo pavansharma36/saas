@@ -23,12 +23,11 @@ public class LogInFailureHandler implements AuthenticationFailureHandler {
       throws IOException, ServletException {
     logger.info("LogInFailure : IP:{}, Details:{}", arg0.getRemoteAddr(), arg2.getMessage());
     arg1.setContentType("application/json");
+    arg1.setStatus(400);
     JsonUtils.mapper().writeValue(arg1.getWriter(),
-        ResponseObject.builder()
-            .success(false)
-            .messages(Collections.singletonList(new Message(Message.Severity.ERROR,
-                "Login Failed", "Invalid Credentials")))
-            .build());
+        ResponseObject.response(null,
+            Collections.singletonList(new Message(Message.Severity.ERROR,
+                "Login Failed", "Invalid Credentials"))));
   }
 
 }

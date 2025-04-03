@@ -9,9 +9,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class ConfigProviders {
 
@@ -20,6 +21,11 @@ public abstract class ConfigProviders {
   private static final int ENC_PREFIX_LENGTH = ENC_PREFIX.length();
   private static final int ENC_SUFFIX_LENGTH = ENC_SUFFIX.length();
   private static final List<ConfigProvider> PROVIDERS = new LinkedList<>();
+
+  /**
+   * log initialization should be after provider initilization to avoid nullpointer.
+   */
+  private static final Logger log = LoggerFactory.getLogger(ConfigProviders.class);
 
   static {
     registerConfigProvider(new SystemConfigProvider());

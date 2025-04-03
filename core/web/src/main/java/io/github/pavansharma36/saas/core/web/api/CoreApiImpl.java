@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoreApiImpl implements CoreApi {
   @Override
   public ResponseObject<String> ping() {
-    return ResponseObject.success("PONG");
+    return ResponseObject.response("PONG");
   }
 }

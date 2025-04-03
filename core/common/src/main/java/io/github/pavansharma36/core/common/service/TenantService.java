@@ -6,6 +6,4 @@ public interface TenantService {
 
   TenantDto getTenantById(String id);
 
-  TenantDto getTenantByName(String name);
-
 }

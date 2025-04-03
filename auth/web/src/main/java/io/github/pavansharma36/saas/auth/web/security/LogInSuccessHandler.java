@@ -39,7 +39,7 @@ public class LogInSuccessHandler implements AuthenticationSuccessHandler {
     JwtSecurityContextProvider.setJWTResponseHeader(response, account);
     response.setContentType("application/json");
     rememberMeServices.loginSuccess(request, response, authentication);
-    response.getWriter().write(JsonUtils.mapper().writeValueAsString(ResponseObject.success(true)));
+    response.getWriter().write(JsonUtils.mapper().writeValueAsString(ResponseObject.empty()));
   }
 
 }
