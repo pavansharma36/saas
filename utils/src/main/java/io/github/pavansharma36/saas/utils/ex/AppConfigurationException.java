@@ -9,9 +9,5 @@ public class AppConfigurationException extends AppRuntimeException {
   public AppConfigurationException(String message, Throwable t) {
     super(message, t);
   }
-
-  @Override
-  public boolean isError() {
-    return true;
-  }
+  
 }

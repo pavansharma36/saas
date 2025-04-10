@@ -23,7 +23,8 @@ public class B2BSecurityContextProvider implements AppSecurityContextProvider {
   public Optional<Authentication> authentication(HttpRequestResponseHolder requestResponseHolder) {
     String header =
         requestResponseHolder.getRequest().getHeader(Constants.Header.B2B_SECRET_HEADER);
-    if (header != null && CryptUtil.decrypt(KeyType.DEFAULT, header).equals(B2B_HEADER_VALUE)) {
+    if (header != null &&
+        B2B_HEADER_VALUE.equals(CryptUtil.decryptQuietly(KeyType.DEFAULT, header).orElse(null))) {
       for (AppSecurityContextProvider provider : appSecurityContextProviders) {
         Optional<Authentication> authentication =
             provider.authentication(requestResponseHolder);

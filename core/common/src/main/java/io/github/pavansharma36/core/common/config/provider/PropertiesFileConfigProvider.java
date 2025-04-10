@@ -1,6 +1,5 @@
 package io.github.pavansharma36.core.common.config.provider;
 
-import io.github.pavansharma36.saas.utils.Enums;
 import io.github.pavansharma36.saas.utils.resource.ResourceUtils;
 import java.io.File;
 import java.util.Map;
@@ -18,18 +17,6 @@ public class PropertiesFileConfigProvider implements ConfigProvider {
     this.filePath = file.getAbsolutePath();
     this.properties = ResourceUtils.properties(file);
     this.order = order;
-  }
-
-  public static void registerPropertiesFileProviders(String appName, Enums.AppType appType) {
-    System.setProperty("app.type", appType.getName());
-    ConfigProviders.registerConfigProvider(
-        new PropertiesFileConfigProvider(
-            String.format("conf/app_type/%s.properties", appType.name().toLowerCase()), 20000));
-    ConfigProviders.registerConfigProvider(
-        new PropertiesFileConfigProvider(String.format("conf/app_name/%s.properties", appName),
-            10000));
-    ConfigProviders.registerConfigProvider(
-        new PropertiesFileConfigProvider("conf/common.properties", Integer.MAX_VALUE - 20));
   }
 
   @Override

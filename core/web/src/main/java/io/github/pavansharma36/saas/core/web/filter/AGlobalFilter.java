@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.MDC;
 
 /**
  * AGlobal filter responsible for setting request id context and logging request.
@@ -47,9 +48,10 @@ public class AGlobalFilter extends HttpFilter {
 
     } finally {
       long millis = System.currentTimeMillis() - startTime;
-      log.info("Request {}-{} from IP: {} App: {}-{}, response status:{} in {} millis",
+      log.info("Request {}-{} API: {} from IP: {} App: {}-{}, response status:{} in {} millis",
           req.getMethod(),
-          req.getRequestURI(), requestInfo.getIp(), requestInfo.getAppName(),
+          req.getRequestURI(), MDC.get(Constants.API_MDC_KEY), requestInfo.getIp(),
+          requestInfo.getAppName(),
           requestInfo.getAppType(),
           res.getStatus(), millis);
       ThreadLocalContextProviders.clearAll();

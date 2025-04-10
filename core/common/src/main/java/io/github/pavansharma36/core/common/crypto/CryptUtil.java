@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class CryptUtil {
 
@@ -45,6 +48,15 @@ public abstract class CryptUtil {
   public static String decrypt(KeyType keyType, String value) {
     SafeTuple s = SafeTuple.parse(keys.getLatestKey(keyType).getAlias(), value);
     return decrypt(s.getKey(), s.getEncryptedValue());
+  }
+
+  public static Optional<String> decryptQuietly(KeyType keyType, String value) {
+    try {
+      return Optional.of(decrypt(keyType, value));
+    } catch (Exception e) {
+      log.info("Ignoring exception {}, while decrypt", e.getMessage());
+      return Optional.empty();
+    }
   }
 
   public static String decrypt(String keyAlias, byte[] value) {

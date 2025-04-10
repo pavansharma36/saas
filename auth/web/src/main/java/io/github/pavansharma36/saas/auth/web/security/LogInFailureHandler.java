@@ -26,8 +26,9 @@ public class LogInFailureHandler implements AuthenticationFailureHandler {
     arg1.setStatus(400);
     JsonUtils.mapper().writeValue(arg1.getWriter(),
         ResponseObject.response(null,
-            Collections.singletonList(new Message(Message.Severity.ERROR,
-                "Login Failed", "Invalid Credentials"))));
+            Collections.singletonList(
+                Message.builder().severity(Message.Severity.ERROR).summary("Login Failed")
+                    .detail("Invalid Credentials").build())));
   }
 
 }

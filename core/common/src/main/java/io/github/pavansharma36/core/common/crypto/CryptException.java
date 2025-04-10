@@ -13,9 +13,4 @@ public class CryptException extends AppRuntimeException {
   public CryptException(String message, Throwable cause) {
     super(message, cause);
   }
-
-  @Override
-  public boolean isError() {
-    return true;
-  }
 }
