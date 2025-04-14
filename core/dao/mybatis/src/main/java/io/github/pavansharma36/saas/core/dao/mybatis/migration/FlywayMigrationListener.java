@@ -5,9 +5,11 @@ import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(200)
 public class FlywayMigrationListener implements AppLoaderListener {
 
   @Override

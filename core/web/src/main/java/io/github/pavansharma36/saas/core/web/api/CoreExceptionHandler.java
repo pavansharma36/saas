@@ -7,14 +7,17 @@ import io.github.pavansharma36.saas.core.dto.ResponseObject;
 import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,7 +33,7 @@ public class CoreExceptionHandler {
       AppRuntimeException appRuntimeException) {
     if (appRuntimeException.isError()) {
       log.error("Error while processing {}: {}", request.getRequestURI(),
-          appRuntimeException.getMessage());
+          appRuntimeException.getMessage(), appRuntimeException);
     } else {
       log.error("exception while processing {}: {}", request.getRequestURI(),
           appRuntimeException.getMessage());
@@ -51,21 +54,22 @@ public class CoreExceptionHandler {
       Message.MessageBuilder m = Message.builder()
           .severity(Message.Severity.ERROR)
           .detail(e.getDefaultMessage());
+      Map<String, Object> params = new HashMap<>(2);
+      params.put("objectName", e.getObjectName());
       if (e instanceof FieldError) {
         m.field(((FieldError) e).getField());
+        params.put("field", ((FieldError) e).getField());
         m.summary(
-            CoreErrorCode.FIELD_VALIDATION_ERROR.message(
-                Collections.singletonMap("field", ((FieldError) e).getField())));
+            CoreErrorCode.FIELD_VALIDATION_ERROR.message(params));
       } else {
         m.summary(
-            CoreErrorCode.OBJECT_VALIDATION_ERROR.message(
-                Collections.singletonMap("object", e.getObjectName())));
+            CoreErrorCode.OBJECT_VALIDATION_ERROR.message(params));
       }
       messages.add(m.build());
     });
 
-    return ResponseObject.response(null, messages, CoreErrorCode.BAD_REQUEST.code(),
-        CoreErrorCode.BAD_REQUEST.message());
+    return ResponseObject.response(null, messages, CoreErrorCode.VALIDATION_ERROR.code(),
+        CoreErrorCode.VALIDATION_ERROR.message());
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -74,15 +78,27 @@ public class CoreExceptionHandler {
                                                          HttpServletResponse response,
                                                          HttpMessageNotReadableException exception) {
     log.info("exception while processing {} {}", request.getRequestURI(), exception.getMessage());
-    Message m;
+    String errorCode = CoreErrorCode.BAD_REQUEST.code();
+    String message;
     if (exception.getCause() instanceof JsonParseException) {
-      m = Message.builder().severity(Message.Severity.ERROR).summary("Invalid content")
-          .detail(exception.getMessage()).build();
+      message = exception.getMessage();
     } else {
-      m = Message.builder().severity(Message.Severity.ERROR).summary("Bad Request")
-          .detail("Request body is required").build();
+      message = CoreErrorCode.REQUEST_BODY_REQUIRED.message();
     }
-    return ResponseObject.response(null, Collections.singletonList(m));
+    return ResponseObject.response(errorCode, message);
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(MissingRequestValueException.class)
+  public ResponseObject<Object> handleMissingRequestValue(MissingRequestValueException exception) {
+    return ResponseObject.response(CoreErrorCode.BAD_REQUEST.code(), exception.getMessage());
+  }
+
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseObject<Object> handleAccessDenied(AccessDeniedException exception) {
+    return ResponseObject.response(CoreErrorCode.UNAUTHORIZED.code(),
+        CoreErrorCode.UNAUTHORIZED.message());
   }
 
 
@@ -93,6 +109,7 @@ public class CoreExceptionHandler {
       HttpServletResponse response,
       Exception appRuntimeException) {
     log.error("Error while processing {}", request.getRequestURI(), appRuntimeException);
-    return ResponseObject.empty();
+    return ResponseObject.response(CoreErrorCode.SERVER_ERROR.code(),
+        CoreErrorCode.SERVER_ERROR.message());
   }
 }

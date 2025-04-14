@@ -14,6 +14,8 @@
         <module>core</module>
         <module>auth</module>
         <module>galaxy</module>
+        <module>core/broker/common</module>
+        <module>core/pubsub/redis</module>
     </modules>
 
     <properties>
@@ -24,10 +26,10 @@
         <lombok.version>1.18.30</lombok.version>
         <slf4j.version>2.0.13</slf4j.version>
         <log4j.version>2.23.1</log4j.version>
-        <spring.framework.version>6.1.8</spring.framework.version>
-        <spring.data.version>2024.0.0</spring.data.version>
-        <spring.security.version>6.3.0</spring.security.version>
-        <jackson.version>2.17.1</jackson.version>
+        <spring.framework.version>6.2.5</spring.framework.version>
+        <spring.data.version>2024.1.4</spring.data.version>
+        <spring.security.version>6.4.4</spring.security.version>
+        <jackson.version>2.18.3</jackson.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <feign.version>13.2.1</feign.version>
         <jakartaee.bom.version>10.0.0</jakartaee.bom.version>
@@ -44,6 +46,7 @@
 
         <!-- data tools -->
         <rabbitmq.client.version>5.25.0</rabbitmq.client.version>
+        <jedis.version>5.2.0</jedis.version>
 
         <!-- Commons -->
         <commons.lang.version>3.14.0</commons.lang.version>

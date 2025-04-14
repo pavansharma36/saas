@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.pavansharma36.saas.core</groupId>
-        <artifactId>broker</artifactId>
+        <artifactId>pubsub</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.github.pavansharma36.saas.core.broker</groupId>
-    <artifactId>producer</artifactId>
+    <groupId>io.github.pavansharma36.saas.core.pubsub</groupId>
+    <artifactId>common</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.pavansharma36.saas.core.broker</groupId>
+            <groupId>io.github.pavansharma36.saas.core</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>

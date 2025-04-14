@@ -4,7 +4,10 @@ import io.github.pavansharma36.core.common.validation.message.AppMessageSource;
 import io.github.pavansharma36.saas.utils.ex.code.ErrorCode;
 import jakarta.validation.ValidatorFactory;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.StringSubstitutor;
+import org.apache.commons.text.lookup.StringLookup;
+import org.apache.commons.text.lookup.StringLookupFactory;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -32,9 +35,21 @@ public class AppValidatorFactory {
     return VALIDATOR_FACTORY;
   }
 
+  private static String getMessage(String code) {
+    return MESSAGE_SOURCE.getMessage(code, null, code, LocaleContextHolder.getLocale());
+  }
+
+  private static String getMessageOrNull(String code) {
+    return MESSAGE_SOURCE.getMessage(code, null, null, LocaleContextHolder.getLocale());
+  }
+
   public static String formatMessage(String code, Map<String, Object> params) {
-    return StringSubstitutor.replace(
-        MESSAGE_SOURCE.getMessage(code, null, LocaleContextHolder.getLocale()), params, "{", "}");
+    StringLookup defaultLookup = new MapAndMessageStringLookup(params);
+    StringSubstitutor ss =
+        new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup(defaultLookup),
+            "{", "}", '$');
+    ss.setEnableSubstitutionInVariables(true);
+    return ss.replace(getMessage(code));
   }
 
   public static void registerAppMessages(String appName) {
@@ -43,6 +58,20 @@ public class AppValidatorFactory {
 
   public static void registerErrorCodeMessages(String appName, Class<? extends ErrorCode> clazz) {
     MESSAGE_SOURCE.registerErrorCodeMessages(appName, clazz);
+  }
+
+  @RequiredArgsConstructor
+  private static class MapAndMessageStringLookup implements StringLookup {
+
+    private final Map<String, Object> paramMap;
+
+    @Override
+    public String lookup(String s) {
+      if (paramMap.containsKey(s)) {
+        return String.valueOf(paramMap.get(s));
+      }
+      return getMessageOrNull(s);
+    }
   }
 
 

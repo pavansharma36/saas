@@ -21,6 +21,10 @@ public abstract class Enums {
     public String getName() {
       return name();
     }
+
+    public String toLowerCase() {
+      return name().toLowerCase();
+    }
   }
 
 }

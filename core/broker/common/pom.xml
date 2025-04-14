@@ -7,17 +7,10 @@
         <groupId>io.github.pavansharma36.saas.core</groupId>
         <artifactId>broker</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>io.github.pavansharma36.saas.core.broker</groupId>
-    <artifactId>producer</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.github.pavansharma36.saas.core.broker</groupId>
-            <artifactId>common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <artifactId>common</artifactId>
 
 </project>

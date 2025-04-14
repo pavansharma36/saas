@@ -29,7 +29,7 @@ public class Custom5xxErrorDecoder implements ErrorDecoder {
     log.error("Request failed : {}", exception.getMessage());
     int status = response.status();
     if (!NON_RETRYABLE_METHODS.contains(response.request().httpMethod()) &&
-        (status > 500 || CLIENT_ERROR_RETRY_STATUSES.contains(status))) {
+        (status >= 500 || CLIENT_ERROR_RETRY_STATUSES.contains(status))) {
 
       Long retryAfter = null;
       if (NumberUtils.isCreatable(

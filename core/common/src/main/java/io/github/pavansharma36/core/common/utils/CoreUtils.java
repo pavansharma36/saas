@@ -1,5 +1,6 @@
 package io.github.pavansharma36.core.common.utils;
 
+import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.config.provider.ConfigProviders;
 import io.github.pavansharma36.core.common.config.provider.PropertiesFileConfigProvider;
 import io.github.pavansharma36.core.common.validation.AppValidatorFactory;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 public abstract class CoreUtils {
 
   public static void initApp(String appName, Enums.AppType appType) {
+    System.setProperty("app.name", appName);
     System.setProperty("app.type", appType.getName());
     ConfigProviders.registerConfigProvider(
         new PropertiesFileConfigProvider(
@@ -22,9 +24,17 @@ public abstract class CoreUtils {
     ConfigProviders.registerConfigProvider(
         new PropertiesFileConfigProvider("conf/common.properties", Integer.MAX_VALUE - 20));
 
+    ConfigProviders.registerConfigProvider(
+        new PropertiesFileConfigProvider(
+            String.format("conf/env/%s.properties", getEnv()), 8000));
+
     AppValidatorFactory.registerAppMessages("core");
     AppValidatorFactory.registerErrorCodeMessages("core", CoreErrorCode.class);
     AppValidatorFactory.registerAppMessages(appName);
+  }
+
+  public static String getEnv() {
+    return Config.get("env", "dev");
   }
 
 }
