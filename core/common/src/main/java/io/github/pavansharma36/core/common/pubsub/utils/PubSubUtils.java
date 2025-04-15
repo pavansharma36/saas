@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.pubsub.common.utils;
+package io.github.pavansharma36.core.common.pubsub.utils;
 
 import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.utils.Enums;

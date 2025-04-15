@@ -1,6 +1,12 @@
 package io.github.pavansharma36.saas.utils;
 
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -34,6 +40,26 @@ public abstract class Utils {
       sleepSeconds(seconds);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+      throw new ServerRuntimeException(e);
+    }
+  }
+
+  public static <T> T deserialize(byte[] object, Class<T> clazz) {
+    try (ByteArrayInputStream in = new ByteArrayInputStream(object);
+         ObjectInputStream inObject = new ObjectInputStream(in)) {
+      return clazz.cast(inObject.readObject());
+    } catch (Exception e) {
+      throw new ServerRuntimeException(e);
+    }
+  }
+
+  public static byte[] serialize(Serializable object) {
+    try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+         ObjectOutputStream out = new ObjectOutputStream(byteOut)) {
+      out.writeObject(object);
+      out.flush();
+      return byteOut.toByteArray();
+    } catch (IOException e) {
       throw new ServerRuntimeException(e);
     }
   }

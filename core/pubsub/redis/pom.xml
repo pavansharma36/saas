@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.pavansharma36.saas.core.pubsub</groupId>
+            <groupId>io.github.pavansharma36.saas.core</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>

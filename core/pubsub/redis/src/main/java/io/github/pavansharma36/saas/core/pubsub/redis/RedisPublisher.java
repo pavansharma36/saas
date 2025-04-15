@@ -1,10 +1,10 @@
 package io.github.pavansharma36.saas.core.pubsub.redis;
 
-import io.github.pavansharma36.core.pubsub.common.Publisher;
-import io.github.pavansharma36.core.pubsub.common.payload.Payload;
-import io.github.pavansharma36.core.pubsub.common.utils.PubSubUtils;
+import io.github.pavansharma36.core.common.pubsub.Publisher;
+import io.github.pavansharma36.core.common.pubsub.payload.Payload;
+import io.github.pavansharma36.core.common.pubsub.utils.PubSubUtils;
 import io.github.pavansharma36.saas.utils.Enums;
-import io.github.pavansharma36.saas.utils.json.JsonUtils;
+import io.github.pavansharma36.saas.utils.Utils;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +40,6 @@ public class RedisPublisher implements Publisher {
   private void publishPayloadToChannel(Payload payload, String channel) {
     connectionFactory.getConnection()
         .publish(channel.getBytes(StandardCharsets.UTF_8),
-            JsonUtils.toJson(payload).getBytes(StandardCharsets.UTF_8));
+            Utils.serialize(payload));
   }
 }

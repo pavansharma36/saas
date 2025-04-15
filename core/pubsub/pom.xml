@@ -13,7 +13,6 @@
     <artifactId>pubsub</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>common</module>
         <module>redis</module>
     </modules>
 

@@ -1,6 +1,6 @@
-package io.github.pavansharma36.core.pubsub.common;
+package io.github.pavansharma36.core.common.pubsub;
 
-import io.github.pavansharma36.core.pubsub.common.payload.Payload;
+import io.github.pavansharma36.core.common.pubsub.payload.Payload;
 import io.github.pavansharma36.saas.utils.Enums;
 
 public interface Publisher {
