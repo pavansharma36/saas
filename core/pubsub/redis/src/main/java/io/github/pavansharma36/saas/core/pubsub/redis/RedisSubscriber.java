@@ -1,9 +1,8 @@
 package io.github.pavansharma36.saas.core.pubsub.redis;
 
 import io.github.pavansharma36.core.common.pubsub.subscriber.Subscriber;
-import io.github.pavansharma36.core.common.pubsub.utils.PubSubUtils;
-import io.github.pavansharma36.saas.utils.Enums;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,29 +21,22 @@ public class RedisSubscriber implements Subscriber {
     });
   }
 
-  @Override
-  public void subscribe(Consumer<byte[]> consumer) {
-    connectionFactory.getConnection()
-        .subscribe(getListener(consumer), namespace.getBytes(
-            StandardCharsets.UTF_8));
-  }
 
   @Override
-  public void subscribe(String appName, Consumer<byte[]> consumer) {
-    connectionFactory.getConnection()
-        .subscribe(getListener(consumer), PubSubUtils.getChannelName(namespace, appName).getBytes(
-            StandardCharsets.UTF_8));
+  public void subscribe(Consumer<byte[]> consumer, String... channels) {
+    Runnable runnable = () -> {
+      while (!Thread.currentThread().isInterrupted()) {
+        log.info("Subscribing to channels {}", Arrays.asList(channels));
+        connectionFactory.getConnection()
+            .subscribe(getListener(consumer),
+                Arrays.stream(channels).map(c -> c.getBytes(
+                    StandardCharsets.UTF_8)).toArray(byte[][]::new));
+      }
+    };
+    Thread t = new Thread(runnable);
+    t.setName("RedisSubscriber");
+    t.setDaemon(false);
+    t.start();
   }
 
-  @Override
-  public void subscribe(Enums.AppType appType, Consumer<byte[]> consumer) {
-    connectionFactory.getConnection().subscribe(getListener(consumer),
-        PubSubUtils.getChannelName(namespace, appType).getBytes(StandardCharsets.UTF_8));
-  }
-
-  @Override
-  public void subscribe(String appName, Enums.AppType appType, Consumer<byte[]> consumer) {
-    connectionFactory.getConnection().subscribe(getListener(consumer),
-        PubSubUtils.getChannelName(namespace, appName, appType).getBytes(StandardCharsets.UTF_8));
-  }
 }

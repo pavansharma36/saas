@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common.pubsub.subscriber;
+package io.github.pavansharma36.core.common.pubsub.subscriber.handler;
 
 import java.io.Serializable;
 

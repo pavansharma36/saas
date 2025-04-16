@@ -31,6 +31,12 @@
             <artifactId>client</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.pavansharma36.saas.core.pubsub</groupId>
+            <artifactId>redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

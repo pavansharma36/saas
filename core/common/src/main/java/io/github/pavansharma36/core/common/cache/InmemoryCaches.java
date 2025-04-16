@@ -15,6 +15,20 @@ public abstract class InmemoryCaches {
   private static final Map<String, InmemoryCache> CACHES = new HashMap<>();
   private static final Map<String, Long> CACHE_CLEAN_TIMESTAMP = new HashMap<>();
 
+  public static void clear(String cacheName) {
+    CACHES.computeIfPresent(cacheName, (k, v) -> {
+      v.cleanCache();
+      return null;
+    });
+  }
+
+  public static void clear(String cacheName, String cacheKey) {
+    CACHES.computeIfPresent(cacheKey, (k, v) -> {
+      v.clearCache(cacheKey);
+      return null;
+    });
+  }
+
   public static void register(InmemoryCache cache) {
     if (CACHES.putIfAbsent(cache.cacheName(), cache) != null) {
       throw new ServerRuntimeException(

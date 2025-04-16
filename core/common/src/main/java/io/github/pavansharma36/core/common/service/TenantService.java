@@ -6,4 +6,6 @@ public interface TenantService {
 
   TenantDto getTenantById(String id);
 
+  void updateTenantById(String id, TenantDto tenantDto);
+
 }
