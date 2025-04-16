@@ -12,6 +12,7 @@
     <groupId>io.github.pavansharma36.saas.core</groupId>
     <artifactId>pubsub</artifactId>
     <packaging>pom</packaging>
+    
     <modules>
         <module>redis</module>
     </modules>

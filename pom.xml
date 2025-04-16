@@ -14,8 +14,6 @@
         <module>core</module>
         <module>auth</module>
         <module>galaxy</module>
-        <module>core/broker/common</module>
-        <module>core/pubsub/redis</module>
     </modules>
 
     <properties>
