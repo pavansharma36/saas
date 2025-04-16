@@ -1,9 +1,9 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
 import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
-import io.github.pavansharma36.core.common.pubsub.Publisher;
 import io.github.pavansharma36.core.common.pubsub.payload.InMemoryCacheCleanupPayload;
 import io.github.pavansharma36.core.common.pubsub.payload.Payload;
+import io.github.pavansharma36.core.common.pubsub.publisher.PublisherManager;
 import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
     implements GalaxyTenantService {
 
-  private final Publisher publisher;
+  private final PublisherManager publisher;
 
   @Override
   public TenantDto getTenantById(String id) {
@@ -43,18 +43,17 @@ public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
 
   @Override
   public void updateTenantById(String id, TenantDto tenantDto) {
-    // nothing
     publisher.publish(Payload.builder()
         .eventType(InMemoryCacheCleanupPayload.EVENT_TYPE)
         .data(InMemoryCacheCleanupPayload.builder()
-            .cacheName("tenant").cacheKey(id)
+            .cacheName(TenantDto.CACHE_NAME).cacheKey(id)
             .build())
         .build());
   }
 
   @Override
   public String cacheName() {
-    return "tenant";
+    return TenantDto.CACHE_NAME;
   }
 
   @Override

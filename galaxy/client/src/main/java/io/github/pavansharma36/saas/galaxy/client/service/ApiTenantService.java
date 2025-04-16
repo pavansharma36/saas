@@ -28,7 +28,7 @@ public class ApiTenantService extends AbstractInMemoryCache<TenantDto>
     CACHE.put(id, tenantDto);
     return tenantDto;
   }
-  
+
   @Override
   public void updateTenantById(String id, TenantDto tenantDto) {
     tenantApi.updateTenant(id, tenantDto);
@@ -36,7 +36,7 @@ public class ApiTenantService extends AbstractInMemoryCache<TenantDto>
 
   @Override
   public String cacheName() {
-    return "tenant";
+    return TenantDto.CACHE_NAME;
   }
 
   @Override

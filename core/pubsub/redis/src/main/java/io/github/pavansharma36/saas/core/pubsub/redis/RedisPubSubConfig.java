@@ -1,8 +1,7 @@
 package io.github.pavansharma36.saas.core.pubsub.redis;
 
-import io.github.pavansharma36.core.common.pubsub.Publisher;
+import io.github.pavansharma36.core.common.pubsub.publisher.Publisher;
 import io.github.pavansharma36.core.common.pubsub.subscriber.Subscriber;
-import io.github.pavansharma36.core.common.pubsub.utils.PubSubUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -19,12 +18,12 @@ public class RedisPubSubConfig {
 
   @Bean
   public Publisher publisher() {
-    return new RedisPublisher(PubSubUtils.getNamespace(), connectionFactory());
+    return new RedisPublisher(connectionFactory());
   }
 
   @Bean
   public Subscriber subscriber() {
-    return new RedisSubscriber(PubSubUtils.getNamespace(), connectionFactory());
+    return new RedisSubscriber(connectionFactory());
   }
 
 }

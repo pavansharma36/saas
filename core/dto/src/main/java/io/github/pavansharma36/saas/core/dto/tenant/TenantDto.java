@@ -12,6 +12,9 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 public class TenantDto extends Dto {
+
+  public static final String CACHE_NAME = "tenant-dto";
+
   private String name;
 
   @Size(min = 2, max = 6, message = "{validation.tenant.code.size}")
