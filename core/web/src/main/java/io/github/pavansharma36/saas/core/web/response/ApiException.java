@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.web.response;
 
-import io.github.pavansharma36.saas.core.dto.Message;
+import io.github.pavansharma36.saas.core.dto.response.Message;
 import java.util.List;
 import lombok.Getter;
 

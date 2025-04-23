@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.auth.web.security;
 
-import io.github.pavansharma36.saas.core.dto.Message;
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.Message;
+import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

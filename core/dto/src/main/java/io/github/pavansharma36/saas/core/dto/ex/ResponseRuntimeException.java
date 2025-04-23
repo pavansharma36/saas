@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.dto.ex;
 
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
-import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao.ConfigDAO;
+import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao.ConfigDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Config;
 import io.github.pavansharma36.saas.galaxy.common.utils.GalaxyConstants;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConfigService {
 
-  private final ConfigDAO configDAO;
+  private final ConfigDao configDAO;
 
   public Collection<Config> getAllConfigs(String appName, String appType) {
     Map<String, String> criterias = getCriterias(appName, appType);

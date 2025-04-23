@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.galaxy.api;
 
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
+import io.github.pavansharma36.saas.core.dto.common.TenantDto;
+import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

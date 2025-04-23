@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.dto.tenant;
+package io.github.pavansharma36.saas.core.dto.common;
 
 import io.github.pavansharma36.saas.core.dto.Dto;
 import jakarta.validation.constraints.NotBlank;

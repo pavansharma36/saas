@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.dto;
+package io.github.pavansharma36.saas.core.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

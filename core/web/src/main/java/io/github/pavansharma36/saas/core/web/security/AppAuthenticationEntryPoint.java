@@ -2,7 +2,7 @@ package io.github.pavansharma36.saas.core.web.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pavansharma36.core.common.validation.CoreErrorCode;
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

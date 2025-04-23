@@ -1,6 +1,6 @@
 package io.github.pavansharma36.core.common.service;
 
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
+import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 
 public interface TenantService {
 

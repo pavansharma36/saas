@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.dao.mongodb;
+package io.github.pavansharma36.saas.core.dao.mongodb.model;
 
 import io.github.pavansharma36.saas.core.dao.common.Model;
 import java.util.Date;
@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
-public class BaseMongoDBModel implements Model {
+public class BaseMongoDbModel implements Model {
   @Id
   private String id;
   private String createdBy;

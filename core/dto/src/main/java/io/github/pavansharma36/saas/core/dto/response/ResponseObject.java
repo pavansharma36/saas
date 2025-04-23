@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.dto;
+package io.github.pavansharma36.saas.core.dto.response;
 
 import io.github.pavansharma36.saas.utils.Constants;
 import java.util.List;

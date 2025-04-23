@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.web.api;
 
 import io.github.pavansharma36.saas.core.api.CoreApi;
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

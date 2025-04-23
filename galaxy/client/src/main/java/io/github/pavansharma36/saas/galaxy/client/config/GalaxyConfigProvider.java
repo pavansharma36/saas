@@ -4,7 +4,7 @@ import io.github.pavansharma36.core.common.cache.InmemoryCache;
 import io.github.pavansharma36.core.common.cache.InmemoryCaches;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.config.provider.ConfigProvider;
-import io.github.pavansharma36.saas.core.dto.ListResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.ListResponseObject;
 import io.github.pavansharma36.saas.galaxy.api.ConfigApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;
 import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDto;

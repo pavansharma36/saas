@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.galaxy.web.api;
 
-import io.github.pavansharma36.saas.core.dto.ResponseObject;
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
+import io.github.pavansharma36.saas.core.dto.common.TenantDto;
+import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
 import io.github.pavansharma36.saas.galaxy.common.service.GalaxyTenantService;
 import lombok.RequiredArgsConstructor;

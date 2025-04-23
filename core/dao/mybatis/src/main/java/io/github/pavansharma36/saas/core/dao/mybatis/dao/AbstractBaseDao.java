@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
+import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.id.IdGenerator;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.core.dao.mybatis.model.BaseMyBatisModel;
@@ -7,13 +8,14 @@ import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.Optional;
 
-public abstract class AbstractBaseDAO<T extends BaseMyBatisModel, M extends BaseMapper<T>> {
+public abstract class AbstractBaseDao<T extends BaseMyBatisModel, M extends BaseMapper<T>>
+    implements Dao<T> {
 
   protected final Class<T> clazz;
   protected final IdGenerator idGenerator;
   protected final M mapper;
 
-  protected AbstractBaseDAO(Class<T> clazz, IdGenerator idGenerator, M mapper) {
+  protected AbstractBaseDao(Class<T> clazz, IdGenerator idGenerator, M mapper) {
     this.clazz = clazz;
     this.idGenerator = idGenerator;
     this.mapper = mapper;
@@ -25,6 +27,9 @@ public abstract class AbstractBaseDAO<T extends BaseMyBatisModel, M extends Base
     }
     if (model.getCreatedAt() == null) {
       model.setCreatedAt(new Date());
+    }
+    if (model.getCreatedBy() == null) {
+      model.setCreatedBy(UserContextProvider.getInstance().getOrThrow().getId());
     }
   }
 

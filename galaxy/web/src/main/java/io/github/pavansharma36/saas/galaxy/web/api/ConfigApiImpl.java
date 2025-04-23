@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.web.api;
 
-import io.github.pavansharma36.saas.core.dto.ListResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.ListResponseObject;
 import io.github.pavansharma36.saas.core.web.security.b2b.B2BGrantedAuthority;
 import io.github.pavansharma36.saas.galaxy.api.ConfigApi;
 import io.github.pavansharma36.saas.galaxy.common.dto.mapper.ConfigDTOMapper;

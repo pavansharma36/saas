@@ -4,7 +4,7 @@ import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
 import io.github.pavansharma36.core.common.pubsub.payload.InMemoryCacheCleanupPayload;
 import io.github.pavansharma36.core.common.pubsub.payload.Payload;
 import io.github.pavansharma36.core.common.pubsub.publisher.PublisherManager;
-import io.github.pavansharma36.saas.core.dto.tenant.TenantDto;
+import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import lombok.RequiredArgsConstructor;

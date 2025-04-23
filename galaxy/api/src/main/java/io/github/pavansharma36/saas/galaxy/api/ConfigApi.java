@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.api;
 
-import io.github.pavansharma36.saas.core.dto.ListResponseObject;
+import io.github.pavansharma36.saas.core.dto.response.ListResponseObject;
 import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDto;
 import io.github.pavansharma36.saas.utils.Constants;
 import org.springframework.web.bind.annotation.GetMapping;
