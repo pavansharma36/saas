@@ -1,8 +1,7 @@
-package io.github.pavansharma36.core.common.mutex;
+package io.github.pavansharma36.core.common.mutex.bean;
 
 import io.github.pavansharma36.core.common.mutex.service.LockService;
 import java.io.Closeable;
-import java.io.IOException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -18,11 +17,15 @@ public class LockInfo implements Closeable {
   private final Lock lock;
 
   @ToString.Exclude
-  private final LockService lockService;
+  private final transient LockService lockService;
 
   @Override
-  public void close() throws IOException {
-    boolean value = lockService.releaseLock(this);
-    log.info("Release lock {}, response : {}", this, value);
+  public void close() {
+    if (lock.type() == LockType.EXTENSIBLE) {
+      boolean value = lockService.releaseLock(this);
+      log.info("Release lock {}, response : {}", this, value);
+    } else {
+      log.info("Ignoring release lock as type is not extensible {}", lock);
+    }
   }
 }

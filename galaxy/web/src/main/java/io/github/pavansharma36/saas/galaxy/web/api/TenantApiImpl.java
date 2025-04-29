@@ -24,8 +24,8 @@ public class TenantApiImpl implements TenantApi {
   }
 
   @Override
-  public ResponseObject<Object> updateTenant(String tenantId, TenantDto tenantDto) {
-    tenantService.updateTenantById(tenantId, tenantDto);
+  public ResponseObject<Object> updateTenant(String id, TenantDto tenantDto) {
+    tenantService.updateTenantById(id, tenantDto);
     return ResponseObject.empty();
   }
 }

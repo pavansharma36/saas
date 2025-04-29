@@ -25,4 +25,7 @@ public class ResponseRuntimeException extends AppRuntimeException {
     return status >= 500;
   }
 
+  public ResponseObject<Object> getResponse() {
+    return this.response;
+  }
 }

@@ -20,8 +20,8 @@ public interface TenantApi {
   @PostMapping
   ResponseObject<String> createTenant(@RequestBody @Valid TenantDto tenantDto);
 
-  @PutMapping("/{tenantId}")
-  ResponseObject<Object> updateTenant(@PathVariable("tenantId") String tenantId,
+  @PutMapping("/{id}")
+  ResponseObject<Object> updateTenant(@PathVariable("id") String od,
                                       TenantDto tenantDto);
 
 }

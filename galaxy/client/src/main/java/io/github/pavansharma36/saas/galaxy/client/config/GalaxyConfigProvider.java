@@ -48,7 +48,7 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
 
   @Override
   public String cacheName() {
-    return "galaxy-config";
+    return String.format("galaxy-config-%s-%s", appName, appType);
   }
 
   @Override

@@ -1,6 +1,6 @@
 package io.github.pavansharma36.core.common.mutex.dao;
 
-import io.github.pavansharma36.core.common.mutex.LockType;
+import io.github.pavansharma36.core.common.mutex.bean.LockType;
 
 public interface LockModel {
 

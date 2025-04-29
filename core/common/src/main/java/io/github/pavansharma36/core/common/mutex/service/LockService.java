@@ -1,7 +1,7 @@
 package io.github.pavansharma36.core.common.mutex.service;
 
-import io.github.pavansharma36.core.common.mutex.Lock;
-import io.github.pavansharma36.core.common.mutex.LockInfo;
+import io.github.pavansharma36.core.common.mutex.bean.Lock;
+import io.github.pavansharma36.core.common.mutex.bean.LockInfo;
 import java.util.Optional;
 
 public interface LockService {

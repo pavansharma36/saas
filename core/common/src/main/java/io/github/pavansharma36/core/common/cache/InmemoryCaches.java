@@ -23,7 +23,7 @@ public abstract class InmemoryCaches {
   }
 
   public static void clear(String cacheName, String cacheKey) {
-    CACHES.computeIfPresent(cacheKey, (k, v) -> {
+    CACHES.computeIfPresent(cacheName, (k, v) -> {
       v.clearCache(cacheKey);
       return null;
     });

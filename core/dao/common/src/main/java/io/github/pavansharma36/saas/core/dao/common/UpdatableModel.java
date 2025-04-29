@@ -4,8 +4,8 @@ import java.util.Date;
 
 public interface UpdatableModel extends Model {
 
-  String getModifiedBy();
+  String getUpdatedBy();
 
-  Date getModifiedAt();
+  Date getUpdatedAt();
 
 }

@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common.mutex;
+package io.github.pavansharma36.core.common.mutex.bean;
 
 import io.github.pavansharma36.saas.utils.Named;
 

@@ -1,11 +1,12 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.migration;
 
 import javax.sql.DataSource;
-import lombok.NoArgsConstructor;
 import org.flywaydb.core.Flyway;
 
-@NoArgsConstructor
 public abstract class FlywayMigrationUtils {
+
+  public FlywayMigrationUtils() {
+  }
 
   public static void runFlywayMigration(DataSource dataSource) {
     FlywayMigrationUtils.runFlywayMigration("db/migration", dataSource);

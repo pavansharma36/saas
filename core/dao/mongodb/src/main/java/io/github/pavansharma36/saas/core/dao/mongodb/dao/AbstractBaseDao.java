@@ -5,15 +5,18 @@ import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoDbModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-@RequiredArgsConstructor
 public class AbstractBaseDao<T extends BaseMongoDbModel> implements Dao<T> {
 
   private final Class<T> clazz;
   private final MongoTemplate mongoTemplate;
+
+  public AbstractBaseDao(Class<T> clazz, MongoTemplate mongoTemplate) {
+    this.clazz = clazz;
+    this.mongoTemplate = mongoTemplate;
+  }
 
   protected void preInsert(T model) {
     if (model.getCreatedAt() == null) {
