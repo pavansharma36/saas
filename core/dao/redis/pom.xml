@@ -14,12 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.pavansharma36.saas.core</groupId>
-            <artifactId>common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
         </dependency>
