@@ -1,8 +1,10 @@
 package io.github.pavansharma36.saas.core.web.security.context;
 
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.crypto.CryptUtil;
 import io.github.pavansharma36.core.common.crypto.KeyType;
+import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.b2b.B2BAuthentication;
 import io.github.pavansharma36.saas.utils.Constants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ public class B2BSecurityContextProvider implements AppSecurityContextProvider {
 
   private static final String B2B_HEADER_VALUE = Config.get(Constants.B2B_SECRET_CONF);
 
+  private final UserService userService;
   private final List<AppSecurityContextProvider> appSecurityContextProviders;
 
   @Override
@@ -32,6 +35,7 @@ public class B2BSecurityContextProvider implements AppSecurityContextProvider {
           return Optional.of(new B2BAuthentication(authentication.get()));
         }
       }
+      UserContextProvider.getInstance().set(userService.getUserById("test"));
       return Optional.of(new B2BAuthentication());
     }
     return Optional.empty();

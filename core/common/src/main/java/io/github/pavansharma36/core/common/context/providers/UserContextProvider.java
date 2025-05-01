@@ -7,7 +7,7 @@ public class UserContextProvider {
   private static UserContext userContext;
 
   public static void register(UserContext userContext) {
-    if (userContext != null) {
+    if (UserContextProvider.userContext != null) {
       throw new ServerRuntimeException("User context already registered");
     }
     UserContextProvider.userContext = userContext;

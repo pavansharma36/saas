@@ -1,17 +1,20 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.dao;
 
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
-import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoDbModel;
+import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
+import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
-public class AbstractBaseDao<T extends BaseMongoDbModel> implements Dao<T> {
+public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
 
-  private final Class<T> clazz;
-  private final MongoTemplate mongoTemplate;
+  protected final Class<T> clazz;
+  protected final MongoTemplate mongoTemplate;
 
   public AbstractBaseDao(Class<T> clazz, MongoTemplate mongoTemplate) {
     this.clazz = clazz;
@@ -61,5 +64,11 @@ public class AbstractBaseDao<T extends BaseMongoDbModel> implements Dao<T> {
   public T findByIdOrThrow(String id) {
     return findById(id).orElseThrow(
         () -> new ServerRuntimeException("Not able to find entity by id " + id));
+  }
+
+  @Override
+  public boolean deleteById(String id) {
+    Criteria criteria = Criteria.where(BaseMongoModel.ID_FIELD).is(id);
+    return mongoTemplate.remove(new Query(criteria), clazz).wasAcknowledged();
   }
 }

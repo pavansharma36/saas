@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.mapper;
 
-import io.github.pavansharma36.saas.core.dao.common.Model;
+import io.github.pavansharma36.saas.core.dao.common.model.Model;
 import jakarta.annotation.Generated;
 import java.util.Collection;
 import java.util.List;

@@ -1,6 +1,7 @@
 package io.github.pavansharma36.core.common.mutex.dao;
 
 import io.github.pavansharma36.core.common.mutex.bean.LockType;
+import java.util.Date;
 
 public interface LockModel {
 
@@ -14,6 +15,6 @@ public interface LockModel {
 
   void setLockType(LockType lockType);
 
-  void setExpireAt(long expireAt);
+  void setExpireAt(Date expireAt);
 
 }

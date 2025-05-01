@@ -1,21 +1,29 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
 import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
+import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
+import io.github.pavansharma36.core.common.mutex.bean.LockInfo;
+import io.github.pavansharma36.core.common.mutex.bean.LockType;
+import io.github.pavansharma36.core.common.mutex.service.LockService;
 import io.github.pavansharma36.core.common.pubsub.payload.InMemoryCacheCleanupPayload;
 import io.github.pavansharma36.core.common.pubsub.payload.Payload;
 import io.github.pavansharma36.core.common.pubsub.publisher.PublisherManager;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
     implements GalaxyTenantService {
 
   private final PublisherManager publisher;
+  private final LockService lockService;
 
   @Override
   public TenantDto getTenantById(String id) {
@@ -38,7 +46,15 @@ public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
 
   @Override
   public String createTenant(TenantDto tenantDto) {
-    return Utils.randomRequestId();
+    log.info("trying to acquire lock on create tenant");
+    try (LockInfo lock = lockService.acquireLock(DefaultLock.builder()
+        .name("createTenant")
+        .type(LockType.FIXED)
+        .maxCount(10)
+        .duration(Duration.ofMinutes(2))
+        .build()).orElseThrow(() -> new ServerRuntimeException("Couldn't acquire lock"))) {
+      return Utils.randomRequestId();
+    }
   }
 
   @Override

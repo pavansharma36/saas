@@ -1,5 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security.context;
 
+import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
+import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtPayload;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtService;
 import io.github.pavansharma36.saas.utils.Constants;
@@ -30,6 +32,7 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
 
   private static final JwtService jwtService = new JwtService();
   private final UserDetailsService userDetailsService;
+  private final UserService userService;
 
   public static void setJWTResponseHeader(HttpServletResponse response, UserDetails userDetails) {
     response.setHeader(Constants.Header.AUTHORIZATION_HEADER,
@@ -72,6 +75,8 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
           null, payload.getRoles().stream()
           .map(r -> (GrantedAuthority) () -> r).collect(Collectors.toSet()));
       addNewAuthTokenIfRequired(requestResponseHolder, payload);
+
+      UserContextProvider.getInstance().set(userService.getUserById("test"));
       return Optional.of(authentication);
     }
     return Optional.empty();

@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.dao.common;
+package io.github.pavansharma36.saas.core.dao.common.model;
 
 import java.io.Serializable;
 import java.util.Date;

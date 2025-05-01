@@ -30,6 +30,7 @@ public abstract class ConfigProviders {
   static {
     registerConfigProvider(new SystemConfigProvider());
     registerConfigProvider(new EnvConfigProvider());
+    registerConfigProvider(new StaticPropertiesConfigProvider());
   }
 
   public static synchronized void registerConfigProvider(ConfigProvider provider) {

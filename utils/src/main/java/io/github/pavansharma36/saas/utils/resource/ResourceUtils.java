@@ -40,4 +40,14 @@ public abstract class ResourceUtils {
     return props;
   }
 
+  public static Properties classpathProperties(String fileName, Class<?> clazz) {
+    Properties props = new Properties();
+    try {
+      props.load(clazz.getClassLoader().getResourceAsStream(fileName));
+    } catch (IOException e) {
+      throw new AppConfigurationException(e.getMessage(), e);
+    }
+    return props;
+  }
+
 }

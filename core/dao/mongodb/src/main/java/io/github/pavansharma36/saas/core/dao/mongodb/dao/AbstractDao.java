@@ -1,11 +1,11 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.dao;
 
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
-import io.github.pavansharma36.saas.core.dao.mongodb.model.MongoDbModel;
+import io.github.pavansharma36.saas.core.dao.mongodb.model.MongoModel;
 import java.util.Date;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-public class AbstractDao<T extends MongoDbModel> extends AbstractBaseDao<T> {
+public class AbstractDao<T extends MongoModel> extends AbstractBaseDao<T> {
 
   public AbstractDao(Class<T> clazz,
                      MongoTemplate mongoTemplate) {

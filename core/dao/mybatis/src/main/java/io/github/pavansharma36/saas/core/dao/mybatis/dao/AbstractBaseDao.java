@@ -2,6 +2,7 @@ package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.core.dao.mybatis.model.BaseMyBatisModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
@@ -33,21 +34,23 @@ public abstract class AbstractBaseDao<T extends BaseMyBatisModel, M extends Base
     }
   }
 
-  public int insert(T model) {
+  public T insert(T model) {
     preInsert(model);
-    return mapper.insert(model);
+    mapper.insert(model);
+    return model;
   }
 
   protected void preUpdate(T model) {
     throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
   }
 
-  public int update(T model) {
+  public T update(T model) {
     preUpdate(model);
-    return mapper.updateByPrimaryKey(model);
+    mapper.updateByPrimaryKey(model);
+    return model;
   }
 
-  public int save(T model) {
+  public T save(T model) {
     return model.getId() == null ? insert(model) : update(model);
   }
 
@@ -60,5 +63,8 @@ public abstract class AbstractBaseDao<T extends BaseMyBatisModel, M extends Base
         () -> new ServerRuntimeException("Not able to find entity by id " + id));
   }
 
-
+  @Override
+  public boolean deleteById(String id) {
+    return mapper.deleteByPrimaryKey(id) > 0;
+  }
 }

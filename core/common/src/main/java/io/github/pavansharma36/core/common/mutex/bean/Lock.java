@@ -1,6 +1,7 @@
 package io.github.pavansharma36.core.common.mutex.bean;
 
 import io.github.pavansharma36.saas.utils.Named;
+import java.time.Duration;
 
 public interface Lock extends Named {
 
@@ -8,8 +9,8 @@ public interface Lock extends Named {
 
   int maxCount();
 
-  long durationMillis();
+  Duration duration();
 
-  long acquireTimeout();
+  Duration acquireTimeout();
 
 }

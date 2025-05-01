@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.model;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.github.pavansharma36.saas.core.dao.common.UpdatableModel;
+import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
