@@ -19,23 +19,29 @@
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.github.pavansharma36.saas.auth</groupId>
+            <artifactId>dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.github.pavansharma36.saas.core.dao</groupId>
             <artifactId>mybatis</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.github.pavansharma36.saas.galaxy</groupId>
             <artifactId>client</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>io.github.pavansharma36.saas.core.pubsub</groupId>
+            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
             <artifactId>redis</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
         </dependency>
     </dependencies>
 

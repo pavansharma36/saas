@@ -4,6 +4,7 @@ import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao.ConfigDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Config;
 import io.github.pavansharma36.saas.galaxy.common.utils.GalaxyConstants;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,11 @@ public class ConfigService {
 
   private final ConfigDao configDAO;
 
-  public Collection<Config> getAllConfigs(String appName, String appType) {
+  public Collection<Config> getConfigs() {
+    return Collections.emptyList();
+  }
+
+  public Collection<Config> getConfigValues(String appName, String appType) {
     Map<String, String> criterias = getCriterias(appName, appType);
 
     Map<String, Config> confs = new HashMap<>();

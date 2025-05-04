@@ -2,6 +2,8 @@ package io.github.pavansharma36.saas.core.web.api;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import io.github.pavansharma36.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.core.common.validation.ValidationException;
+import io.github.pavansharma36.saas.core.dto.ex.ResponseRuntimeException;
 import io.github.pavansharma36.saas.core.dto.response.Message;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
@@ -25,6 +27,27 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class CoreExceptionHandler {
+
+  @ExceptionHandler(ValidationException.class)
+  public ResponseObject<Object> handleValidationException(ValidationException exception) {
+    log.debug("Validation exception {}", exception.getMessage(), exception);
+    return ResponseObject.response(null,
+        exception.getErrorCodes().stream().map(errorCodeDetails ->
+                Message.builder().field(errorCodeDetails.getField())
+                    .summary(CoreErrorCode.FIELD_VALIDATION_ERROR.message(errorCodeDetails.getParams()))
+                    .detail(errorCodeDetails.getErrorCode().message(errorCodeDetails.getParams()))
+                    .severity(Message.Severity.ERROR).build())
+            .toList(), CoreErrorCode.VALIDATION_ERROR.code(),
+        exception.getMessage());
+  }
+
+  @ExceptionHandler(ResponseRuntimeException.class)
+  public ResponseObject<Object> handleResponseException(
+      HttpServletResponse response,
+      ResponseRuntimeException exception) {
+    response.setStatus(exception.statusCode());
+    return exception.getResponse();
+  }
 
   @ExceptionHandler(AppRuntimeException.class)
   public ResponseObject<Object> handleRuntimeException(

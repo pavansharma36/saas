@@ -27,6 +27,8 @@ public abstract class Constants {
     public static final String B2B_SECRET_HEADER = "X-b2b-Secret";
     public static final String APP_NAME_HEADER = "X-App-Name";
     public static final String APP_TYPE_HEADER = "X-App-Type";
+    public static final String TENANT_ID_HEADER = "X-Tenant-Id";
+    public static final String USER_ID_HEADER = "X-User-Id";
     public static final String FORWARDED_FOR_HEADER = "X-Forwarded-For";
     public static final String RETRY_AFTER_HEADER = "Retry-After";
     public static final String RETRY_ATTEMPT_HEADER = "X-Retry-Attempt";

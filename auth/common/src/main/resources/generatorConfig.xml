@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="MyAppTables" targetRuntime="MyBatis3DynamicSql" defaultModelType="flat">
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="org.postgresql.Driver"
+                        connectionURL="jdbc:postgresql://localhost:5432/auth" userId="postgres"
+                        password="password">
+        </jdbcConnection>
+
+        <javaModelGenerator
+                targetPackage="io.github.pavansharma36.saas.auth.common.dao.mybatis.model"
+                targetProject="src/main/java">
+            <property name="rootClass"
+                      value="io.github.pavansharma36.saas.core.dao.mybatis.model.MyBatisModel"/>
+            <property name="exampleTargetPackage"
+                      value="io.github.pavansharma36.saas.auth.common.dao.model"/>
+        </javaModelGenerator>
+
+
+        <javaClientGenerator
+                targetPackage="io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper"
+                targetProject="src/main/java">
+            <property name="dynamicSqlSupportPackage"
+                      value="io.github.pavansharma36.saas.auth.common.dao.mybatis.support"/>
+            <property name="rootInterface"
+                      value="io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper"/>
+        </javaClientGenerator>
+
+        <table tableName="user_account">
+            <property name="modelType" value="flat"/>
+            <columnOverride column="enabled" javaType="boolean"/>
+            <columnOverride column="account_non_expired" javaType="boolean"/>
+            <columnOverride column="credentials_non_expired" javaType="boolean"/>
+            <columnOverride column="account_non_locked" javaType="boolean"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

@@ -62,11 +62,6 @@ public interface IdGenerator {
       super(TIMESTAMP, 7, clazz -> System.currentTimeMillis());
     }
 
-    public TimestampToken(int length,
-                          Function<Class<?>, Long> function) {
-      super(TIMESTAMP, length, function);
-    }
-
     @Override
     public String value(Class<?> forClazz) {
       String s = Base32Utils.toString(function.apply(forClazz) / 1000);

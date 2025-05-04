@@ -7,12 +7,16 @@ import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.core.dao.mybatis.model.BaseMyBatisModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import lombok.Getter;
+import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 
 public abstract class AbstractBaseDao<T extends BaseMyBatisModel, M extends BaseMapper<T>>
     implements Dao<T> {
 
   protected final Class<T> clazz;
+  @Getter
   protected final IdGenerator idGenerator;
   protected final M mapper;
 
@@ -66,5 +70,13 @@ public abstract class AbstractBaseDao<T extends BaseMyBatisModel, M extends Base
   @Override
   public boolean deleteById(String id) {
     return mapper.deleteByPrimaryKey(id) > 0;
+  }
+
+  protected List<T> select(SelectDSLCompleter completer) {
+    return mapper.select(completer);
+  }
+
+  protected Optional<T> selectOne(SelectDSLCompleter completer) {
+    return mapper.selectOne(completer);
   }
 }

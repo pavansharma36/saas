@@ -2,11 +2,14 @@ package io.github.pavansharma36.saas.galaxy.client.service;
 
 import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
 import io.github.pavansharma36.core.common.cache.InmemoryCache;
+import io.github.pavansharma36.core.common.context.TenantContext;
+import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.service.TenantService;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +45,10 @@ public class ApiTenantService extends AbstractInMemoryCache<TenantDto>
   @Override
   public int cacheValiditySeconds() {
     return 900;
+  }
+
+  @PostConstruct
+  public void postConstruct() {
+    TenantContextProvider.register(new TenantContext(this));
   }
 }

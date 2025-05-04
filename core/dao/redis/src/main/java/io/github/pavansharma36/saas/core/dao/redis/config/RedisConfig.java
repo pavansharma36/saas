@@ -1,12 +1,14 @@
 package io.github.pavansharma36.saas.core.dao.redis.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
+@ComponentScan("io.github.pavansharma36.saas.core.dao.redis")
 public class RedisConfig {
 
   @Bean

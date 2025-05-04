@@ -19,7 +19,7 @@ public class ConfigDao extends AbstractDao<Config, ConfigMapper> {
   }
 
   public List<Config> selectByClassifier(String cl, String clValue) {
-    return mapper.select(s -> s.where(classifier, isEqualTo(cl))
+    return select(s -> s.where(classifier, isEqualTo(cl))
         .and(classifierValue, isEqualTo(clValue)));
   }
 

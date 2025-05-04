@@ -19,13 +19,8 @@ public class ResponseRuntimeException extends AppRuntimeException {
     this.response = response;
   }
 
-
   @Override
-  public boolean isError() {
-    return status >= 500;
-  }
-
-  public ResponseObject<Object> getResponse() {
-    return this.response;
+  public int statusCode() {
+    return this.status;
   }
 }

@@ -68,7 +68,7 @@ public class GalaxyConfigProvider implements ConfigProvider, InmemoryCache {
 
   private void cacheConfs() {
     ListResponseObject<ConfigValueDto>
-        res = configApi.getAll(appName, appType.name());
+        res = configApi.getConfigValues(appName, appType.name());
     if (res.isSuccess()) {
       Map<String, String> c = CollectionUtils.nullSafeList(res.getData()).stream()
           .collect(Collectors.toMap(ConfigValueDto::getKey, ConfigValueDto::getValue));

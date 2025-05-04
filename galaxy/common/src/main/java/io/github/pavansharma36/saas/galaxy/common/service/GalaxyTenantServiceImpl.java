@@ -1,6 +1,8 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
 import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
+import io.github.pavansharma36.core.common.context.TenantContext;
+import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
 import io.github.pavansharma36.core.common.mutex.bean.LockInfo;
 import io.github.pavansharma36.core.common.mutex.bean.LockType;
@@ -11,6 +13,7 @@ import io.github.pavansharma36.core.common.pubsub.publisher.PublisherManager;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,5 +78,10 @@ public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
   @Override
   public int cacheValiditySeconds() {
     return 900;
+  }
+
+  @PostConstruct
+  public void postConstruct() {
+    TenantContextProvider.register(new TenantContext(this));
   }
 }

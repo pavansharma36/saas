@@ -8,7 +8,7 @@ public class TenantContext extends AbstractThreadLocalContext<TenantDto> {
 
   private final TenantService tenantService;
 
-  protected TenantContext(TenantService tenantService) {
+  public TenantContext(TenantService tenantService) {
     super();
     this.tenantService = tenantService;
   }
