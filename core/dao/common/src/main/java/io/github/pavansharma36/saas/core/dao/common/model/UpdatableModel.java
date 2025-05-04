@@ -6,6 +6,10 @@ public interface UpdatableModel extends Model {
 
   String getUpdatedBy();
 
+  void setUpdatedBy(String updatedBy);
+
   Date getUpdatedAt();
+
+  void setUpdatedAt(Date updatedAt);
 
 }

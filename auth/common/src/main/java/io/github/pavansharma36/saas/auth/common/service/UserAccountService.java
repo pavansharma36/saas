@@ -6,7 +6,7 @@ import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.utils.AuthErrorCode;
 import io.github.pavansharma36.saas.auth.dto.UserAccountDto;
 import io.github.pavansharma36.saas.utils.Utils;
-import java.util.Collections;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,9 +22,11 @@ public class UserAccountService {
 
   public UserAccountDto createUserAccount(UserAccountDto userAccountDto) {
     if (userAccountDao.userAccount(userAccountDto.getUsername()).isPresent()) {
+      Map<String, Object> params =
+          Map.of(UserAccountDto.FIELD_USERNAME, userAccountDto.getUsername(),
+              ValidationException.ErrorCodeDetails.FIELD, UserAccountDto.FIELD_USERNAME);
       throw new ValidationException(UserAccountDto.FIELD_USERNAME,
-          AuthErrorCode.USERNAME_ALREADY_EXISTS,
-          Collections.singletonMap(UserAccountDto.FIELD_USERNAME, userAccountDto.getUsername()));
+          AuthErrorCode.USERNAME_ALREADY_EXISTS, params);
     }
     UserAccount userAccount = new UserAccount();
     userAccount.setUsername(userAccountDto.getUsername());

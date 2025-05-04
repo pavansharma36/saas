@@ -6,7 +6,12 @@ import java.util.Map;
 
 public enum AuthErrorCode implements ErrorCode {
 
-  USERNAME_ALREADY_EXISTS(1);
+  USERNAME_ALREADY_EXISTS(1),
+  USER_ACCOUNT_DISABLED(2),
+  USER_ACCOUNT_EXPIRED(3),
+  USER_ACCOUNT_CREDENTIAL_EXPIRED(4),
+  USER_ACCOUNT_LOCKED(5),
+  ;
 
   static {
     AppValidatorFactory.registerErrorCodeMessages(AuthConstants.APP_NAME, AuthErrorCode.class);

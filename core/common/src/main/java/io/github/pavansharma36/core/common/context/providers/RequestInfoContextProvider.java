@@ -10,10 +10,6 @@ public final class RequestInfoContextProvider extends AbstractJsonThreadLocalCon
 
   private static final RequestInfoContextProvider PROVIDER = new RequestInfoContextProvider();
 
-  static {
-    ThreadLocalContextProviders.register(PROVIDER);
-  }
-
   private RequestInfoContextProvider() {
     super(RequestInfo.class);
   }

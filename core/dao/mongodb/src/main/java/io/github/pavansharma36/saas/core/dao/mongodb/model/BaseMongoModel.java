@@ -11,10 +11,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Setter
 public class BaseMongoModel implements Model {
 
-  public static final String ID_FIELD = "_id";
+  public static final String FIELD_ID = "_id";
 
   @Id
-  @Field(ID_FIELD)
+  @Field(FIELD_ID)
   private String id;
   private String createdBy;
   private Date createdAt;

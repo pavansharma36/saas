@@ -8,6 +8,7 @@ public class AbstractJsonThreadLocalContext<T> extends AbstractThreadLocalContex
   protected final Class<T> clazz;
 
   protected AbstractJsonThreadLocalContext(Class<T> clazz) {
+    super();
     this.clazz = clazz;
   }
 

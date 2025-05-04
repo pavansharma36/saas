@@ -12,6 +12,10 @@ import org.slf4j.MDC;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MDCContextProvider implements ThreadLocalContext {
 
+  static {
+    ThreadLocalContextProviders.register(new MDCContextProvider());
+  }
+
   public static void put(String key, String value) {
     MDC.put(key, value);
   }

@@ -36,6 +36,9 @@ public class ValidationException extends AppRuntimeException {
   @Getter
   @Builder
   public static class ErrorCodeDetails {
+
+    public static final String FIELD = "field";
+
     private final ErrorCode errorCode;
     private final Map<String, Object> params;
     private final String field;

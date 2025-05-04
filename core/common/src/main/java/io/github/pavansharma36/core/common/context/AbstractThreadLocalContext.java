@@ -1,11 +1,16 @@
 package io.github.pavansharma36.core.common.context;
 
+import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Optional;
 
 public abstract class AbstractThreadLocalContext<T> implements ThreadLocalContext {
 
   protected final ThreadLocal<T> context = new ThreadLocal<>();
+
+  protected AbstractThreadLocalContext() {
+    ThreadLocalContextProviders.register(this);
+  }
 
   public Optional<T> get() {
     return Optional.ofNullable(context.get());

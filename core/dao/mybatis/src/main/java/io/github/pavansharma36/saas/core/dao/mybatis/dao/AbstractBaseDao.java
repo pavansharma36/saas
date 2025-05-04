@@ -3,8 +3,8 @@ package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.id.IdGenerator;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
+import io.github.pavansharma36.saas.core.dao.common.model.Model;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
-import io.github.pavansharma36.saas.core.dao.mybatis.model.BaseMyBatisModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.Optional;
 import lombok.Getter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 
-public abstract class AbstractBaseDao<T extends BaseMyBatisModel, M extends BaseMapper<T>>
+public abstract class AbstractBaseDao<T extends Model, M extends BaseMapper<T>>
     implements Dao<T> {
 
   protected final Class<T> clazz;
   @Getter
   protected final IdGenerator idGenerator;
-  protected final M mapper;
+  private final M mapper;
 
   protected AbstractBaseDao(Class<T> clazz, IdGenerator idGenerator, M mapper) {
     this.clazz = clazz;

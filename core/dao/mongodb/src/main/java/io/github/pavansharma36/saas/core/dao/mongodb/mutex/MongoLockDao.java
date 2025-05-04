@@ -34,15 +34,15 @@ public class MongoLockDao extends AbstractBaseDao<MongoLockModel>
 
   @Override
   public boolean remove(String lockId) {
-    Criteria criteria = Criteria.where(BaseMongoModel.ID_FIELD).is(lockId);
+    Criteria criteria = Criteria.where(BaseMongoModel.FIELD_ID).is(lockId);
     return mongoTemplate.remove(new Query(criteria), clazz).wasAcknowledged();
   }
 
   @Override
   public void updateExpireAtByLockType(LockType lockType, String processUuid, Date expireAt) {
-    Criteria criteria = Criteria.where(MongoLockModel.LOCK_TYPE_FIELD).is(lockType)
-        .and(MongoLockModel.PROCESS_UUID_FIELD).is(processUuid);
-    Update update = Update.update(MongoLockModel.EXPIRE_AT_FIELD, expireAt);
+    Criteria criteria = Criteria.where(MongoLockModel.FIELD_LOCK_TYPE).is(lockType)
+        .and(MongoLockModel.FIELD_PROCESS_UUID).is(processUuid);
+    Update update = Update.update(MongoLockModel.FIELD_EXPIRE_AT, expireAt);
     mongoTemplate.updateMulti(new Query(criteria), update, clazz);
   }
 }

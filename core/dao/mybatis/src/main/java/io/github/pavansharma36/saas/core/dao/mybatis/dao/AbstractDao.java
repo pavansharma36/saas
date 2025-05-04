@@ -2,11 +2,11 @@ package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
-import io.github.pavansharma36.saas.core.dao.mybatis.model.MyBatisModel;
 import java.util.Date;
 
-public class AbstractDao<T extends MyBatisModel, M extends BaseMapper<T>>
+public class AbstractDao<T extends UpdatableModel, M extends BaseMapper<T>>
     extends AbstractBaseDao<T, M> {
 
   protected AbstractDao(Class<T> clazz,

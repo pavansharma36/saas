@@ -14,29 +14,29 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document
 @Getter
 @Setter
-@CompoundIndex(background = true, unique = true, def = "{'" + MongoLockModel.LOCK_NAME_FIELD +
-    "': 1, '" + MongoLockModel.INDEX_FIELD + "': 1}")
+@CompoundIndex(background = true, unique = true, def = "{'" + MongoLockModel.FIELD_LOCK_NAME +
+    "': 1, '" + MongoLockModel.FIELD_INDEX + "': 1}")
 public class MongoLockModel extends BaseMongoModel implements LockModel {
 
-  public static final String LOCK_NAME_FIELD = "lockName";
-  public static final String INDEX_FIELD = "index";
-  public static final String PROCESS_UUID_FIELD = "processUuid";
-  public static final String LOCK_TYPE_FIELD = "lockType";
-  public static final String EXPIRE_AT_FIELD = "expireAt";
+  public static final String FIELD_LOCK_NAME = "lockName";
+  public static final String FIELD_INDEX = "index";
+  public static final String FIELD_PROCESS_UUID = "processUuid";
+  public static final String FIELD_LOCK_TYPE = "lockType";
+  public static final String FIELD_EXPIRE_AT = "expireAt";
 
-  @Field(LOCK_NAME_FIELD)
+  @Field(FIELD_LOCK_NAME)
   private String lockName;
 
-  @Field(INDEX_FIELD)
+  @Field(FIELD_INDEX)
   private int index;
 
-  @Field(PROCESS_UUID_FIELD)
+  @Field(FIELD_PROCESS_UUID)
   private String processUuid;
 
-  @Field(LOCK_TYPE_FIELD)
+  @Field(FIELD_LOCK_TYPE)
   private LockType lockType;
 
-  @Field(EXPIRE_AT_FIELD)
+  @Field(FIELD_EXPIRE_AT)
   @Indexed(expireAfter = "0", background = true)
   private Date expireAt;
 

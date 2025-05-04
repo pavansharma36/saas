@@ -68,7 +68,7 @@ public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
 
   @Override
   public boolean deleteById(String id) {
-    Criteria criteria = Criteria.where(BaseMongoModel.ID_FIELD).is(id);
+    Criteria criteria = Criteria.where(BaseMongoModel.FIELD_ID).is(id);
     return mongoTemplate.remove(new Query(criteria), clazz).wasAcknowledged();
   }
 }

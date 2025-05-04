@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CoreExceptionHandler {
 
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(ValidationException.class)
   public ResponseObject<Object> handleValidationException(ValidationException exception) {
     log.debug("Validation exception {}", exception.getMessage(), exception);
