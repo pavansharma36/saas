@@ -9,8 +9,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtPayload {
+public class JwtDetails {
   private String username;
-  private List<String> roles;
   private Date expireAt;
+  private JwtPayload payload;
+
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class JwtPayload {
+    private String userId;
+    private String tenantId;
+    private List<String> roles;
+  }
 }

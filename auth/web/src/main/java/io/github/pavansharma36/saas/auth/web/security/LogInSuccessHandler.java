@@ -18,8 +18,9 @@ public class LogInSuccessHandler implements AuthenticationSuccessHandler {
   private final UserSessionDao userSessionDaoService;
   private final RememberMeServices rememberMeServices;
 
-  public LogInSuccessHandler(final UserSessionDao userSessionDaoService,
-                             final RememberMeServices rememberMeServices) {
+  public LogInSuccessHandler(
+      final UserSessionDao userSessionDaoService,
+      final RememberMeServices rememberMeServices) {
     this.userSessionDaoService = userSessionDaoService;
     this.rememberMeServices = rememberMeServices;
   }
@@ -36,7 +37,7 @@ public class LogInSuccessHandler implements AuthenticationSuccessHandler {
 //		userSession.setUserAccountId(account.getId());
 //		userSessionDaoService.save(userSession);
 
-    JwtSecurityContextProvider.setJWTResponseHeader(response, account);
+    JwtSecurityContextProvider.addNewAuthToken(response, account);
     response.setContentType("application/json");
     rememberMeServices.loginSuccess(request, response, authentication);
     response.getWriter().write(JsonUtils.mapper().writeValueAsString(ResponseObject.empty()));

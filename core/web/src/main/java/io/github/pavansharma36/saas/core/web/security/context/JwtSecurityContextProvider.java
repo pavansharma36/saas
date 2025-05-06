@@ -1,8 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security.context;
 
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
-import io.github.pavansharma36.core.common.service.UserService;
-import io.github.pavansharma36.saas.core.web.security.jwt.JwtPayload;
+import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.saas.core.web.security.jwt.JwtDetails;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtService;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
@@ -32,23 +31,24 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
 
   private static final JwtService jwtService = new JwtService();
   private final UserDetailsService userDetailsService;
-  private final UserService userService;
 
-  public static void setJWTResponseHeader(HttpServletResponse response, UserDetails userDetails) {
+  public static void addNewAuthToken(HttpServletResponse response, UserDetails userDetails) {
     response.setHeader(Constants.Header.AUTHORIZATION_HEADER,
         String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER,
-            jwtService.generate(userDetails)));
+            jwtService.generate(RequestInfoContextProvider.getInstance().getOrThrow().getUserId(),
+                RequestInfoContextProvider.getInstance().getOrThrow().getTenantId(),
+                userDetails)));
   }
 
   private void addNewAuthTokenIfRequired(HttpRequestResponseHolder holder,
-                                         JwtPayload payload) {
+                                         JwtDetails payload) {
     Date expiry = payload.getExpireAt();
     if (expiry.getTime() < (System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1))) {
       log.info("JWT is about to expire, generating new");
 
-      UserDetails user = userDetailsService.loadUserByUsername(payload.getUsername());
       holder.getResponse().setHeader(Constants.Header.AUTHORIZATION_HEADER,
-          String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER, jwtService.generate(user)));
+          String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER,
+              jwtService.generate(payload)));
     }
   }
 
@@ -68,15 +68,16 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
     if (tokens[0].equals(Constants.AUTHORIZATION_TYPE_BEARER)) {
       jwt = tokens[1];
     }
-    JwtPayload payload = jwtService.parse(jwt);
-    if (payload != null) {
+    JwtDetails jwtDetails = jwtService.parse(jwt);
+    if (jwtDetails != null) {
       Authentication authentication = new UsernamePasswordAuthenticationToken(
-          (AuthenticatedPrincipal) payload::getUsername,
-          null, payload.getRoles().stream()
+          (AuthenticatedPrincipal) jwtDetails::getUsername,
+          null, jwtDetails.getPayload().getRoles().stream()
           .map(r -> (GrantedAuthority) () -> r).collect(Collectors.toSet()));
-      addNewAuthTokenIfRequired(requestResponseHolder, payload);
+      // addNewAuthTokenIfRequired(requestResponseHolder, jwtDetails);
 
-      UserContextProvider.getInstance().set(userService.getUserById("test"));
+      RequestInfoContextProvider.getInstance().getOrThrow()
+          .setUserId(jwtDetails.getPayload().getUserId());
       return Optional.of(authentication);
     }
     return Optional.empty();

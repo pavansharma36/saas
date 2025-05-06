@@ -3,6 +3,7 @@ package io.github.pavansharma36.saas.core.client.feign;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.crypto.CryptUtil;
@@ -37,12 +38,10 @@ public class B2BRequestInterceptor implements RequestInterceptor {
     requestTemplate.header(Constants.Header.ATTEMPT_ID_HEADER,
         Utils.randomRequestId());
 
-    if (UserContextProvider.isInitialized()) {
+    if (RequestInfoContextProvider.getInstance().get().isPresent()) {
       UserContextProvider.getInstance().get().map(UserDto::getId)
           .ifPresent(userId -> requestTemplate.header(Constants.Header.USER_ID_HEADER, userId));
-    }
 
-    if (TenantContextProvider.isInitialized()) {
       TenantContextProvider.getInstance().get().map(TenantDto::getId)
           .ifPresent(
               tenantId -> requestTemplate.header(Constants.Header.TENANT_ID_HEADER, tenantId));

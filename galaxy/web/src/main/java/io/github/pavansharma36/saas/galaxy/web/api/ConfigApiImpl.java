@@ -19,7 +19,7 @@ public class ConfigApiImpl implements ConfigApi {
 
   @Override
   public ListResponseObject<ConfigDto> getConfigs() {
-    return null;
+    return ListResponseObject.<ConfigDto>builder().build();
   }
 
   @Override

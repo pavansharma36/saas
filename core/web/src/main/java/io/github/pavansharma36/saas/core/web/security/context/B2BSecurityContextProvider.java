@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security.context;
 
 import io.github.pavansharma36.core.common.config.Config;
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
+import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.core.common.crypto.CryptUtil;
 import io.github.pavansharma36.core.common.crypto.KeyType;
 import io.github.pavansharma36.core.common.service.TenantService;
@@ -45,16 +45,16 @@ public class B2BSecurityContextProvider extends AbstractSecurityContextProvider
       String tenantId =
           requestResponseHolder.getRequest().getHeader(Constants.Header.TENANT_ID_HEADER);
       if (tenantId != null) {
-        setTenantContext(tenantId);
+        RequestInfoContextProvider.getInstance().getOrThrow().setTenantId(tenantId);
       }
 
       String userId = requestResponseHolder.getRequest().getHeader(Constants.Header.USER_ID_HEADER);
       if (userId != null) {
-        setUserContext(userId);
+        RequestInfoContextProvider.getInstance().getOrThrow().setUserId(userId);
       } else {
-        UserContextProvider.getInstance().set(userService.createSystemUser());
+        setSystemUserContext();
       }
-      
+
       return Optional.of(new B2BAuthentication());
     }
     return Optional.empty();

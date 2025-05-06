@@ -1,5 +1,7 @@
 package io.github.pavansharma36.saas.auth.web.security;
 
+import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.auth.common.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
@@ -27,6 +29,10 @@ public class AppUserDetailsService implements UserDetailsService {
     if (oua.isPresent()) {
       UserAccount ua = oua.get();
       UserDto userDto = userService.getUserById(ua.getId());
+
+      UserContextProvider.getInstance().set(userDto);
+      RequestInfoContextProvider.getInstance().getOrThrow().setUserId(userDto.getId());
+      RequestInfoContextProvider.getInstance().getOrThrow().setTenantId(userDto.getTenantId());
 
       return new User(ua.getUsername(), ua.getPassword(), userDto.isEnabled(),
           ua.isAccountNonExpired(), ua.isCredentialsNonExpired(), ua.isAccountNonLocked(),

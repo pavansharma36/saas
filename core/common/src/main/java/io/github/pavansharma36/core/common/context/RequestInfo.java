@@ -15,6 +15,9 @@ public class RequestInfo {
   private int retryAttempt;
   private String attemptId;
 
+  private String tenantId;
+  private String userId;
+
   public boolean isRetry() {
     return retryAttempt > 0;
   }
