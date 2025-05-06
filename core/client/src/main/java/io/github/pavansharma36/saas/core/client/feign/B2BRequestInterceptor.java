@@ -3,13 +3,10 @@ package io.github.pavansharma36.saas.core.client.feign;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.context.RequestInfo;
 import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.crypto.CryptUtil;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
-import io.github.pavansharma36.saas.core.dto.common.TenantDto;
-import io.github.pavansharma36.saas.core.dto.common.UserDto;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;
 import org.slf4j.MDC;
@@ -38,13 +35,12 @@ public class B2BRequestInterceptor implements RequestInterceptor {
     requestTemplate.header(Constants.Header.ATTEMPT_ID_HEADER,
         Utils.randomRequestId());
 
-    if (RequestInfoContextProvider.getInstance().get().isPresent()) {
-      UserContextProvider.getInstance().get().map(UserDto::getId)
-          .ifPresent(userId -> requestTemplate.header(Constants.Header.USER_ID_HEADER, userId));
+    RequestInfoContextProvider.getInstance().get().map(RequestInfo::getUserId)
+        .ifPresent(userId -> requestTemplate.header(Constants.Header.USER_ID_HEADER, userId));
 
-      TenantContextProvider.getInstance().get().map(TenantDto::getId)
-          .ifPresent(
-              tenantId -> requestTemplate.header(Constants.Header.TENANT_ID_HEADER, tenantId));
-    }
+    RequestInfoContextProvider.getInstance().get().map(RequestInfo::getTenantId)
+        .ifPresent(
+            tenantId -> requestTemplate.header(Constants.Header.TENANT_ID_HEADER, tenantId));
+
   }
 }

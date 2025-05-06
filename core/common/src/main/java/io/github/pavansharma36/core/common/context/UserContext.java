@@ -26,7 +26,8 @@ public class UserContext extends LazyThreadLocalContext<UserDto> {
 
   @Override
   protected void initializeContext() {
-    String userId = RequestInfoContextProvider.getInstance().getOrThrow().getUserId();
+    String userId =
+        RequestInfoContextProvider.getInstance().get().map(RequestInfo::getUserId).orElse(null);
     if (userId != null) {
       log.info("initializing user context: {}", userId);
       set(userService.getUserById(userId));

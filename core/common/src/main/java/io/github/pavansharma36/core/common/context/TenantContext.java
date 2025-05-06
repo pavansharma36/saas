@@ -39,7 +39,8 @@ public class TenantContext extends LazyThreadLocalContext<TenantDto> {
 
   @Override
   protected void initializeContext() {
-    String tenantId = RequestInfoContextProvider.getInstance().getOrThrow().getTenantId();
+    String tenantId =
+        RequestInfoContextProvider.getInstance().get().map(RequestInfo::getTenantId).orElse(null);
     if (tenantId != null) {
       log.info("initializing tenant context: {}", tenantId);
       set(tenantService.getTenantById(tenantId));
