@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.core.web.security;
 
+import io.github.pavansharma36.core.common.service.TenantService;
 import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.context.AppSecurityContextProvider;
 import io.github.pavansharma36.saas.core.web.security.context.B2BSecurityContextProvider;
@@ -22,10 +23,13 @@ public class AppSecurityContextRepository implements SecurityContextRepository {
   private final List<AppSecurityContextProvider> providers;
   private final B2BSecurityContextProvider b2BSecurityContextProvider;
 
-  public AppSecurityContextRepository(UserService userService,
-                                      List<AppSecurityContextProvider> providers) {
+  public AppSecurityContextRepository(
+      TenantService tenantService,
+      UserService userService,
+      List<AppSecurityContextProvider> providers) {
     this.providers = providers;
-    this.b2BSecurityContextProvider = new B2BSecurityContextProvider(userService, providers);
+    this.b2BSecurityContextProvider =
+        new B2BSecurityContextProvider(tenantService, userService, providers);
   }
 
   @Override

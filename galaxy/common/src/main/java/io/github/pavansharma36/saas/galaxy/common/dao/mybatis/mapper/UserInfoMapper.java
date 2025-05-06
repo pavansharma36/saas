@@ -2,6 +2,7 @@ package io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper;
 
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.UserInfoDynamicSqlSupport.createdAt;
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.UserInfoDynamicSqlSupport.createdBy;
+import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.UserInfoDynamicSqlSupport.enabled;
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.UserInfoDynamicSqlSupport.firstName;
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.UserInfoDynamicSqlSupport.id;
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.UserInfoDynamicSqlSupport.lastName;
@@ -43,8 +44,8 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
     CommonInsertMapper<UserInfo>, CommonUpdateMapper {
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
   BasicColumn[] selectList =
-      BasicColumn.columnList(id, tenantId, firstName, lastName, createdBy, createdAt, updatedBy,
-          updatedAt);
+      BasicColumn.columnList(id, tenantId, firstName, lastName, enabled, createdBy, createdAt,
+          updatedBy, updatedAt);
 
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
   static UpdateDSL<UpdateModel> updateAllColumns(UserInfo row, UpdateDSL<UpdateModel> dsl) {
@@ -52,6 +53,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
         .set(tenantId).equalTo(row::getTenantId)
         .set(firstName).equalTo(row::getFirstName)
         .set(lastName).equalTo(row::getLastName)
+        .set(enabled).equalTo(row::isEnabled)
         .set(createdBy).equalTo(row::getCreatedBy)
         .set(createdAt).equalTo(row::getCreatedAt)
         .set(updatedBy).equalTo(row::getUpdatedBy)
@@ -64,6 +66,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
         .set(tenantId).equalToWhenPresent(row::getTenantId)
         .set(firstName).equalToWhenPresent(row::getFirstName)
         .set(lastName).equalToWhenPresent(row::getLastName)
+        .set(enabled).equalToWhenPresent(row::isEnabled)
         .set(createdBy).equalToWhenPresent(row::getCreatedBy)
         .set(createdAt).equalToWhenPresent(row::getCreatedAt)
         .set(updatedBy).equalToWhenPresent(row::getUpdatedBy)
@@ -77,6 +80,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
       @Result(column = "tenant_id", property = "tenantId", jdbcType = JdbcType.VARCHAR),
       @Result(column = "first_name", property = "firstName", jdbcType = JdbcType.VARCHAR),
       @Result(column = "last_name", property = "lastName", jdbcType = JdbcType.VARCHAR),
+      @Result(column = "enabled", property = "enabled", jdbcType = JdbcType.BIT),
       @Result(column = "created_by", property = "createdBy", jdbcType = JdbcType.VARCHAR),
       @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
       @Result(column = "updated_by", property = "updatedBy", jdbcType = JdbcType.VARCHAR),
@@ -113,6 +117,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
             .map(tenantId).toProperty("tenantId")
             .map(firstName).toProperty("firstName")
             .map(lastName).toProperty("lastName")
+            .map(enabled).toProperty("enabled")
             .map(createdBy).toProperty("createdBy")
             .map(createdAt).toProperty("createdAt")
             .map(updatedBy).toProperty("updatedBy")
@@ -127,6 +132,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
             .map(tenantId).toProperty("tenantId")
             .map(firstName).toProperty("firstName")
             .map(lastName).toProperty("lastName")
+            .map(enabled).toProperty("enabled")
             .map(createdBy).toProperty("createdBy")
             .map(createdAt).toProperty("createdAt")
             .map(updatedBy).toProperty("updatedBy")
@@ -141,6 +147,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
             .map(tenantId).toPropertyWhenPresent("tenantId", row::getTenantId)
             .map(firstName).toPropertyWhenPresent("firstName", row::getFirstName)
             .map(lastName).toPropertyWhenPresent("lastName", row::getLastName)
+            .map(enabled).toPropertyWhenPresent("enabled", row::isEnabled)
             .map(createdBy).toPropertyWhenPresent("createdBy", row::getCreatedBy)
             .map(createdAt).toPropertyWhenPresent("createdAt", row::getCreatedAt)
             .map(updatedBy).toPropertyWhenPresent("updatedBy", row::getUpdatedBy)
@@ -181,6 +188,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
         c.set(tenantId).equalTo(row::getTenantId)
             .set(firstName).equalTo(row::getFirstName)
             .set(lastName).equalTo(row::getLastName)
+            .set(enabled).equalTo(row::isEnabled)
             .set(createdBy).equalTo(row::getCreatedBy)
             .set(createdAt).equalTo(row::getCreatedAt)
             .set(updatedBy).equalTo(row::getUpdatedBy)
@@ -195,6 +203,7 @@ public interface UserInfoMapper extends BaseMapper<UserInfo>, CommonCountMapper,
         c.set(tenantId).equalToWhenPresent(row::getTenantId)
             .set(firstName).equalToWhenPresent(row::getFirstName)
             .set(lastName).equalToWhenPresent(row::getLastName)
+            .set(enabled).equalToWhenPresent(row::isEnabled)
             .set(createdBy).equalToWhenPresent(row::getCreatedBy)
             .set(createdAt).equalToWhenPresent(row::getCreatedAt)
             .set(updatedBy).equalToWhenPresent(row::getUpdatedBy)

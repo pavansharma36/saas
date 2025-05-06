@@ -2,16 +2,15 @@ package io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper;
 
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.accountNonExpired;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.accountNonLocked;
+import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.attemptId;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.createdAt;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.createdBy;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.credentialsNonExpired;
-import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.enabled;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.id;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.password;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.updatedAt;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.updatedBy;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.userAccount;
-import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.userInfoId;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.username;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
@@ -48,23 +47,22 @@ public interface UserAccountMapper
     CommonInsertMapper<UserAccount>, CommonUpdateMapper {
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
   BasicColumn[] selectList =
-      BasicColumn.columnList(id, username, password, userInfoId, enabled, accountNonExpired,
-          credentialsNonExpired, accountNonLocked, createdBy, createdAt, updatedBy, updatedAt);
+      BasicColumn.columnList(id, username, password, accountNonExpired, credentialsNonExpired,
+          accountNonLocked, createdBy, createdAt, updatedBy, updatedAt, attemptId);
 
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
   static UpdateDSL<UpdateModel> updateAllColumns(UserAccount row, UpdateDSL<UpdateModel> dsl) {
     return dsl.set(id).equalTo(row::getId)
         .set(username).equalTo(row::getUsername)
         .set(password).equalTo(row::getPassword)
-        .set(userInfoId).equalTo(row::getUserInfoId)
-        .set(enabled).equalTo(row::isEnabled)
         .set(accountNonExpired).equalTo(row::isAccountNonExpired)
         .set(credentialsNonExpired).equalTo(row::isCredentialsNonExpired)
         .set(accountNonLocked).equalTo(row::isAccountNonLocked)
         .set(createdBy).equalTo(row::getCreatedBy)
         .set(createdAt).equalTo(row::getCreatedAt)
         .set(updatedBy).equalTo(row::getUpdatedBy)
-        .set(updatedAt).equalTo(row::getUpdatedAt);
+        .set(updatedAt).equalTo(row::getUpdatedAt)
+        .set(attemptId).equalTo(row::getAttemptId);
   }
 
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -73,15 +71,14 @@ public interface UserAccountMapper
     return dsl.set(id).equalToWhenPresent(row::getId)
         .set(username).equalToWhenPresent(row::getUsername)
         .set(password).equalToWhenPresent(row::getPassword)
-        .set(userInfoId).equalToWhenPresent(row::getUserInfoId)
-        .set(enabled).equalToWhenPresent(row::isEnabled)
         .set(accountNonExpired).equalToWhenPresent(row::isAccountNonExpired)
         .set(credentialsNonExpired).equalToWhenPresent(row::isCredentialsNonExpired)
         .set(accountNonLocked).equalToWhenPresent(row::isAccountNonLocked)
         .set(createdBy).equalToWhenPresent(row::getCreatedBy)
         .set(createdAt).equalToWhenPresent(row::getCreatedAt)
         .set(updatedBy).equalToWhenPresent(row::getUpdatedBy)
-        .set(updatedAt).equalToWhenPresent(row::getUpdatedAt);
+        .set(updatedAt).equalToWhenPresent(row::getUpdatedAt)
+        .set(attemptId).equalToWhenPresent(row::getAttemptId);
   }
 
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -90,15 +87,14 @@ public interface UserAccountMapper
       @Result(column = "id", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
       @Result(column = "username", property = "username", jdbcType = JdbcType.VARCHAR),
       @Result(column = "password", property = "password", jdbcType = JdbcType.VARCHAR),
-      @Result(column = "user_info_id", property = "userInfoId", jdbcType = JdbcType.VARCHAR),
-      @Result(column = "enabled", property = "enabled", jdbcType = JdbcType.BIT),
       @Result(column = "account_non_expired", property = "accountNonExpired", jdbcType = JdbcType.BIT),
       @Result(column = "credentials_non_expired", property = "credentialsNonExpired", jdbcType = JdbcType.BIT),
       @Result(column = "account_non_locked", property = "accountNonLocked", jdbcType = JdbcType.BIT),
       @Result(column = "created_by", property = "createdBy", jdbcType = JdbcType.VARCHAR),
       @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
       @Result(column = "updated_by", property = "updatedBy", jdbcType = JdbcType.VARCHAR),
-      @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP)
+      @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP),
+      @Result(column = "attempt_id", property = "attemptId", jdbcType = JdbcType.VARCHAR)
   })
   List<UserAccount> selectMany(SelectStatementProvider selectStatement);
 
@@ -130,8 +126,6 @@ public interface UserAccountMapper
         c.map(id).toProperty("id")
             .map(username).toProperty("username")
             .map(password).toProperty("password")
-            .map(userInfoId).toProperty("userInfoId")
-            .map(enabled).toProperty("enabled")
             .map(accountNonExpired).toProperty("accountNonExpired")
             .map(credentialsNonExpired).toProperty("credentialsNonExpired")
             .map(accountNonLocked).toProperty("accountNonLocked")
@@ -139,6 +133,7 @@ public interface UserAccountMapper
             .map(createdAt).toProperty("createdAt")
             .map(updatedBy).toProperty("updatedBy")
             .map(updatedAt).toProperty("updatedAt")
+            .map(attemptId).toProperty("attemptId")
     );
   }
 
@@ -148,8 +143,6 @@ public interface UserAccountMapper
         c.map(id).toProperty("id")
             .map(username).toProperty("username")
             .map(password).toProperty("password")
-            .map(userInfoId).toProperty("userInfoId")
-            .map(enabled).toProperty("enabled")
             .map(accountNonExpired).toProperty("accountNonExpired")
             .map(credentialsNonExpired).toProperty("credentialsNonExpired")
             .map(accountNonLocked).toProperty("accountNonLocked")
@@ -157,6 +150,7 @@ public interface UserAccountMapper
             .map(createdAt).toProperty("createdAt")
             .map(updatedBy).toProperty("updatedBy")
             .map(updatedAt).toProperty("updatedAt")
+            .map(attemptId).toProperty("attemptId")
     );
   }
 
@@ -166,8 +160,6 @@ public interface UserAccountMapper
         c.map(id).toPropertyWhenPresent("id", row::getId)
             .map(username).toPropertyWhenPresent("username", row::getUsername)
             .map(password).toPropertyWhenPresent("password", row::getPassword)
-            .map(userInfoId).toPropertyWhenPresent("userInfoId", row::getUserInfoId)
-            .map(enabled).toPropertyWhenPresent("enabled", row::isEnabled)
             .map(accountNonExpired)
             .toPropertyWhenPresent("accountNonExpired", row::isAccountNonExpired)
             .map(credentialsNonExpired)
@@ -178,6 +170,7 @@ public interface UserAccountMapper
             .map(createdAt).toPropertyWhenPresent("createdAt", row::getCreatedAt)
             .map(updatedBy).toPropertyWhenPresent("updatedBy", row::getUpdatedBy)
             .map(updatedAt).toPropertyWhenPresent("updatedAt", row::getUpdatedAt)
+            .map(attemptId).toPropertyWhenPresent("attemptId", row::getAttemptId)
     );
   }
 
@@ -213,8 +206,6 @@ public interface UserAccountMapper
     return update(c ->
         c.set(username).equalTo(row::getUsername)
             .set(password).equalTo(row::getPassword)
-            .set(userInfoId).equalTo(row::getUserInfoId)
-            .set(enabled).equalTo(row::isEnabled)
             .set(accountNonExpired).equalTo(row::isAccountNonExpired)
             .set(credentialsNonExpired).equalTo(row::isCredentialsNonExpired)
             .set(accountNonLocked).equalTo(row::isAccountNonLocked)
@@ -222,6 +213,7 @@ public interface UserAccountMapper
             .set(createdAt).equalTo(row::getCreatedAt)
             .set(updatedBy).equalTo(row::getUpdatedBy)
             .set(updatedAt).equalTo(row::getUpdatedAt)
+            .set(attemptId).equalTo(row::getAttemptId)
             .where(id, isEqualTo(row::getId))
     );
   }
@@ -231,8 +223,6 @@ public interface UserAccountMapper
     return update(c ->
         c.set(username).equalToWhenPresent(row::getUsername)
             .set(password).equalToWhenPresent(row::getPassword)
-            .set(userInfoId).equalToWhenPresent(row::getUserInfoId)
-            .set(enabled).equalToWhenPresent(row::isEnabled)
             .set(accountNonExpired).equalToWhenPresent(row::isAccountNonExpired)
             .set(credentialsNonExpired).equalToWhenPresent(row::isCredentialsNonExpired)
             .set(accountNonLocked).equalToWhenPresent(row::isAccountNonLocked)
@@ -240,6 +230,7 @@ public interface UserAccountMapper
             .set(createdAt).equalToWhenPresent(row::getCreatedAt)
             .set(updatedBy).equalToWhenPresent(row::getUpdatedBy)
             .set(updatedAt).equalToWhenPresent(row::getUpdatedAt)
+            .set(attemptId).equalToWhenPresent(row::getAttemptId)
             .where(id, isEqualTo(row::getId))
     );
   }

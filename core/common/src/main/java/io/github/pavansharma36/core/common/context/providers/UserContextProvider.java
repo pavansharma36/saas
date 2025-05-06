@@ -19,4 +19,8 @@ public class UserContextProvider {
     }
     return userContext;
   }
+
+  public static boolean isInitialized() {
+    return userContext != null;
+  }
 }

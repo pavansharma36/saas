@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.utils;
 
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -33,6 +34,9 @@ public abstract class Constants {
     public static final String RETRY_AFTER_HEADER = "Retry-After";
     public static final String RETRY_ATTEMPT_HEADER = "X-Retry-Attempt";
     public static final String CONTENT_TYPE = "Content-Type";
+
+    public static final Set<String> SENSITIVE_HEADERS =
+        Set.of(B2B_SECRET_HEADER, AUTHORIZATION_HEADER);
   }
 
 }

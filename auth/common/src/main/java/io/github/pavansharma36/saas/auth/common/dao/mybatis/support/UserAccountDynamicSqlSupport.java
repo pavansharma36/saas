@@ -20,12 +20,6 @@ public final class UserAccountDynamicSqlSupport {
     public static final SqlColumn<String> password = userAccount.password;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> userInfoId = userAccount.userInfoId;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Boolean> enabled = userAccount.enabled;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Boolean> accountNonExpired = userAccount.accountNonExpired;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -47,16 +41,15 @@ public final class UserAccountDynamicSqlSupport {
     public static final SqlColumn<Date> updatedAt = userAccount.updatedAt;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public static final SqlColumn<String> attemptId = userAccount.attemptId;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final class UserAccount extends AliasableSqlTable<UserAccount> {
         public final SqlColumn<String> id = column("id", JDBCType.VARCHAR);
 
         public final SqlColumn<String> username = column("username", JDBCType.VARCHAR);
 
         public final SqlColumn<String> password = column("password", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> userInfoId = column("user_info_id", JDBCType.VARCHAR);
-
-        public final SqlColumn<Boolean> enabled = column("enabled", JDBCType.BIT);
 
         public final SqlColumn<Boolean> accountNonExpired = column("account_non_expired", JDBCType.BIT);
 
@@ -71,6 +64,8 @@ public final class UserAccountDynamicSqlSupport {
         public final SqlColumn<String> updatedBy = column("updated_by", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> updatedAt = column("updated_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<String> attemptId = column("attempt_id", JDBCType.VARCHAR);
 
         public UserAccount() {
             super("user_account", UserAccount::new);

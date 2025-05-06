@@ -7,6 +7,7 @@ import io.github.pavansharma36.saas.core.dto.ex.ResponseRuntimeException;
 import io.github.pavansharma36.saas.core.dto.response.Message;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
+import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -48,6 +49,18 @@ public class CoreExceptionHandler {
       ResponseRuntimeException exception) {
     response.setStatus(exception.statusCode());
     return exception.getResponse();
+  }
+
+  @ExceptionHandler(ServerRuntimeException.class)
+  public ResponseObject<Object> handleServerRuntimeException(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      ServerRuntimeException exception) {
+    log.error("Error while processing {}: {}", request.getRequestURI(),
+        exception.getMessage(), exception);
+    response.setStatus(exception.statusCode());
+    return ResponseObject.response(CoreErrorCode.SERVER_ERROR.code(),
+        CoreErrorCode.SERVER_ERROR.message());
   }
 
   @ExceptionHandler(AppRuntimeException.class)

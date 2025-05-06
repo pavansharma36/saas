@@ -4,8 +4,8 @@ import feign.Feign;
 import feign.Logger;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
-import feign.slf4j.Slf4jLogger;
 import feign.spring.SpringContract;
+import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,8 @@ public class B2BClientBuilder {
         .contract(new SpringContract())
         .requestInterceptor(new B2BRequestInterceptor())
         .retryer(new CustomRetryer())
-        .logger(new Slf4jLogger(clazz))
-        .logLevel(Logger.Level.BASIC)
+        .logger(new AppSlf4jLogger())
+        .logLevel(Logger.Level.valueOf(Config.get("feign.log.level", Logger.Level.BASIC.name())))
         .target(clazz, target);
   }
 

@@ -34,9 +34,9 @@
                       value="io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper"/>
         </javaClientGenerator>
 
-        <table tableName="tenant">
+        <table tableName="user_info">
             <property name="modelType" value="flat"/>
-            <!--            <columnOverride column="enabled" javaType="boolean"/>-->
+            <columnOverride column="enabled" javaType="boolean"/>
         </table>
 
     </context>

@@ -1,12 +1,16 @@
 package io.github.pavansharma36.saas.auth.common.service;
 
+import io.github.pavansharma36.core.common.service.UserAccountService;
 import io.github.pavansharma36.core.common.validation.ValidationException;
 import io.github.pavansharma36.saas.auth.common.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.utils.AuthErrorCode;
-import io.github.pavansharma36.saas.auth.dto.UserAccountDto;
+import io.github.pavansharma36.saas.auth.dto.UserAccountDetailsDto;
+import io.github.pavansharma36.saas.core.dto.common.UserAccountDto;
 import io.github.pavansharma36.saas.utils.Utils;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserAccountService {
+public class AuthUserAccountService implements UserAccountService<UserAccountDetailsDto> {
 
   private final PasswordEncoder passwordEncoder;
   private final UserAccountDao userAccountDao;
@@ -29,9 +33,8 @@ public class UserAccountService {
           AuthErrorCode.USERNAME_ALREADY_EXISTS, params);
     }
     UserAccount userAccount = new UserAccount();
+    userAccount.setId(userAccountDto.getId());
     userAccount.setUsername(userAccountDto.getUsername());
-    userAccount.setUserInfoId(userAccountDto.getUserInfoId());
-    userAccount.setEnabled(true);
     userAccount.setAccountNonExpired(true);
     userAccount.setAccountNonLocked(true);
 
@@ -42,5 +45,22 @@ public class UserAccountService {
     userAccountDto.setId(account.getId());
     return userAccountDto;
   }
+
+  @Override
+  public UserAccountDto getUserAccount(String id) {
+    UserAccount userAccount = userAccountDao.findByIdOrThrow(id);
+
+    UserAccountDto dto = new UserAccountDto();
+    dto.setId(userAccount.getId());
+    dto.setUsername(userAccount.getUsername());
+    dto.setAuthorities(Collections.emptyList());
+    return dto;
+  }
+
+  @Override
+  public Optional<UserAccountDetailsDto> userAccount(String username) {
+    return Optional.empty();
+  }
+
 
 }

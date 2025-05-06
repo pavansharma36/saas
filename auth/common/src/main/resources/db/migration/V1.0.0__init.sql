@@ -2,8 +2,6 @@ CREATE TABLE IF NOT EXISTS user_account (
     id VARCHAR(32) NOT NULL,
     username VARCHAR(64) NOT NULL,
     password VARCHAR(256) NOT NULL,
-    user_info_id VARCHAR(32) NOT NULL,
-    enabled BOOLEAN NOT NULL,
     account_non_expired BOOLEAN NOT NULL,
     credentials_non_expired BOOLEAN NOT NULL,
     account_non_locked BOOLEAN NOT NULL,

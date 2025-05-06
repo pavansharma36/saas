@@ -16,4 +16,6 @@ public class UserDto extends Dto {
   @Length(min = 2, max = 64)
   private String lastName;
   private String tenantId;
+
+  private boolean enabled;
 }

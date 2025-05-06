@@ -1,7 +1,8 @@
-package io.github.pavansharma36.saas.auth.dto;
+package io.github.pavansharma36.saas.core.dto.common;
 
 import io.github.pavansharma36.saas.core.dto.Dto;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -16,6 +17,6 @@ public class UserAccountDto extends Dto {
   @Length(min = 2, max = 64)
   private String username;
 
-  @NotBlank
-  private String userInfoId;
+  private List<String> authorities;
+
 }

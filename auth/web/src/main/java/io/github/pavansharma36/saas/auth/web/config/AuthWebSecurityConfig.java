@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.auth.web.config;
 
+import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.auth.common.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.web.security.AppUserDetailsService;
 import io.github.pavansharma36.saas.auth.web.security.RestAuthenticationProcessingFilter;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class AuthWebSecurityConfig extends WebSecurityConfig {
 
   private final UserAccountDao userAccountDao;
+  private final UserService userService;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -40,7 +42,7 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
   @Primary
   @Override
   public UserDetailsService userDetailsService() {
-    return new AppUserDetailsService(userAccountDao);
+    return new AppUserDetailsService(userAccountDao, userService);
   }
 
   public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder,

@@ -36,7 +36,7 @@
 
         <table tableName="user_account">
             <property name="modelType" value="flat"/>
-            <columnOverride column="enabled" javaType="boolean"/>
+            <!--            <columnOverride column="enabled" javaType="boolean"/>-->
             <columnOverride column="account_non_expired" javaType="boolean"/>
             <columnOverride column="credentials_non_expired" javaType="boolean"/>
             <columnOverride column="account_non_locked" javaType="boolean"/>

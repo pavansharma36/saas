@@ -6,9 +6,9 @@ import io.github.pavansharma36.core.common.context.providers.TenantContextProvid
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.auth.client.AuthClientFactory;
-import io.github.pavansharma36.saas.auth.dto.UserAccountDto;
 import io.github.pavansharma36.saas.core.dto.common.CreateUserDto;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
+import io.github.pavansharma36.saas.core.dto.common.UserAccountDto;
 import io.github.pavansharma36.saas.core.dto.common.UserDto;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao.UserInfoDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.UserInfo;
@@ -29,34 +29,39 @@ public class GalaxyUserService implements UserService {
     String newUserId = userInfoDao.getIdGenerator().nextId(UserInfo.class);
 
     UserAccountDto accountDto = new UserAccountDto();
+    accountDto.setId(newUserId);
     accountDto.setUsername(userDto.getUsername());
-    accountDto.setUserInfoId(newUserId);
 
+    UserInfo userInfo = new UserInfo();
     if (tenantId == null &&
         userDto.getUserInfo().getTenantId() != null) {
       TenantDto tenantDto = tenantService.getTenantById(userDto.getUserInfo().getTenantId());
       TenantContextProvider.executeOnTenantContext(tenantDto,
           () -> userAccountApi.createUserAccount(accountDto));
+
+      userInfo.setTenantId(userDto.getUserInfo().getTenantId());
     } else {
       userAccountApi.createUserAccount(accountDto);
     }
 
-    UserInfo userInfo = new UserInfo();
     userInfo.setId(newUserId);
     userInfo.setFirstName(userDto.getUserInfo().getFirstName());
     userInfo.setLastName(userDto.getUserInfo().getLastName());
-    userInfo.setTenantId(
-        TenantContextProvider.getInstance().get().map(TenantDto::getId).orElse(null));
+    userInfo.setEnabled(true);
     userInfoDao.insert(userInfo);
-    
+
     userDto.getUserInfo().setId(newUserId);
     return userDto.getUserInfo();
   }
 
   @Override
   public UserDto getUserById(String id) {
+    UserInfo userInfo = userInfoDao.findByIdOrThrow(id);
     UserDto dto = new UserDto();
-    dto.setId(id);
+    dto.setId(userInfo.getId());
+    dto.setFirstName(userInfo.getFirstName());
+    dto.setLastName(userInfo.getLastName());
+    dto.setEnabled(userInfo.isEnabled());
     return dto;
   }
 

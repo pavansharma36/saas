@@ -11,6 +11,7 @@ public enum AuthErrorCode implements ErrorCode {
   USER_ACCOUNT_EXPIRED(3),
   USER_ACCOUNT_CREDENTIAL_EXPIRED(4),
   USER_ACCOUNT_LOCKED(5),
+  BAD_CREDENTIAL(6),
   ;
 
   static {

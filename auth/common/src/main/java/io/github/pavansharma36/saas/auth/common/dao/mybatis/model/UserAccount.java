@@ -11,12 +11,6 @@ public class UserAccount extends MyBatisModel {
     private String password;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String userInfoId;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private boolean enabled;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private boolean accountNonExpired;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -24,6 +18,9 @@ public class UserAccount extends MyBatisModel {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private boolean accountNonLocked;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    private String attemptId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public String getUsername() {
@@ -43,26 +40,6 @@ public class UserAccount extends MyBatisModel {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getUserInfoId() {
-        return userInfoId;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setUserInfoId(String userInfoId) {
-        this.userInfoId = userInfoId;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -93,5 +70,15 @@ public class UserAccount extends MyBatisModel {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setAccountNonLocked(boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public String getAttemptId() {
+        return attemptId;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setAttemptId(String attemptId) {
+        this.attemptId = attemptId;
     }
 }

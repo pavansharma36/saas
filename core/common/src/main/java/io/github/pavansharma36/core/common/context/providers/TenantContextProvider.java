@@ -24,6 +24,10 @@ public class TenantContextProvider {
     return tenantContext;
   }
 
+  public static boolean isInitialized() {
+    return tenantContext != null;
+  }
+
   public static <T> T executeOnTenantContext(TenantDto tenant, Supplier<T> function) {
     Optional<TenantDto> currentContext = getInstance().get();
     try {
