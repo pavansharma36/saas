@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.api;
 
+import io.github.pavansharma36.saas.core.dto.query.PageableQuery;
 import io.github.pavansharma36.saas.core.dto.response.ListResponseObject;
 import io.github.pavansharma36.saas.galaxy.dto.config.ConfigDto;
 import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDto;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ConfigApi {
 
   @GetMapping
-  ListResponseObject<ConfigDto> getConfigs();
+  ListResponseObject<ConfigDto> getConfigs(PageableQuery pageable);
 
   @GetMapping("value")
   ListResponseObject<ConfigValueDto> getConfigValues(

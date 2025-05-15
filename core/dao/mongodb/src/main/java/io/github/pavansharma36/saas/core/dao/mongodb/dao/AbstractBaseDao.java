@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.dao;
 
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
+import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
@@ -26,7 +26,7 @@ public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
       model.setCreatedAt(new Date());
     }
     if (model.getCreatedBy() == null) {
-      model.setCreatedBy(UserContextProvider.getInstance().getOrThrow().getId());
+      model.setCreatedBy(CoreUtils.getUserId());
     }
   }
 

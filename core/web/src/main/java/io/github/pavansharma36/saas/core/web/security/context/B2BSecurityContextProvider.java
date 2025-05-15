@@ -9,24 +9,23 @@ import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.b2b.B2BAuthentication;
 import io.github.pavansharma36.saas.utils.Constants;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
+import org.springframework.stereotype.Service;
 
+@Service
+@Order(200)
 public class B2BSecurityContextProvider extends AbstractSecurityContextProvider
     implements AppSecurityContextProvider {
 
   private static final String B2B_HEADER_VALUE = Config.get(Constants.B2B_SECRET_CONF);
 
-  private final List<AppSecurityContextProvider> appSecurityContextProviders;
-
   public B2BSecurityContextProvider(
       TenantService tenantService,
-      UserService userService,
-      List<AppSecurityContextProvider> appSecurityContextProviders) {
+      UserService userService) {
     super(tenantService, userService);
-    this.appSecurityContextProviders = appSecurityContextProviders;
   }
 
   @Override
@@ -35,13 +34,6 @@ public class B2BSecurityContextProvider extends AbstractSecurityContextProvider
         requestResponseHolder.getRequest().getHeader(Constants.Header.B2B_SECRET_HEADER);
     if (header != null &&
         B2B_HEADER_VALUE.equals(CryptUtil.decryptQuietly(KeyType.DEFAULT, header).orElse(null))) {
-      for (AppSecurityContextProvider provider : appSecurityContextProviders) {
-        Optional<Authentication> authentication =
-            provider.authentication(requestResponseHolder);
-        if (authentication.isPresent()) {
-          return Optional.of(new B2BAuthentication(authentication.get()));
-        }
-      }
       String tenantId =
           requestResponseHolder.getRequest().getHeader(Constants.Header.TENANT_ID_HEADER);
       if (tenantId != null) {

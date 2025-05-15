@@ -3,7 +3,6 @@ package io.github.pavansharma36.saas.core.web.security;
 import io.github.pavansharma36.core.common.service.TenantService;
 import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.context.AppSecurityContextProvider;
-import io.github.pavansharma36.saas.core.web.security.context.B2BSecurityContextProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -21,25 +20,16 @@ import org.springframework.stereotype.Service;
 public class AppSecurityContextRepository implements SecurityContextRepository {
 
   private final List<AppSecurityContextProvider> providers;
-  private final B2BSecurityContextProvider b2BSecurityContextProvider;
 
   public AppSecurityContextRepository(
       TenantService tenantService,
       UserService userService,
       List<AppSecurityContextProvider> providers) {
     this.providers = providers;
-    this.b2BSecurityContextProvider =
-        new B2BSecurityContextProvider(tenantService, userService, providers);
   }
 
   @Override
   public SecurityContext loadContext(HttpRequestResponseHolder requestResponseHolder) {
-    Optional<Authentication> auth =
-        b2BSecurityContextProvider.authentication(requestResponseHolder);
-    if (auth.isPresent()) {
-      return new SecurityContextImpl(auth.get());
-    }
-
     for (AppSecurityContextProvider provider : providers) {
       Optional<Authentication> authentication =
           provider.authentication(requestResponseHolder);
@@ -58,9 +48,6 @@ public class AppSecurityContextRepository implements SecurityContextRepository {
 
   @Override
   public boolean containsContext(HttpServletRequest request) {
-    if (b2BSecurityContextProvider.containsContext(request)) {
-      return true;
-    }
     for (AppSecurityContextProvider provider : providers) {
       if (provider.containsContext(request)) {
         return true;

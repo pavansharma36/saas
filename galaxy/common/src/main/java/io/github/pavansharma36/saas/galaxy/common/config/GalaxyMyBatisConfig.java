@@ -3,6 +3,7 @@ package io.github.pavansharma36.saas.galaxy.common.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.saas.core.dao.mybatis.config.MyBatisConfig;
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +25,7 @@ public class GalaxyMyBatisConfig extends MyBatisConfig {
       props.put(e.getKey().replace(DATASOURCE_CONF_PREFIX, ""), e.getValue());
     }
     HikariConfig config = new HikariConfig(props);
+    config.setScheduledExecutor(ExecutorFactory.scheduledExecutorService());
     return new HikariDataSource(config);
   }
 

@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.client;
+package io.github.pavansharma36.saas.core.client.feign.client;
 
 import feign.Feign;
 import feign.jackson.JacksonDecoder;

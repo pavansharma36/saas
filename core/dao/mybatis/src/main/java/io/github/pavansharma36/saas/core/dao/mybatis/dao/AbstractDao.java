@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import java.util.Date;
@@ -22,13 +22,13 @@ public class AbstractDao<T extends UpdatableModel, M extends BaseMapper<T>>
       model.setUpdatedAt(new Date());
     }
     if (model.getUpdatedBy() == null) {
-      model.setUpdatedBy(UserContextProvider.getInstance().getOrThrow().getId());
+      model.setUpdatedBy(CoreUtils.getUserId());
     }
   }
 
   @Override
   protected void preUpdate(T model) {
     model.setUpdatedAt(new Date());
-    model.setUpdatedBy(UserContextProvider.getInstance().getOrThrow().getId());
+    model.setUpdatedBy(CoreUtils.getUserId());
   }
 }

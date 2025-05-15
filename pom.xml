@@ -29,7 +29,7 @@
         <spring.security.version>6.4.4</spring.security.version>
         <jackson.version>2.18.3</jackson.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
-        <feign.version>13.2.1</feign.version>
+        <feign.version>13.6</feign.version>
         <jakartaee.bom.version>10.0.0</jakartaee.bom.version>
         <hibernate.validator.version>8.0.2.Final</hibernate.validator.version>
         <apache.http.client.version>5.3.1</apache.http.client.version>

@@ -48,9 +48,11 @@ public class AGlobalFilter extends HttpFilter {
 
     } finally {
       long millis = System.currentTimeMillis() - startTime;
-      log.info("Request {}-{} API: {} from IP: {} App: {}-{}, response status:{} in {} millis",
+      log.info("Request {}-{}{} API: {} from IP: {} App: {}-{}, response status:{} in {} millis",
           req.getMethod(),
-          req.getRequestURI(), MDC.get(Constants.API_MDC_KEY), requestInfo.getIp(),
+          req.getRequestURI(), req.getQueryString() == null ? "" : "?" + req.getQueryString(),
+          MDC.get(Constants.API_MDC_KEY),
+          requestInfo.getIp(),
           requestInfo.getAppName(),
           requestInfo.getAppType(),
           res.getStatus(), millis);

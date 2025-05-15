@@ -3,6 +3,8 @@ package io.github.pavansharma36.saas.core.web.security.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pavansharma36.core.common.crypto.CryptUtil;
 import io.github.pavansharma36.core.common.crypto.KeyType;
+import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -49,6 +51,9 @@ public class JwtService {
     }
     return Jwts.builder().setSubject(details.getUsername())
         .signWith(key)
+        .setIssuedAt(new Date())
+        .setId(Utils.randomRequestId())
+        .setIssuer(CoreConstants.APP_NAME)
         .claim(CLAIM_PAYLOAD_KEY, details.getPayload())
         .serializeToJsonWith(serializer)
         .setExpiration(details.getExpireAt())

@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.client.feign;
+package io.github.pavansharma36.saas.core.client.feign.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

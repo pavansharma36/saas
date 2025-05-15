@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.client;
+package io.github.pavansharma36.saas.core.client.spring;
 
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import java.util.List;

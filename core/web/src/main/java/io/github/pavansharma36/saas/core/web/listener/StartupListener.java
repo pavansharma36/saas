@@ -31,11 +31,11 @@ public class StartupListener extends ContextLoaderListener {
 
     WebApplicationContext context =
         WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
-    log.info("[Context Initialized] {}:{}", event.getServletContext(), context);
+    log.info("[Context Destroyed] {}:{}", event.getServletContext(), context);
     Map<String, AppLoaderListener> listeners =
         context.getBeansOfType(AppLoaderListener.class);
     listeners.values().forEach(l -> {
-      log.info("Invoking on start on {}", l.getClass());
+      log.info("Invoking on stop on {}", l.getClass());
       l.onStop(context);
     });
 

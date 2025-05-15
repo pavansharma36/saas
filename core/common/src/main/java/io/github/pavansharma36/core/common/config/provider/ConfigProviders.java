@@ -70,8 +70,7 @@ public abstract class ConfigProviders {
     if (value == null) {
       return false;
     } else {
-      String trimmedValue = value.trim();
-      return trimmedValue.startsWith("ENC(") && trimmedValue.endsWith(")");
+      return value.startsWith("ENC(") && value.endsWith(")");
     }
   }
 

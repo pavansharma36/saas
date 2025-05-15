@@ -3,6 +3,7 @@ package io.github.pavansharma36.core.common.utils;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.config.provider.ConfigProviders;
 import io.github.pavansharma36.core.common.config.provider.PropertiesFileConfigProvider;
+import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.core.common.validation.AppValidatorFactory;
 import io.github.pavansharma36.core.common.validation.CoreErrorCode;
 import io.github.pavansharma36.saas.utils.Enums;
@@ -35,6 +36,14 @@ public abstract class CoreUtils {
 
   public static String getEnv() {
     return Config.get("env", "dev");
+  }
+
+  public static String getUserId() {
+    return RequestInfoContextProvider.getInstance().getOrThrow().getUserId();
+  }
+
+  public static String getTenantId() {
+    return RequestInfoContextProvider.getInstance().getOrThrow().getTenantId();
   }
 
 }

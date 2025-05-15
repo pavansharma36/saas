@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.client.feign;
+package io.github.pavansharma36.saas.core.client.feign.logging;
 
 import feign.slf4j.Slf4jLogger;
 import io.github.pavansharma36.saas.utils.Constants;

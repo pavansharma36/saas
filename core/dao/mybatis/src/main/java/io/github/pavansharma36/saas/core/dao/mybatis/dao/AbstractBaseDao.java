@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.common.model.Model;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
@@ -34,7 +34,7 @@ public abstract class AbstractBaseDao<T extends Model, M extends BaseMapper<T>>
       model.setCreatedAt(new Date());
     }
     if (model.getCreatedBy() == null) {
-      model.setCreatedBy(UserContextProvider.getInstance().getOrThrow().getId());
+      model.setCreatedBy(CoreUtils.getUserId());
     }
   }
 
