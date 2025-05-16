@@ -27,7 +27,7 @@ public class AppHttpRequestRetryStrategy extends AbstractBaseRetry
       return false;
     }
     return NON_RETRYABLE_METHODS.stream().map(Enum::name)
-        .anyMatch(m -> m.equals(httpRequest.getMethod()));
+        .noneMatch(m -> m.equals(httpRequest.getMethod()));
   }
 
   @Override
