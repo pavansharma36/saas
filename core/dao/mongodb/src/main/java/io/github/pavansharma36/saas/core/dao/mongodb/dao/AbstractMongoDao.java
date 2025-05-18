@@ -1,7 +1,9 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.dao;
 
+import com.mongodb.client.result.UpdateResult;
 import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
+import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
@@ -10,15 +12,14 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
-public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
+public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<T> {
 
-  protected final Class<T> clazz;
-  protected final MongoTemplate mongoTemplate;
+  private final Class<T> clazz;
 
-  public AbstractBaseDao(Class<T> clazz, MongoTemplate mongoTemplate) {
+  protected AbstractMongoDao(Class<T> clazz) {
     this.clazz = clazz;
-    this.mongoTemplate = mongoTemplate;
   }
 
   protected void preInsert(T model) {
@@ -28,22 +29,37 @@ public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
     if (model.getCreatedBy() == null) {
       model.setCreatedBy(CoreUtils.getUserId());
     }
+    if (model instanceof UpdatableModel m) {
+      if (m.getUpdatedAt() == null) {
+        m.setUpdatedAt(new Date());
+      }
+      if (m.getUpdatedBy() == null) {
+        m.setUpdatedBy(CoreUtils.getUserId());
+      }
+    }
   }
+
+  protected abstract MongoTemplate mongoTemplate();
 
   @Override
   public T insert(T model) {
     preInsert(model);
-    return mongoTemplate.insert(model);
+    return mongoTemplate().insert(model);
   }
 
   protected void preUpdate(T model) {
-    throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
+    if (model instanceof UpdatableModel m) {
+      m.setUpdatedAt(new Date());
+      m.setUpdatedBy(CoreUtils.getUserId());
+    } else {
+      throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
+    }
   }
 
   @Override
   public T update(T model) {
     preUpdate(model);
-    return mongoTemplate.save(model);
+    return mongoTemplate().save(model);
   }
 
   @Override
@@ -57,7 +73,7 @@ public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
 
   @Override
   public Optional<T> findById(String id) {
-    return Optional.ofNullable(mongoTemplate.findById(new ObjectId(id), clazz));
+    return Optional.ofNullable(mongoTemplate().findById(new ObjectId(id), clazz));
   }
 
   @Override
@@ -69,6 +85,14 @@ public class AbstractBaseDao<T extends BaseMongoModel> implements Dao<T> {
   @Override
   public boolean deleteById(String id) {
     Criteria criteria = Criteria.where(BaseMongoModel.FIELD_ID).is(id);
-    return mongoTemplate.remove(new Query(criteria), clazz).wasAcknowledged();
+    return mongoTemplate().remove(new Query(criteria), clazz).wasAcknowledged();
+  }
+
+  protected boolean deleteByQuery(Query query) {
+    return mongoTemplate().remove(query, clazz).wasAcknowledged();
+  }
+
+  protected UpdateResult updateMulti(Query query, Update update) {
+    return mongoTemplate().updateMulti(query, update, clazz);
   }
 }

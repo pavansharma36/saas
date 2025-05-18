@@ -39,8 +39,8 @@ public class ConfigService {
         GalaxyConstants.CONFIG_CLASSIFIER_GLOBAL);
     criterias.put(GalaxyConstants.CONFIG_CLASSIFIER_APPTYPE, appType);
     criterias.put(GalaxyConstants.CONFIG_CLASSIFIER_APPNAME, appName);
-    criterias.put(String.format("%s-%s", GalaxyConstants.CONFIG_CLASSIFIER_APPNAME,
-        GalaxyConstants.CONFIG_CLASSIFIER_APPTYPE), String.format("%s-%s", appName, appType));
+    criterias.put(GalaxyConstants.CONFIG_CLASSIFIER_APP_NAME_TYPE,
+        String.format("%s-%s", appName, appType));
     return criterias;
   }
 

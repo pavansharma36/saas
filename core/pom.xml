@@ -22,6 +22,7 @@
         <module>client</module>
         <module>api</module>
         <module>broker</module>
+        <module>worker</module>
     </modules>
 
     <dependencies>

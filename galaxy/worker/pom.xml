@@ -7,41 +7,25 @@
         <groupId>io.github.pavansharma36.saas</groupId>
         <artifactId>galaxy</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>io.github.pavansharma36.saas.galaxy</groupId>
-    <artifactId>common</artifactId>
+    <artifactId>worker</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>io.github.pavansharma36.saas.galaxy</groupId>
-            <artifactId>dto</artifactId>
+            <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
-            <artifactId>mongodb</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
-            <artifactId>redis</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.pavansharma36.saas.auth</groupId>
-            <artifactId>client</artifactId>
+            <groupId>io.github.pavansharma36.saas.core</groupId>
+            <artifactId>worker</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.pavansharma36.saas.core.broker.rabbitmq</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>consumer</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

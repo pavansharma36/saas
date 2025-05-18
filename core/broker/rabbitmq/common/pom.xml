@@ -19,6 +19,12 @@
             <artifactId>amqp-client</artifactId>
             <version>${rabbitmq.client.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.pavansharma36.saas.core.broker</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

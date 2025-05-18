@@ -9,7 +9,7 @@ import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.SqlColumn;
 
 public abstract class AbstractRetryingInsertDao<T extends RetryingInsertMyBatisModel, M extends BaseMapper<T>>
-    extends AbstractDao<T, M> {
+    extends AbstractMyBatisDao<T, M> {
   protected AbstractRetryingInsertDao(Class<T> clazz,
                                       IdGenerator idGenerator,
                                       M mapper) {

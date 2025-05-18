@@ -5,13 +5,13 @@ import io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper.UserAccountMa
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
-import io.github.pavansharma36.saas.core.dao.mybatis.dao.AbstractDao;
+import io.github.pavansharma36.saas.core.dao.mybatis.dao.AbstractMyBatisDao;
 import java.util.Optional;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserAccountDao extends AbstractDao<UserAccount, UserAccountMapper>
+public class UserAccountDao extends AbstractMyBatisDao<UserAccount, UserAccountMapper>
     implements Dao<UserAccount> {
 
   protected UserAccountDao(UserAccountMapper mapper) {

@@ -4,6 +4,7 @@ import io.github.pavansharma36.core.common.id.IdGenerator;
 import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.common.model.Model;
+import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
@@ -12,15 +13,15 @@ import java.util.Optional;
 import lombok.Getter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 
-public abstract class AbstractBaseDao<T extends Model, M extends BaseMapper<T>>
+public abstract class AbstractMyBatisDao<T extends Model, M extends BaseMapper<T>>
     implements Dao<T> {
 
-  protected final Class<T> clazz;
+  private final Class<T> clazz;
   @Getter
-  protected final IdGenerator idGenerator;
+  private final IdGenerator idGenerator;
   private final M mapper;
 
-  protected AbstractBaseDao(Class<T> clazz, IdGenerator idGenerator, M mapper) {
+  protected AbstractMyBatisDao(Class<T> clazz, IdGenerator idGenerator, M mapper) {
     this.clazz = clazz;
     this.idGenerator = idGenerator;
     this.mapper = mapper;
@@ -36,6 +37,14 @@ public abstract class AbstractBaseDao<T extends Model, M extends BaseMapper<T>>
     if (model.getCreatedBy() == null) {
       model.setCreatedBy(CoreUtils.getUserId());
     }
+    if (model instanceof UpdatableModel m) {
+      if (m.getUpdatedAt() == null) {
+        m.setUpdatedAt(new Date());
+      }
+      if (m.getUpdatedBy() == null) {
+        m.setUpdatedBy(CoreUtils.getUserId());
+      }
+    }
   }
 
   public T insert(T model) {
@@ -45,7 +54,12 @@ public abstract class AbstractBaseDao<T extends Model, M extends BaseMapper<T>>
   }
 
   protected void preUpdate(T model) {
-    throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
+    if (model instanceof UpdatableModel m) {
+      m.setUpdatedAt(new Date());
+      m.setUpdatedBy(CoreUtils.getUserId());
+    } else {
+      throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
+    }
   }
 
   public T update(T model) {
