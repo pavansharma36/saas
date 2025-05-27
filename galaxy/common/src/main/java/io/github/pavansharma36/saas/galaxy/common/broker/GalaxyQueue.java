@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.broker;
 
-import io.github.pavansharma36.saas.core.broker.common.MessagePriority;
+import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.CommonRabbitExchange;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitExchange;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitQueue;

@@ -1,5 +1,6 @@
 package io.github.pavansharma36.core.common.cache;
 
+import io.github.pavansharma36.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,12 @@ public abstract class InmemoryCaches {
 
   private static final Map<String, InmemoryCache> CACHES = new HashMap<>();
   private static final Map<String, Long> CACHE_CLEAN_TIMESTAMP = new HashMap<>();
+
+  static {
+    ExecutorFactory.scheduledExecutorService()
+        .scheduleWithFixedDelay(InmemoryCaches::scheduledClear, 1L, 1L,
+            TimeUnit.MINUTES);
+  }
 
   public static void clear(String cacheName) {
     CACHES.computeIfPresent(cacheName, (k, v) -> {

@@ -2,19 +2,15 @@ package io.github.pavansharma36.saas.core.broker.consumer;
 
 import io.github.pavansharma36.core.common.listener.AppLoaderListener;
 import io.github.pavansharma36.core.common.utils.CoreUtils;
-import io.github.pavansharma36.saas.core.broker.common.Queue;
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.utils.Enums;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @Slf4j
@@ -26,12 +22,16 @@ public class ConsumerBootstrapProcessor {
     CoreUtils.initApp(appName, Enums.AppType.WORKER);
 
     log.info("Creating application context");
-    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(appConfig);
+    AnnotationConfigApplicationContext applicationContext =
+        new AnnotationConfigApplicationContext(appConfig);
     log.info("Created application context {}", applicationContext);
 
     log.info("Invoking onStart for listeners");
-    applicationContext.getBeansOfType(AppLoaderListener.class).values()
-        .forEach(l -> l.onStart(applicationContext));
+    Collection<AppLoaderListener> listeners =
+        applicationContext.getBeansOfType(AppLoaderListener.class).values();
+    listeners.forEach(l -> l.onStart(applicationContext));
+
+    registerShutdownHook(applicationContext, listeners);
 
     Map<String, List<Queue>> queueMap = getTypeQueuesMap(queues);
     log.info("Queue types for process {}", queueMap.keySet());
@@ -40,17 +40,17 @@ public class ConsumerBootstrapProcessor {
         .map(q -> q.supportedPriorities().stream().map(q::formatQueueName).toList())
         .flatMap(List::stream).toList());
 
-    Map<String, ConsumerTemplate> consumers = getTypeConsumerMap(applicationContext);
-    log.info("Consumer types that are defined are: {}", consumers.keySet());
+    ConsumerTemplate.consume(applicationContext, queueMap);
 
-    Set<String> queueTypes = new HashSet<>(queueMap.keySet());
-    queueTypes.removeAll(consumers.keySet());
+  }
 
-    if (!queueTypes.isEmpty()) {
-      throw new ServerRuntimeException(
-          String.format("Queue type implementations not found %s", queueTypes));
-    }
-
+  private static void registerShutdownHook(AnnotationConfigApplicationContext context,
+                                           Collection<AppLoaderListener> listeners) {
+    log.info("Registering app shutdown hook");
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      listeners.forEach(l -> l.onStop(context));
+      context.close();
+    }));
   }
 
   private static Map<String, List<Queue>> getTypeQueuesMap(Queue... queues) {
@@ -59,13 +59,6 @@ public class ConsumerBootstrapProcessor {
       map.computeIfAbsent(queue.type(), dummy -> new LinkedList<>()).add(queue);
     }
     return map;
-  }
-
-  private static Map<String, ConsumerTemplate> getTypeConsumerMap(ApplicationContext context) {
-    Map<String, ConsumerTemplate> consumerTemplates =
-        context.getBeansOfType(ConsumerTemplate.class);
-    return consumerTemplates.values().stream()
-        .collect(Collectors.toMap(ConsumerTemplate::type, k -> k));
   }
 
 }

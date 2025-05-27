@@ -1,6 +1,7 @@
-package io.github.pavansharma36.saas.core.broker.common;
+package io.github.pavansharma36.saas.core.broker.common.api;
 
 import io.github.pavansharma36.saas.utils.Named;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
@@ -18,6 +19,11 @@ public enum MessagePriority implements Named {
 
   private final int priority;
   private final String queueNameSuffix;
+
+  public static List<MessagePriority> sortDesc(List<MessagePriority> priorities) {
+    return priorities.stream().sorted((a, b) -> b.priority() - a.priority())
+        .toList();
+  }
 
   @Override
   public String getName() {

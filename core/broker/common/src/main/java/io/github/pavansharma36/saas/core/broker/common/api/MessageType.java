@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.broker.common;
+package io.github.pavansharma36.saas.core.broker.common.api;
 
 import io.github.pavansharma36.saas.utils.Named;
 

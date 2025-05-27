@@ -2,6 +2,7 @@ package io.github.pavansharma36.core.common.mutex.service;
 
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.factory.ExecutorFactory;
+import io.github.pavansharma36.core.common.mutex.bean.CompositeLockInfo;
 import io.github.pavansharma36.core.common.mutex.bean.Lock;
 import io.github.pavansharma36.core.common.mutex.bean.LockInfo;
 import io.github.pavansharma36.core.common.mutex.bean.LockType;
@@ -10,7 +11,10 @@ import io.github.pavansharma36.core.common.mutex.dao.LockDao;
 import io.github.pavansharma36.core.common.mutex.dao.LockModel;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.utils.Utils;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
@@ -68,9 +72,36 @@ public abstract class AbstractLockService<T extends LockModel> implements LockSe
   }
 
   @Override
+  public Optional<CompositeLockInfo> acquireLock(List<Lock> locks) throws IOException {
+    CompositeLockInfo lockInfo = CompositeLockInfo.build(this);
+    for (Lock lock : locks) {
+      Optional<LockInfo> l = acquireLock(lock);
+      if (l.isPresent()) {
+        lockInfo.addLock(l.get());
+      } else {
+        log.info("Couldn't acquire composite lock. releasing all acquired locks");
+        lockInfo.close();
+        return Optional.empty();
+      }
+    }
+    return Optional.of(lockInfo);
+  }
+
+  @Override
   public boolean releaseLock(LockInfo lockInfo) {
     log.info("Releasing lock {}", lockInfo);
-    return lockDao.remove(lockInfo.getLockId());
+    return lockDao.remove(Collections.singleton(lockInfo.getLockId()));
+  }
+
+
+  @Override
+  public boolean releaseLock(CompositeLockInfo lockInfo) {
+    if (!lockInfo.getLockIds().isEmpty()) {
+      log.info("Releasing locks {}", lockInfo);
+      return lockDao.remove(lockInfo.getLockIds());
+    }
+    log.info("No locks present in composite lock {}", lockInfo);
+    return false;
   }
 
   @Override

@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.broker.rabbitmq.common;
 
-import io.github.pavansharma36.saas.core.broker.common.Queue;
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 
 public interface RabbitQueue extends Queue {
 

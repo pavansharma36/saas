@@ -5,7 +5,9 @@ import io.github.pavansharma36.core.common.mutex.dao.DuplicateModelException;
 import io.github.pavansharma36.core.common.mutex.dao.LockDao;
 import io.github.pavansharma36.saas.core.dao.mongodb.dao.AbstractGlobalMongoDao;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
+import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
 import java.util.Date;
+import java.util.Set;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -33,8 +35,11 @@ public class MongoLockDao extends AbstractGlobalMongoDao<MongoLockModel>
   }
 
   @Override
-  public boolean remove(String lockId) {
-    Criteria criteria = Criteria.where(BaseMongoModel.FIELD_ID).is(lockId);
+  public boolean remove(Set<String> lockIds) {
+    if (CollectionUtils.isEmpty(lockIds)) {
+      return false;
+    }
+    Criteria criteria = Criteria.where(BaseMongoModel.FIELD_ID).in(lockIds);
     return deleteByQuery(new Query(criteria));
   }
 
