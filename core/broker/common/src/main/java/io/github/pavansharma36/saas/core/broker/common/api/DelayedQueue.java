@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum QueueDelay implements Named {
+public enum DelayedQueue implements Named {
 
   ONE_MINUTE(Duration.ofMinutes(1L), "-one-minute-delayed"),
   FIFTEEN_MINUTE(Duration.ofMinutes(15L), "-fifteen-minute-delayed"),

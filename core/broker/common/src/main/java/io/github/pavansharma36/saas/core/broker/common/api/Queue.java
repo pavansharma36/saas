@@ -8,6 +8,8 @@ public interface Queue extends Named {
 
   List<MessagePriority> supportedPriorities();
 
+  List<DelayedQueue> supportedDelayedQueues();
+
   default String formatQueueName(MessagePriority priority) {
     return getName() + priority.queueNameSuffix();
   }

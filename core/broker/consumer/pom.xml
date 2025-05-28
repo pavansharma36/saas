@@ -15,9 +15,10 @@
     <dependencies>
         <dependency>
             <groupId>io.github.pavansharma36.saas.core.broker</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>producer</artifactId>
             <version>${project.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

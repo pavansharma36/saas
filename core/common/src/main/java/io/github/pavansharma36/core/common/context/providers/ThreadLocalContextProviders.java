@@ -1,6 +1,7 @@
 package io.github.pavansharma36.core.common.context.providers;
 
 import io.github.pavansharma36.core.common.context.ThreadLocalContext;
+import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,7 +27,7 @@ public abstract class ThreadLocalContextProviders {
   }
 
   public static Map<String, byte[]> serialize() {
-    Map<String, byte[]> s = new HashMap<>();
+    Map<String, byte[]> s = new HashMap<>(CLASS_CONTEXT_MAP.size());
     for (Map.Entry<String, ThreadLocalContext> c : CLASS_CONTEXT_MAP.entrySet()) {
       byte[] b = c.getValue().toByteArray();
       if (b != null && b.length > 0) {
@@ -37,7 +38,7 @@ public abstract class ThreadLocalContextProviders {
   }
 
   public static void set(Map<String, byte[]> s) {
-    for (Map.Entry<String, byte[]> c : s.entrySet()) {
+    for (Map.Entry<String, byte[]> c : CollectionUtils.nullSafeMap(s).entrySet()) {
       ThreadLocalContext t = CLASS_CONTEXT_MAP.get(c.getKey());
       if (t != null) {
         t.setFromByteArray(c.getValue());

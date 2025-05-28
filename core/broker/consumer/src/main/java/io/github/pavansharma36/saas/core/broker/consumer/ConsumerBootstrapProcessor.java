@@ -40,7 +40,8 @@ public class ConsumerBootstrapProcessor {
         .map(q -> q.supportedPriorities().stream().map(q::formatQueueName).toList())
         .flatMap(List::stream).toList());
 
-    ConsumerTemplate.consume(applicationContext, queueMap);
+    ConsumerTemplate consumerTemplate = applicationContext.getBean(ConsumerTemplate.class);
+    consumerTemplate.consume(applicationContext, queueMap);
 
   }
 

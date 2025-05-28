@@ -1,14 +1,14 @@
 package io.github.pavansharma36.saas.core.broker.producer;
 
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
+import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.Message;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
-import io.github.pavansharma36.saas.utils.json.JsonUtils;
-import java.nio.charset.StandardCharsets;
+import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +55,11 @@ public class MessageSender {
     payload.setMessageDto(message.getMessageDto());
     payload.setContextMap(ThreadLocalContextProviders.serialize());
 
-    templateMap.get(queue.type())
+    Optional.ofNullable(templateMap.get(queue.type()))
+        .orElseThrow(() -> new ServerRuntimeException(
+            String.format("Producer for %s not found", queue.type())))
         .produce(String.format("%s%s", queue.getName(), message.getPriority().queueNameSuffix()),
-            JsonUtils.toJson(payload).getBytes(StandardCharsets.UTF_8));
+            BrokerUtils.serialize(payload));
   }
 
 }

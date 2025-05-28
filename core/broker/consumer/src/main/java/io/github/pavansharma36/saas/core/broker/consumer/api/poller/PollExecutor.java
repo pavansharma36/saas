@@ -1,10 +1,13 @@
 package io.github.pavansharma36.saas.core.broker.consumer.api.poller;
 
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
+import io.github.pavansharma36.saas.utils.poll.DelayedLogEmitter;
+import io.github.pavansharma36.saas.utils.poll.FixedDelayedLogEmitter;
 import io.github.pavansharma36.saas.utils.poll.FixedPollDelayGenerator;
 import io.github.pavansharma36.saas.utils.poll.PollDelayGenerator;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -24,31 +27,28 @@ public class PollExecutor<T extends PollResponse> extends Thread {
   public void run() {
     PollDelayGenerator delayGenerator = new FixedPollDelayGenerator(TimeUnit.SECONDS.toMillis(1L));
     List<MessagePriority> priorities = MessagePriority.sortDesc(queue.supportedPriorities());
+
+    DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30L), log);
     while (!Thread.currentThread().isInterrupted()) {
 
       boolean result = false;
 
-      boolean block = Config.getBoolean("queue.block.all", false);
+      for (MessagePriority messagePriority : priorities) {
+        String queueName = BrokerUtils.queueName(queue, messagePriority);
 
-      if (block) {
-        log.info("All queues are blocked, not polling for any message");
-      } else {
-        for (MessagePriority messagePriority : priorities) {
-          String queueName =
-              String.format("%s%s", queue.getName(), messagePriority.queueNameSuffix());
-
-          block = Config.getBoolean(String.format("%s.queue.block.all", queueName), false);
-          if (block) {
-            log.info("Queues blocked, not polling for any message : {}", queueName);
-          } else {
-            log.debug("Polling queue for any new message: {}", queueName);
-            Optional<T> pollRes = pollerConsumer.poll(queueName);
-            if (pollRes.isPresent()) {
+        boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
+        if (!blocked) {
+          log.debug("Polling queue for any new message: {}", queueName);
+          Optional<T> pollRes = pollerConsumer.poll(queueName);
+          if (pollRes.isPresent()) {
+            try {
               target.accept(pollRes.get().getBody());
-
-              result = true;
-              break;
+            } finally {
+              pollerConsumer.ack(pollRes.get());
             }
+
+            result = true;
+            break;
           }
         }
       }
