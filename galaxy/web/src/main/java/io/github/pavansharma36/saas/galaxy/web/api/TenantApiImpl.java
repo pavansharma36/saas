@@ -1,10 +1,17 @@
 package io.github.pavansharma36.saas.galaxy.web.api;
 
+import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
+import io.github.pavansharma36.saas.core.broker.common.bean.Message;
+import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;
+import io.github.pavansharma36.saas.core.broker.producer.MessageSender;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
+import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyMessageType;
+import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyQueue;
 import io.github.pavansharma36.saas.galaxy.common.service.GalaxyTenantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -12,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TenantApiImpl implements TenantApi {
 
   private final GalaxyTenantService tenantService;
+  private final MessageSender messageSender;
 
   @Override
   public ResponseObject<TenantDto> getTenant(String id) {
@@ -26,6 +34,19 @@ public class TenantApiImpl implements TenantApi {
   @Override
   public ResponseObject<Object> updateTenant(String id, TenantDto tenantDto) {
     tenantService.updateTenantById(id, tenantDto);
+    return ResponseObject.empty();
+  }
+
+  @PostMapping("dispatch")
+  public ResponseObject<Object> dispatch() {
+    Message m = Message.builder()
+        .priority(MessagePriority.NORMAL)
+        .messageType(GalaxyMessageType.TEST)
+        .messageDto(new MessageDto())
+        .trackWithDatabase(true)
+        .lockOnProcess(true)
+        .build();
+    messageSender.send(GalaxyQueue.DEFAULT, m);
     return ResponseObject.empty();
   }
 }

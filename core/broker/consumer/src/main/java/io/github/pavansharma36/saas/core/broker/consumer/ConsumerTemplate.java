@@ -2,6 +2,7 @@ package io.github.pavansharma36.saas.core.broker.consumer;
 
 
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.context.providers.MDCContextProvider;
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
@@ -14,7 +15,11 @@ import io.github.pavansharma36.saas.core.broker.consumer.api.poller.ConsumerFact
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollExecutor;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollResponse;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
+import io.github.pavansharma36.saas.core.broker.consumer.processor.MessageProcessor;
+import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessInstruction;
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
+import io.github.pavansharma36.saas.utils.Constants;
+import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.poll.DelayedLogEmitter;
 import io.github.pavansharma36.saas.utils.poll.FixedDelayedLogEmitter;
@@ -103,6 +108,7 @@ public class ConsumerTemplate {
   private Consumer<byte[]> getMessageHandler(Queue queue) {
     DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30L), log);
     return data -> {
+      log.info("Received message on queue {}", queue);
       MessageSerializablePayload payload;
       try {
         payload = BrokerUtils.deserialize(data);
@@ -112,43 +118,76 @@ public class ConsumerTemplate {
         return;
       }
 
-      Date expireAt = payload.getMessageDto().getExpireAt();
-      if (expireAt != null && System.currentTimeMillis() > expireAt.getTime()) {
-        log.warn("Message already expired, skipping execution {}", payload);
-        return;
-      }
-
       try {
+        MDCContextProvider.put(Constants.MESSAGE_ID_MDC_KEY,
+            payload.getMessageId() == null ? Utils.randomRequestId() : payload.getMessageId());
+        MDCContextProvider.put(Constants.MESSAGE_TYPE_MDC_KEY, payload.getMessageType());
+        log.info("Successfully deserialized payload: {}", payload);
+
+        Date expireAt = payload.getMessageDto().getExpireAt();
+        if (expireAt != null && System.currentTimeMillis() > expireAt.getTime()) {
+          log.warn("Message already expired, skipping execution {}", payload);
+          return;
+        }
+        log.info("Setting all context from payload.");
         ThreadLocalContextProviders.set(payload.getContextMap());
+        log.info("Done setting all context from payload");
 
         MessageProcessor processor =
             Optional.ofNullable(messageProcessorMap.get(payload.getMessageType())).orElseThrow(
                 () -> new ServerRuntimeException(
                     "Message processor not found : " + payload.getMessageType()));
+        log.info("Found message processor {}", processor.getClass());
         if (BrokerUtils.isQueueBlocked(queue, payload.getPriority(), logEmitter)) {
           redispatch(queue, payload);
-        } else if (processor.canProcess(payload.getMessageId(), payload.getMessageDto())) {
-          log.warn("Cannot process {} at the moment, redispatching", payload);
-          redispatch(queue, payload);
-        } else {
-          processor.process(payload.getMessageDto());
+        }
+        ProcessInstruction instruction = processor.canProcess(payload);
+
+        switch (instruction.getInstruction()) {
+          case SKIP -> {
+            log.warn("Message instruction was to skip {}", payload);
+          }
+          case PROCESS -> {
+            log.info("Instruction was to process message, starting to process");
+            processor.process(instruction, payload.getMessageDto());
+            log.info("Successfully processed message");
+          }
+          case DELAY -> {
+            log.warn("Cannot process {} at the moment, redispatching", payload);
+            redispatch(queue, payload);
+          }
+          default -> {
+            log.error("Unsupported instruction for message {}: {}", instruction.getInstruction(),
+                payload);
+          }
         }
       } catch (Exception e) {
         log.error("Error while processing message {}: {}", e.getMessage(), payload, e);
+      } finally {
+        ThreadLocalContextProviders.clearAll();
       }
     };
   }
 
   private void redispatch(Queue queue, MessageSerializablePayload payload) {
+    int warnOnCount = Config.getInt("message.redispatch.warn.count", 10);
+    if (payload.getDispatchedCount() > warnOnCount) {
+      log.warn("Message redispatched more than {} times {}: {}", warnOnCount,
+          payload.getDispatchedCount(), payload);
+    }
+
     DelayedQueue nextQueue =
         BrokerUtils.nextDelayedQueue(queue, payload.getLastDelayedQueue());
 
     payload.setLastDispatchedAt(new Date());
     payload.setLastDelayedQueue(nextQueue);
+    payload.setDispatchedCount(payload.getDispatchedCount() + 1);
+    log.info("Redispatching message to {}:{}", queue, nextQueue);
 
     Optional.ofNullable(producerTemplateMap.get(queue.type())).orElseThrow(() ->
             new ServerRuntimeException("ProducerTemplate required for : " + queue.getName()))
-        .produce(BrokerUtils.queueName(queue, nextQueue), BrokerUtils.serialize(payload));
+        .produce(queue, nextQueue, BrokerUtils.serialize(payload));
+    log.info("Successfully redispatched message");
   }
 
 }

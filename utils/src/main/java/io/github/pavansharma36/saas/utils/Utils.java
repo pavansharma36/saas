@@ -7,12 +7,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.concurrent.Callable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class Utils {
+
+  public static <R> R executeQuietly(Callable<R> func, Logger logger) {
+    try {
+      return func.call();
+    } catch (Exception e) {
+      logger.error("Error : {}", e.getMessage(), e);
+      return null;
+    }
+  }
+
   public static String randomRequestId() {
     return RandomStringUtils.randomAlphanumeric(12);
   }

@@ -21,6 +21,8 @@ public class MessageSerializablePayload implements Serializable {
   private Date lastDispatchedAt;
   private DelayedQueue lastDelayedQueue;
 
+  private int dispatchedCount;
+
   @ToString.Exclude
   private Map<String, byte[]> contextMap;
 }

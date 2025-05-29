@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.broker;
 
+import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.CommonRabbitExchange;
@@ -17,7 +18,6 @@ import lombok.experimental.Accessors;
 public enum GalaxyQueue implements RabbitQueue {
 
   DEFAULT(GalaxyQueueInfo.DEFAULT.getName(), CommonRabbitExchange.DEFAULT,
-      GalaxyQueueInfo.DEFAULT.getName(),
       Arrays.asList(MessagePriority.HIGH, MessagePriority.NORMAL, MessagePriority.LOW),
       Collections.emptyList()),
   ;
@@ -29,17 +29,24 @@ public enum GalaxyQueue implements RabbitQueue {
   private final RabbitExchange exchange;
 
   @Getter
-  private final String routingKey;
-
-  @Getter
   private final List<MessagePriority> supportedPriorities;
 
   @Getter
   private final List<DelayedQueue> supportedDelayedQueues;
 
-  GalaxyQueue(String name, RabbitExchange exchange, String routingKey) {
-    this(name, exchange, routingKey, Collections.singletonList(MessagePriority.NORMAL),
+  GalaxyQueue(String name, RabbitExchange exchange) {
+    this(name, exchange, Collections.singletonList(MessagePriority.NORMAL),
         Collections.emptyList());
+  }
+
+  @Override
+  public String routingKey(MessagePriority priority) {
+    return BrokerUtils.queueName(this, priority);
+  }
+
+  @Override
+  public String routingKey(DelayedQueue delayedQueue) {
+    return BrokerUtils.queueName(this, delayedQueue);
   }
 
   @Override

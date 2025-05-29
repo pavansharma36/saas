@@ -1,9 +1,14 @@
 package io.github.pavansharma36.saas.core.broker.consumer;
 
+import io.github.pavansharma36.core.common.context.providers.MDCContextProvider;
+import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.core.common.listener.AppLoaderListener;
 import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
+import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Enums;
+import io.github.pavansharma36.saas.utils.Utils;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,30 +23,37 @@ public class ConsumerBootstrapProcessor {
 
   public static void startConsumer(String appName, Class<?> appConfig,
                                    Queue... queues) {
-    log.info("Starting consumer for app {} with queues {}", appName, Arrays.asList(queues));
-    CoreUtils.initApp(appName, Enums.AppType.WORKER);
+    try {
+      MDCContextProvider.put(Constants.REQUEST_ID_MDC_KEY, Utils.randomRequestId());
+      RequestInfoContextProvider.getInstance();
+      log.info("Starting consumer for app {} with queues {}", appName, Arrays.asList(queues));
+      CoreUtils.initApp(appName, Enums.AppType.WORKER);
 
-    log.info("Creating application context");
-    AnnotationConfigApplicationContext applicationContext =
-        new AnnotationConfigApplicationContext(appConfig);
-    log.info("Created application context {}", applicationContext);
+      log.info("Creating application context");
+      AnnotationConfigApplicationContext applicationContext =
+          new AnnotationConfigApplicationContext(appConfig);
+      log.info("Created application context {}", applicationContext);
 
-    log.info("Invoking onStart for listeners");
-    Collection<AppLoaderListener> listeners =
-        applicationContext.getBeansOfType(AppLoaderListener.class).values();
-    listeners.forEach(l -> l.onStart(applicationContext));
+      log.info("Invoking onStart for listeners");
+      Collection<AppLoaderListener> listeners =
+          applicationContext.getBeansOfType(AppLoaderListener.class).values();
+      listeners.forEach(l -> l.onStart(applicationContext));
 
-    registerShutdownHook(applicationContext, listeners);
+      registerShutdownHook(applicationContext, listeners);
 
-    Map<String, List<Queue>> queueMap = getTypeQueuesMap(queues);
-    log.info("Queue types for process {}", queueMap.keySet());
+      Map<String, List<Queue>> queueMap = getTypeQueuesMap(queues);
+      log.info("Queue types for process {}", queueMap.keySet());
 
-    log.info("Queue names to process {}", Arrays.stream(queues)
-        .map(q -> q.supportedPriorities().stream().map(q::formatQueueName).toList())
-        .flatMap(List::stream).toList());
+      log.info("Queue names to process {}", Arrays.stream(queues)
+          .map(q -> q.supportedPriorities().stream().map(q::formatQueueName).toList())
+          .flatMap(List::stream).toList());
 
-    ConsumerTemplate consumerTemplate = applicationContext.getBean(ConsumerTemplate.class);
-    consumerTemplate.consume(applicationContext, queueMap);
+      ConsumerTemplate consumerTemplate = applicationContext.getBean(ConsumerTemplate.class);
+      consumerTemplate.consume(applicationContext, queueMap);
+    } finally {
+      log.info("Clearing all context");
+      ThreadLocalContextProviders.clearAll();
+    }
 
   }
 

@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public abstract class MessageDto implements Serializable {
+@ToString
+public class MessageDto implements Serializable {
 
   /**
    * if set message will not be processed if picked from queue after specified time.

@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +50,7 @@ public abstract class AbstractLockService<T extends LockModel> implements LockSe
     model.setLockName(lock.getName());
     model.setProcessUuid(CoreConstants.PROCESS_UUID);
     int i = 0;
-    while (System.currentTimeMillis() < waitTill) {
+    do {
       log.info("Trying to acquire lock {}: {}", i, lock);
       model.setIndex(i);
       model.setExpireAt(new Date(System.currentTimeMillis() + durationMillis));
@@ -66,7 +67,7 @@ public abstract class AbstractLockService<T extends LockModel> implements LockSe
       } else {
         Utils.sleepQuietly(lockIndexTryMillis);
       }
-    }
+    } while (System.currentTimeMillis() < waitTill);
     log.warn("Couldn't acquire lock {}", lock);
     return Optional.empty();
   }
@@ -96,9 +97,10 @@ public abstract class AbstractLockService<T extends LockModel> implements LockSe
 
   @Override
   public boolean releaseLock(CompositeLockInfo lockInfo) {
-    if (!lockInfo.getLockIds().isEmpty()) {
+    Set<String> lockIds = lockInfo.getLockIdMap().keySet();
+    if (!lockIds.isEmpty()) {
       log.info("Releasing locks {}", lockInfo);
-      return lockDao.remove(lockInfo.getLockIds());
+      return lockDao.remove(lockIds);
     }
     log.info("No locks present in composite lock {}", lockInfo);
     return false;

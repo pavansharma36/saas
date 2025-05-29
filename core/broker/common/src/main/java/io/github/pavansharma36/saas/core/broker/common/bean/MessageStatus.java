@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MessageStatus {
   DISPATCHED(false),
-  PRE_PROCESS(false),
   PROCESSING(false),
   SUCCESS(true),
   FAILED(true),

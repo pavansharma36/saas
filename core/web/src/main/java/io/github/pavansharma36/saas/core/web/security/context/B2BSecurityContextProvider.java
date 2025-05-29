@@ -4,8 +4,6 @@ import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.core.common.crypto.CryptUtil;
 import io.github.pavansharma36.core.common.crypto.KeyType;
-import io.github.pavansharma36.core.common.service.TenantService;
-import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.b2b.B2BAuthentication;
 import io.github.pavansharma36.saas.utils.Constants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,16 +15,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Order(200)
-public class B2BSecurityContextProvider extends AbstractSecurityContextProvider
+public class B2BSecurityContextProvider
     implements AppSecurityContextProvider {
 
   private static final String B2B_HEADER_VALUE = Config.get(Constants.B2B_SECRET_CONF);
-
-  public B2BSecurityContextProvider(
-      TenantService tenantService,
-      UserService userService) {
-    super(tenantService, userService);
-  }
 
   @Override
   public Optional<Authentication> authentication(HttpRequestResponseHolder requestResponseHolder) {
@@ -44,7 +36,7 @@ public class B2BSecurityContextProvider extends AbstractSecurityContextProvider
       if (userId != null) {
         RequestInfoContextProvider.getInstance().getOrThrow().setUserId(userId);
       } else {
-        setSystemUserContext();
+        RequestInfoContextProvider.getInstance().getOrThrow().setUserId("system");
       }
 
       return Optional.of(new B2BAuthentication());

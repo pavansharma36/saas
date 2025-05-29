@@ -15,7 +15,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 public class RedisConfig {
 
   @Bean
-  public RedisConnectionFactory connectionFactory() {
+  public RedisConnectionFactory redisConnectionFactory() {
     String host = Config.get("redis.host");
     int port = Config.getInt("redis.port");
 

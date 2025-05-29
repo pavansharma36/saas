@@ -6,16 +6,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQCommonConfiguration {
 
   @Bean
-  public ConnectionFactory connectionFactory() {
+  public ConnectionFactory rabbitMQConnectionFactory() {
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost(Config.get("rabbitmq.host"));
     factory.setPort(Config.getInt("rabbitmq.port", 5672)); // Default port
-    factory.setUsername(Config.get("rabbitmq.username")); // Default user
-    factory.setPassword(Config.get("rabbitmq.password")); // Default password
-    factory.setVirtualHost(Config.get("rabbitmq.vhost", "/")); //
+    factory.setUsername(Config.get("rabbitmq.username"));
+    factory.setPassword(Config.get("rabbitmq.password"));
+    factory.setVirtualHost(Config.get("rabbitmq.vhost", "/")); // Default vhost
+    factory.setAutomaticRecoveryEnabled(true);
     return factory;
   }
 

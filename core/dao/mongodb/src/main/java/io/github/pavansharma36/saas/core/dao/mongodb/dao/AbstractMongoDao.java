@@ -95,4 +95,8 @@ public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<
   protected UpdateResult updateMulti(Query query, Update update) {
     return mongoTemplate().updateMulti(query, update, clazz);
   }
+
+  protected boolean exists(Query query) {
+    return mongoTemplate().exists(query, clazz);
+  }
 }

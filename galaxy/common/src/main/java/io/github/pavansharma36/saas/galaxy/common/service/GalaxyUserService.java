@@ -56,6 +56,14 @@ public class GalaxyUserService implements UserService {
 
   @Override
   public UserDto getUserById(String id) {
+    if ("system".equals(id)) {
+      UserDto dto = new UserDto();
+      dto.setId("system");
+      dto.setFirstName("system");
+      dto.setLastName("system");
+      dto.setEnabled(true);
+      return dto;
+    }
     UserInfo userInfo = userInfoDao.findByIdOrThrow(id);
     UserDto dto = new UserDto();
     dto.setId(userInfo.getId());

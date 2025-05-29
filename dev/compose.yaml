@@ -33,6 +33,7 @@ services:
       - 27017:27017
 
   rabbitmq:
+    container_name: "saas-rabbitmq"
     image: rabbitmq:3-management
     restart: always
     ports:

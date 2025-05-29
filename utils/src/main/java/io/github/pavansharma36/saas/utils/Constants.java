@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 public abstract class Constants {
 
   public static final String REQUEST_ID_MDC_KEY = "rId";
+  public static final String MESSAGE_ID_MDC_KEY = "mId";
+  public static final String MESSAGE_TYPE_MDC_KEY = "mType";
   public static final String ATTEMPT_ID_MDC_KEY = "attemptId";
   public static final String API_MDC_KEY = "api";
   public static final String AUTHORIZATION_TYPE_BEARER = "Bearer";
