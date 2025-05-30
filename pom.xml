@@ -32,7 +32,6 @@
         <feign.version>13.6</feign.version>
         <jakartaee.bom.version>10.0.0</jakartaee.bom.version>
         <hibernate.validator.version>8.0.2.Final</hibernate.validator.version>
-        <apache.http.client.version>5.3.1</apache.http.client.version>
 
         <!-- Database -->
         <hikaricp.version>5.1.0</hikaricp.version>
@@ -51,6 +50,8 @@
         <commons.lang.version>3.14.0</commons.lang.version>
         <commons.text.version>1.12.0</commons.text.version>
         <commons.codec.version>1.16.0</commons.codec.version>
+        <commons.pool2.version>2.12.1</commons.pool2.version>
+        <apache.http.client.version>5.3.1</apache.http.client.version>
 
         <!-- PLUGINS -->
         <mybatis.generator.plugin.version>1.4.2</mybatis.generator.plugin.version>
@@ -137,6 +138,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>${commons.text.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons.pool2.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>

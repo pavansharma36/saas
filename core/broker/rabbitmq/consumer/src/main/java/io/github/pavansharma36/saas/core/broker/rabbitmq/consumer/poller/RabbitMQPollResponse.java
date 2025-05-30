@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer;
+package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller;
 
 import com.rabbitmq.client.GetResponse;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollResponse;

@@ -1,10 +1,9 @@
-package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer;
+package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.GetResponse;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitQueue;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.io.IOException;
 import java.util.Optional;
@@ -39,10 +38,5 @@ public class RabbitMQPollerConsumer implements PollerConsumer<RabbitMQPollRespon
     } catch (IOException e) {
       throw new ServerRuntimeException(e);
     }
-  }
-
-  @Override
-  public String type() {
-    return RabbitQueue.RABBITMQ;
   }
 }

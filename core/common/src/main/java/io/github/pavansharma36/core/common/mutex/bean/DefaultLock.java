@@ -25,7 +25,7 @@ public class DefaultLock implements Lock {
   public static class DefaultLockBuilder {
 
     private Duration duration = Duration.ofSeconds(60L);
-    private Duration acquireTimeout = Duration.ofSeconds(3);
+    private Duration acquireTimeout = Duration.ZERO;
     private LockType type = LockType.EXTENSIBLE;
     private int maxCount = 1;
     private String name;

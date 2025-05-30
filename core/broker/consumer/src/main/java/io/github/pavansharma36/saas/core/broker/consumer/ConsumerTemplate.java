@@ -63,7 +63,8 @@ public class ConsumerTemplate {
   }
 
   private <T extends PollResponse> void poll(Queue queue, PollerConsumer<T> c) {
-    int threadCount = Config.getInt(String.format("%s.poller.thread.count", queue.getName()), 1);
+    int threadCount = Config.getInt(String.format("%s.poller.thread.count", queue.getName()),
+        Config.getInt("poller.thread.count", 1));
     log.info("Starting poller thread for queue {} with thread count {}", queue.getName(),
         threadCount);
     for (int i = 0; i < threadCount; i++) {

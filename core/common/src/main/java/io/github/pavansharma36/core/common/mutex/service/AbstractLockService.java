@@ -11,13 +11,16 @@ import io.github.pavansharma36.core.common.mutex.dao.LockDao;
 import io.github.pavansharma36.core.common.mutex.dao.LockModel;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.utils.Utils;
+import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -97,7 +100,9 @@ public abstract class AbstractLockService<T extends LockModel> implements LockSe
 
   @Override
   public boolean releaseLock(CompositeLockInfo lockInfo) {
-    Set<String> lockIds = lockInfo.getLockIdMap().keySet();
+    Set<String> lockIds = CollectionUtils.nullSafe(lockInfo.getLockIdMap().entrySet())
+        .stream().filter(e -> e.getValue().type() == LockType.EXTENSIBLE)
+        .map(Map.Entry::getKey).collect(Collectors.toSet());
     if (!lockIds.isEmpty()) {
       log.info("Releasing locks {}", lockInfo);
       return lockDao.remove(lockIds);

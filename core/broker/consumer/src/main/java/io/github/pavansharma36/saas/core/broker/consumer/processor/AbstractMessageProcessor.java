@@ -81,7 +81,7 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
 
       if (messageInfo.getStatus() != MessageStatus.DISPATCHED && !messageInfo.isIdempotent()) {
         log.warn("Message processing was started and its not idempotent {}", payload);
-        throw new ServerRuntimeException("Message status is not dispatcher and is not idempotent");
+        throw new ServerRuntimeException("Message status is not dispatched and is not idempotent");
       }
 
       if (messageInfoDao.anyPreviousNonCompletedMessage(messageInfo)) {

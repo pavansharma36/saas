@@ -4,14 +4,12 @@ import org.springframework.context.ApplicationContext;
 
 public interface ConsumerLifeCycle {
 
-  String type();
-
   default void preStart(ApplicationContext context) {
 
   }
 
   default void postStart(ApplicationContext context) {
-    
+
   }
 
 }
