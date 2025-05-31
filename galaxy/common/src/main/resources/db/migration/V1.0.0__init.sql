@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS config (
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_by VARCHAR(64) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE(classifier, classifier_value, config_name)
 );
 
 CREATE INDEX IF NOT EXISTS config_classifier_idx ON config (classifier, classifier_value);

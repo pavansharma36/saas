@@ -6,8 +6,6 @@ import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.CommonRabbitExchange;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitExchange;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitQueue;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +15,9 @@ import lombok.experimental.Accessors;
 @RequiredArgsConstructor
 public enum GalaxyQueue implements RabbitQueue {
 
-  DEFAULT(GalaxyQueueInfo.DEFAULT.getName(), CommonRabbitExchange.DEFAULT,
-      Arrays.asList(MessagePriority.HIGH, MessagePriority.NORMAL, MessagePriority.LOW),
-      Collections.emptyList()),
+  GALAXY("galaxy", CommonRabbitExchange.DEFAULT,
+      List.of(MessagePriority.NORMAL),
+      List.of(DelayedQueue.ONE_MINUTE)),
   ;
 
 
@@ -33,11 +31,6 @@ public enum GalaxyQueue implements RabbitQueue {
 
   @Getter
   private final List<DelayedQueue> supportedDelayedQueues;
-
-  GalaxyQueue(String name, RabbitExchange exchange) {
-    this(name, exchange, Collections.singletonList(MessagePriority.NORMAL),
-        Collections.emptyList());
-  }
 
   @Override
   public String routingKey(MessagePriority priority) {

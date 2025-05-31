@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.galaxy.common.dto.mapper;
 
+import io.github.pavansharma36.saas.core.dto.common.ConfigValueDto;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Config;
 import io.github.pavansharma36.saas.galaxy.dto.config.ConfigDto;
-import io.github.pavansharma36.saas.galaxy.dto.config.ConfigValueDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

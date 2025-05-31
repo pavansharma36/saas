@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.galaxy.dto.config;
+package io.github.pavansharma36.saas.core.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

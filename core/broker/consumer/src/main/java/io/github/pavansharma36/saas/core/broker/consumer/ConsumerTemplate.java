@@ -57,9 +57,15 @@ public class ConsumerTemplate {
 
   private <L extends ListenResponse, P extends PollResponse> void listen(Queue queue,
                                                                          ConsumerFactory<L, P> c) {
-    ListenExecutor<L> executor =
-        new ListenExecutor<>(queue, c.createListenerConsumer(), getMessageHandler(queue));
-    executor.start();
+    int threadCount = Config.getInt(String.format("%s.listener.thread.count", queue.getName()),
+        Config.getInt("listener.thread.count", 1));
+    log.info("Starting listener thread for queue {} with thread count {}", queue.getName(),
+        threadCount);
+    for (int i = 0; i < threadCount; i++) {
+      ListenExecutor<L> executor =
+          new ListenExecutor<>(queue, c.createListenerConsumer(), getMessageHandler(queue));
+      executor.start();
+    }
   }
 
   private <L extends ListenResponse, P extends PollResponse> void poll(Queue queue,

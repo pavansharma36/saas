@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum GalaxyMessageType implements MessageType {
 
-  TENANT_CREATED("galaxy-tenant-create", GalaxyQueue.DEFAULT);
+  TENANT_CREATED("galaxy-tenant-create", GalaxyQueue.GALAXY);
 
   private final String name;
   private final GalaxyQueue queue;

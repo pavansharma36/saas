@@ -5,6 +5,7 @@ import io.github.pavansharma36.core.common.context.providers.RequestInfoContextP
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.core.common.listener.AppLoaderListener;
 import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.core.common.utils.ShutdownHooks;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Enums;
@@ -60,10 +61,10 @@ public class ConsumerBootstrapProcessor {
   private static void registerShutdownHook(AnnotationConfigApplicationContext context,
                                            Collection<AppLoaderListener> listeners) {
     log.info("Registering app shutdown hook");
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+    ShutdownHooks.registerShutdownHook(Integer.MAX_VALUE - 10, () -> {
       listeners.forEach(l -> l.onStop(context));
       context.close();
-    }));
+    });
   }
 
   private static Map<String, List<Queue>> getTypeQueuesMap(Queue... queues) {

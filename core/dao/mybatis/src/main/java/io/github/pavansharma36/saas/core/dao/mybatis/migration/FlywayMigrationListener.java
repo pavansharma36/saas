@@ -9,7 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(200)
+@Order(50)
 public class FlywayMigrationListener implements AppLoaderListener {
 
   @Override

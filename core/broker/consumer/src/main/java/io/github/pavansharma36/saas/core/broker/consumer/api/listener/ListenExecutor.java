@@ -47,6 +47,10 @@ public class ListenExecutor<T extends ListenResponse> extends Thread {
                 runningQueues.get(queueName));
             listenConsumer.stop(runningQueues.get(queueName));
             runningQueues.remove(queueName);
+          } else if (runningQueues.isEmpty()) {
+            logEmitter.info("Not processing any message since queue is blocked");
+          } else {
+            logEmitter.info("Not processing any message on queue {} since its blocked", queueName);
           }
         } else if (!runningQueues.containsKey(queueName)) {
           log.info("Starting listener for queue {}", queueName);

@@ -54,6 +54,8 @@ public class PollExecutor<T extends PollResponse> extends Thread {
           } catch (Exception e) {
             log.error("Error while processing {}", e.getMessage(), e);
           }
+        } else {
+          logEmitter.info("Not processing any message on queue {} since its blocked", queueName);
         }
       }
 

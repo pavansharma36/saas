@@ -17,6 +17,7 @@ public class RabbitMQChannelPool extends BasePooledObjectFactory<Channel> {
   @Override
   public Channel create() throws Exception {
     Channel channel = connection.createChannel();
+    channel.confirmSelect();
     channel.addReturnListener(
         (code, message, exchange, routingKey, basicProperties, bytes) -> log.error(
             "Message was returned : code:{}, text:{} exchange: {}, routingKey: {}", code,

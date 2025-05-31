@@ -44,9 +44,9 @@ public class TenantApiImpl implements TenantApi {
         .messageType(GalaxyMessageType.TEST)
         .messageDto(new MessageDto())
         .trackWithDatabase(true)
-        .lockOnProcess(true)
+        .lockOnProcess(false)
         .build();
-    messageSender.send(GalaxyQueue.DEFAULT, m);
+    messageSender.send(GalaxyQueue.GALAXY, m);
     return ResponseObject.empty();
   }
 }
