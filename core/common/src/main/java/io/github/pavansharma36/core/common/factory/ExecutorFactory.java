@@ -1,6 +1,7 @@
 package io.github.pavansharma36.core.common.factory;
 
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.utils.ShutdownHooks;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.List;
@@ -74,8 +75,7 @@ public abstract class ExecutorFactory {
 
   private static void registerShutdownHook(ExecutorService executorService,
                                            long awaitSeconds) {
-
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+    ShutdownHooks.registerShutdownHook(Integer.MAX_VALUE, () -> {
       executorService.shutdown();
       try {
         boolean s = executorService.awaitTermination(awaitSeconds, TimeUnit.SECONDS);
@@ -90,7 +90,7 @@ public abstract class ExecutorFactory {
         Thread.currentThread().interrupt();
         throw new ServerRuntimeException(e);
       }
-    }));
+    });
   }
 
 }

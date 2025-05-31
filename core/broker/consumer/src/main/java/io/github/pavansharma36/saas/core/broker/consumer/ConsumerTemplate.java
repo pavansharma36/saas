@@ -10,11 +10,9 @@ import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenExecutor;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenResponse;
-import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.ConsumerFactory;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollExecutor;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollResponse;
-import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.MessageProcessor;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessInstruction;
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
@@ -57,18 +55,22 @@ public class ConsumerTemplate {
             .collect(Collectors.toMap(m -> m.messageType().getName(), m -> m));
   }
 
-  private <T extends ListenResponse> void listen(Queue queue, ListenerConsumer<T> c) {
-    ListenExecutor<T> executor = new ListenExecutor<>(queue, c, getMessageHandler(queue));
+  private <L extends ListenResponse, P extends PollResponse> void listen(Queue queue,
+                                                                         ConsumerFactory<L, P> c) {
+    ListenExecutor<L> executor =
+        new ListenExecutor<>(queue, c.createListenerConsumer(), getMessageHandler(queue));
     executor.start();
   }
 
-  private <T extends PollResponse> void poll(Queue queue, PollerConsumer<T> c) {
+  private <L extends ListenResponse, P extends PollResponse> void poll(Queue queue,
+                                                                       ConsumerFactory<L, P> c) {
     int threadCount = Config.getInt(String.format("%s.poller.thread.count", queue.getName()),
         Config.getInt("poller.thread.count", 1));
     log.info("Starting poller thread for queue {} with thread count {}", queue.getName(),
         threadCount);
     for (int i = 0; i < threadCount; i++) {
-      PollExecutor<T> executor = new PollExecutor<>(queue, c, getMessageHandler(queue));
+      PollExecutor<P> executor =
+          new PollExecutor<>(queue, c.createPollerConsumer(), getMessageHandler(queue));
       executor.start();
     }
   }
@@ -88,19 +90,15 @@ public class ConsumerTemplate {
                         typeQueues.getKey())));
 
         boolean usePollerForQueue =
-            Config.getBoolean(String.format("%s.queue.poller.enabled", queue.getName()),
+            Config.getBoolean(String.format("%s.queue.consumerFactor.enabled", queue.getName()),
                 usePollerForType);
 
         if (usePollerForQueue) {
-          log.info("Using poller for queue {}:{}", typeQueues.getKey(), queue.getName());
-
-          PollerConsumer<?> poller = consumerFactory.createPollerConsumer(queue);
-          poll(queue, poller);
+          log.info("Using consumerFactor for queue {}:{}", typeQueues.getKey(), queue.getName());
+          poll(queue, consumerFactory);
         } else {
           log.info("Using listener for queue {}:{}", typeQueues.getKey(), queue.getName());
-
-          ListenerConsumer<?> listener = consumerFactory.createListenerConsumer(queue);
-          listen(queue, listener);
+          listen(queue, consumerFactory);
         }
       }
     }
@@ -125,11 +123,6 @@ public class ConsumerTemplate {
         MDCContextProvider.put(Constants.MESSAGE_TYPE_MDC_KEY, payload.getMessageType());
         log.info("Successfully deserialized payload: {}", payload);
 
-        Date expireAt = payload.getMessageDto().getExpireAt();
-        if (expireAt != null && System.currentTimeMillis() > expireAt.getTime()) {
-          log.warn("Message already expired, skipping execution {}", payload);
-          return;
-        }
         log.info("Setting all context from payload.");
         ThreadLocalContextProviders.set(payload.getContextMap());
         log.info("Done setting all context from payload");
@@ -139,15 +132,11 @@ public class ConsumerTemplate {
                 () -> new ServerRuntimeException(
                     "Message processor not found : " + payload.getMessageType()));
         log.info("Found message processor {}", processor.getClass());
-        if (BrokerUtils.isQueueBlocked(queue, payload.getPriority(), logEmitter)) {
-          redispatch(queue, payload);
-        }
-        ProcessInstruction instruction = processor.canProcess(payload);
+
+        ProcessInstruction instruction = processor.canProcess(queue, payload);
 
         switch (instruction.getInstruction()) {
-          case SKIP -> {
-            log.warn("Message instruction was to skip {}", payload);
-          }
+          case SKIP -> log.warn("Message instruction was to skip {}", payload);
           case PROCESS -> {
             log.info("Instruction was to process message, starting to process");
             processor.process(instruction, payload.getMessageDto());
@@ -157,10 +146,9 @@ public class ConsumerTemplate {
             log.warn("Cannot process {} at the moment, redispatching", payload);
             redispatch(queue, payload);
           }
-          default -> {
-            log.error("Unsupported instruction for message {}: {}", instruction.getInstruction(),
-                payload);
-          }
+          default ->
+              log.error("Unsupported instruction for message {}: {}", instruction.getInstruction(),
+                  payload);
         }
       } catch (Exception e) {
         log.error("Error while processing message {}: {}", e.getMessage(), payload, e);

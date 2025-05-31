@@ -6,6 +6,7 @@ import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.AbstractMessageProcessor;
 import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyMessageType;
+import io.github.pavansharma36.saas.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Component;
@@ -22,9 +23,9 @@ public class TestMessageProcessor extends AbstractMessageProcessor<MessageDto> {
   @Override
   protected void processImpl(MessageDto messageDto) {
     log.info("Processing message {}", messageDto);
-    int sleep = RandomUtils.nextInt(60, 600);
-//    log.warn("Sleeping for {} seconds", sleep);
-//    Utils.sleepSecondsQuietly(sleep);
+    int sleep = RandomUtils.nextInt(10, 100);
+    log.warn("Sleeping for {} millis", sleep);
+    Utils.sleepQuietly(sleep);
   }
 
   @Override

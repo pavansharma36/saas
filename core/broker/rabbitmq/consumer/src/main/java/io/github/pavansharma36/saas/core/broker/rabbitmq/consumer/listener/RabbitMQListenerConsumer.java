@@ -5,6 +5,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.utils.Utils;
@@ -18,6 +19,7 @@ public class RabbitMQListenerConsumer implements ListenerConsumer<RabbitMQListen
 
   public RabbitMQListenerConsumer(Connection connection) throws IOException {
     this.channel = connection.createChannel();
+    channel.basicQos(Config.getInt("rabbitmq.listen.prefetch.count", 1));
   }
 
   @Override

@@ -4,12 +4,15 @@ import io.github.pavansharma36.core.common.mutex.bean.CompositeLockInfo;
 import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
 import io.github.pavansharma36.core.common.mutex.bean.Lock;
 import io.github.pavansharma36.core.common.mutex.service.LockService;
+import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.saas.utils.poll.AlwaysLogEmitter;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
@@ -65,9 +68,17 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
   }
 
   @Override
-  public ProcessInstruction canProcess(MessageSerializablePayload payload) throws IOException {
-    List<Lock> requiredLocks = new LinkedList<>(requiredLocks());
+  public ProcessInstruction canProcess(Queue queue, MessageSerializablePayload payload)
+      throws IOException {
     MessageInfo messageInfo = null;
+    if (BrokerUtils.isQueueBlocked(queue, payload.getPriority(),
+        AlwaysLogEmitter.getInstance(log))) {
+      return new ProcessInstruction(ProcessInstruction.Instruction.DELAY, messageInfo,
+          CompositeLockInfo.build(lockService), payload);
+    }
+    List<Lock> requiredLocks = new LinkedList<>(requiredLocks());
+    boolean expired = payload.getMessageDto().getExpireAt() != null &&
+        System.currentTimeMillis() > payload.getMessageDto().getExpireAt().getTime();
     if (payload.getMessageId() != null) {
       messageInfo = messageInfoDao.findByIdOrThrow(payload.getMessageId());
       messageInfo.setLastPickedAt(new Date());
@@ -75,6 +86,12 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
 
       if (messageInfo.getStatus().isFinal()) {
         log.warn("Message status is already in final state ignoring message {}", messageInfo);
+        return new ProcessInstruction(ProcessInstruction.Instruction.SKIP, messageInfo,
+            CompositeLockInfo.build(lockService), payload);
+      }
+
+      if (expired) {
+        complete(messageInfo, MessageStatus.EXPIRED, null);
         return new ProcessInstruction(ProcessInstruction.Instruction.SKIP, messageInfo,
             CompositeLockInfo.build(lockService), payload);
       }
@@ -98,6 +115,11 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
                 .build()
         );
       }
+    }
+    if (expired) {
+      log.warn("Message already expired, skipping execution {}", payload);
+      return new ProcessInstruction(ProcessInstruction.Instruction.SKIP, messageInfo,
+          CompositeLockInfo.build(lockService), payload);
     }
     Optional<CompositeLockInfo> lock = lockService.acquireLock(requiredLocks);
     if (lock.isPresent()) {

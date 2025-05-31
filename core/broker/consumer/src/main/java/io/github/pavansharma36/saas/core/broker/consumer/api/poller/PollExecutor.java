@@ -39,16 +39,20 @@ public class PollExecutor<T extends PollResponse> extends Thread {
         boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
         if (!blocked) {
           log.debug("Polling queue for any new message: {}", queueName);
-          Optional<T> pollRes = pollerConsumer.poll(queueName);
-          if (pollRes.isPresent()) {
-            try {
-              target.accept(pollRes.get().getBody());
-            } finally {
-              pollerConsumer.ack(pollRes.get());
-            }
+          try {
+            Optional<T> pollRes = pollerConsumer.poll(queueName);
+            if (pollRes.isPresent()) {
+              try {
+                target.accept(pollRes.get().getBody());
+              } finally {
+                pollerConsumer.ack(pollRes.get());
+              }
 
-            result = true;
-            break;
+              result = true;
+              break;
+            }
+          } catch (Exception e) {
+            log.error("Error while processing {}", e.getMessage(), e);
           }
         }
       }

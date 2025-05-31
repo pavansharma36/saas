@@ -1,16 +1,17 @@
 package io.github.pavansharma36.saas.core.broker.rabbitmq.producer;
 
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import io.github.pavansharma36.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.core.common.utils.ShutdownHooks;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitQueue;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
-import jakarta.annotation.PreDestroy;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +27,20 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
 
   public RabbitMQProducerTemplate(ConnectionFactory connectionFactory)
       throws IOException, TimeoutException {
+    Connection connection = connectionFactory.newConnection(ExecutorFactory.executorService(),
+        String.format("%s-%s-%s",
+            CoreConstants.APP_NAME, CoreConstants.APP_TYPE.getName().toLowerCase(),
+            CoreConstants.PROCESS_UUID));
     this.channelPool =
-        new GenericObjectPool<>(new RabbitMQChannelPool(
-            connectionFactory.newConnection(ExecutorFactory.executorService(),
-                String.format("%s-%s-%s",
-                    CoreConstants.APP_NAME, CoreConstants.APP_TYPE.getName().toLowerCase(),
-                    CoreConstants.PROCESS_UUID))));
+        new GenericObjectPool<>(new RabbitMQChannelPool(connection));
+    ShutdownHooks.registerShutdownHook(1000, this.channelPool::close);
+    ShutdownHooks.registerShutdownHook(1100, () -> {
+      try {
+        connection.close();
+      } catch (IOException e) {
+        throw new ServerRuntimeException(e);
+      }
+    });
   }
 
   @Override
@@ -71,10 +80,5 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
   @Override
   public String type() {
     return RabbitQueue.RABBITMQ;
-  }
-
-  @PreDestroy
-  public void stop() throws IOException, TimeoutException {
-    channelPool.close();
   }
 }
