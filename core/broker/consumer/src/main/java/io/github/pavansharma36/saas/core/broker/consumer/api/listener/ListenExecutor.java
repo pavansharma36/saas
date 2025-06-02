@@ -9,8 +9,6 @@ import io.github.pavansharma36.saas.utils.poll.FixedDelayedLogEmitter;
 import io.github.pavansharma36.saas.utils.poll.FixedPollDelayGenerator;
 import io.github.pavansharma36.saas.utils.poll.PollDelayGenerator;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,17 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ListenExecutor<T extends ListenResponse> extends Thread {
 
   private final Queue queue;
+  private final MessagePriority messagePriority;
   private final ListenerConsumer<T> listenConsumer;
   private final Consumer<byte[]> target;
 
-  private final Map<String, T> runningQueues;
-
-  public ListenExecutor(Queue queue, ListenerConsumer<T> listenConsumer, Consumer<byte[]> target) {
+  public ListenExecutor(Queue queue, MessagePriority messagePriority,
+                        ListenerConsumer<T> listenConsumer,
+                        Consumer<byte[]> target) {
     this.queue = queue;
+    this.messagePriority = messagePriority;
     this.listenConsumer = listenConsumer;
     this.target = target;
-
-    this.runningQueues = new HashMap<>(queue.supportedPriorities().size());
   }
 
 
@@ -37,27 +35,27 @@ public class ListenExecutor<T extends ListenResponse> extends Thread {
     final PollDelayGenerator blockCheckDelayGenerator = new FixedPollDelayGenerator(
         Duration.ofSeconds(Config.getInt("listen.blocked.check.delay.seconds", 10)).toMillis());
     final DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30), log);
+    T listener = null;
     while (!Thread.currentThread().isInterrupted()) {
-      for (MessagePriority messagePriority : queue.supportedPriorities()) {
-        String queueName = BrokerUtils.queueName(queue, messagePriority);
-        boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
+      String queueName = BrokerUtils.queueName(queue, messagePriority);
+      boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
+      try {
         if (blocked) {
-          if (runningQueues.containsKey(queueName)) {
+          if (listener != null) {
             log.info("Stopping execution of running queue {}: {}", queueName,
-                runningQueues.get(queueName));
-            listenConsumer.stop(runningQueues.get(queueName));
-            runningQueues.remove(queueName);
-          } else if (runningQueues.isEmpty()) {
-            logEmitter.info("Not processing any message since queue is blocked");
+                listener);
+            listenConsumer.stop(listener);
+            listener = null;
           } else {
             logEmitter.info("Not processing any message on queue {} since its blocked", queueName);
           }
-        } else if (!runningQueues.containsKey(queueName)) {
+        } else if (listener == null) {
           log.info("Starting listener for queue {}", queueName);
-          T res = listenConsumer.listen(
+          listener = listenConsumer.listen(
               String.format("%s%s", queue.getName(), messagePriority.queueNameSuffix()), target);
-          runningQueues.put(queueName, res);
         }
+      } catch (Exception e) {
+        log.error("Error in ListenExecutor run {}", e.getMessage(), e);
       }
 
       blockCheckDelayGenerator.delay();

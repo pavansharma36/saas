@@ -33,8 +33,9 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
             CoreConstants.PROCESS_UUID));
     this.channelPool =
         new GenericObjectPool<>(new RabbitMQChannelPool(connection));
-    ShutdownHooks.registerShutdownHook(1000, this.channelPool::close);
-    ShutdownHooks.registerShutdownHook(1100, () -> {
+    ShutdownHooks.registerShutdownHook(1000, "Stop RabbitMQ Consumer Channel Pool",
+        this.channelPool::close);
+    ShutdownHooks.registerShutdownHook(1100, "Disconnect RabbitMQ Consumer Connection", () -> {
       try {
         connection.close();
       } catch (IOException e) {

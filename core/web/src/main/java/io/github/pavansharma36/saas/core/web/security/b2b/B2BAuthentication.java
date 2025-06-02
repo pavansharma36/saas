@@ -20,7 +20,7 @@ public class B2BAuthentication extends AbstractAuthenticationToken {
     super(Stream.concat(delegation.getAuthorities().stream(), Stream.of(new B2BGrantedAuthority()))
         .toList());
     this.delegation = delegation;
-    setAuthenticated(true);
+    setAuthenticated(delegation.isAuthenticated());
   }
 
   @Override

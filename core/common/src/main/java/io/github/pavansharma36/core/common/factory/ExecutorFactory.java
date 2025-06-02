@@ -75,7 +75,7 @@ public abstract class ExecutorFactory {
 
   private static void registerShutdownHook(ExecutorService executorService,
                                            long awaitSeconds) {
-    ShutdownHooks.registerShutdownHook(Integer.MAX_VALUE, () -> {
+    ShutdownHooks.registerShutdownHook(Integer.MAX_VALUE, "StopExecutors", () -> {
       executorService.shutdown();
       try {
         boolean s = executorService.awaitTermination(awaitSeconds, TimeUnit.SECONDS);

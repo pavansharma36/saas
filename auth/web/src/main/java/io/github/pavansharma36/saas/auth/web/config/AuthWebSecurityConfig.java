@@ -18,8 +18,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.NullRememberMeServices;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -31,11 +29,6 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-  }
-
-  @Bean
-  public RememberMeServices rememberMeServices() {
-    return new NullRememberMeServices();
   }
 
   @Bean
@@ -67,7 +60,6 @@ public class AuthWebSecurityConfig extends WebSecurityConfig {
     http.addFilterBefore(
         new RestAuthenticationProcessingFilter(
             authenticationManager(authenticationProvider(passwordEncoder(), userDetailsService())),
-            null, rememberMeServices()),
-        UsernamePasswordAuthenticationFilter.class);
+            null), UsernamePasswordAuthenticationFilter.class);
   }
 }

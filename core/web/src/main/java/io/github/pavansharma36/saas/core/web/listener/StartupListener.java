@@ -2,6 +2,9 @@ package io.github.pavansharma36.saas.core.web.listener;
 
 import io.github.pavansharma36.core.common.listener.AppLoaderListener;
 import jakarta.servlet.ServletContextEvent;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.ContextLoaderListener;
@@ -34,7 +37,9 @@ public class StartupListener extends ContextLoaderListener {
     log.info("[Context Destroyed] {}:{}", event.getServletContext(), context);
     Map<String, AppLoaderListener> listeners =
         context.getBeansOfType(AppLoaderListener.class);
-    listeners.values().forEach(l -> {
+    List<AppLoaderListener> lv = new LinkedList<>(listeners.values());
+    Collections.reverse(lv);
+    lv.forEach(l -> {
       log.info("Invoking on stop on {}", l.getClass());
       l.onStop(context);
     });

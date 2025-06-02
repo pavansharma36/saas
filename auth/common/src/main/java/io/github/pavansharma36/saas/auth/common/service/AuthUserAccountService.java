@@ -8,7 +8,9 @@ import io.github.pavansharma36.saas.auth.common.utils.AuthErrorCode;
 import io.github.pavansharma36.saas.auth.dto.UserAccountDetailsDto;
 import io.github.pavansharma36.saas.core.dto.common.UserAccountDto;
 import io.github.pavansharma36.saas.utils.Utils;
+import java.time.Duration;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +41,8 @@ public class AuthUserAccountService implements UserAccountService<UserAccountDet
     userAccount.setAccountNonLocked(true);
 
     userAccount.setPassword(passwordEncoder.encode(Utils.randomRequestId()));
-    userAccount.setCredentialsNonExpired(false);
+    userAccount.setCredentialsExpireAt(
+        new Date(System.currentTimeMillis() + Duration.ofDays(365).toMillis()));
     UserAccount account = userAccountDao.insert(userAccount);
 
     userAccountDto.setId(account.getId());

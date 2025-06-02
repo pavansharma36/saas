@@ -11,18 +11,14 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.RememberMeServices;
 
 public class LogInSuccessHandler implements AuthenticationSuccessHandler {
 
   private final UserSessionDao userSessionDaoService;
-  private final RememberMeServices rememberMeServices;
 
   public LogInSuccessHandler(
-      final UserSessionDao userSessionDaoService,
-      final RememberMeServices rememberMeServices) {
+      final UserSessionDao userSessionDaoService) {
     this.userSessionDaoService = userSessionDaoService;
-    this.rememberMeServices = rememberMeServices;
   }
 
   @Override
@@ -39,7 +35,6 @@ public class LogInSuccessHandler implements AuthenticationSuccessHandler {
 
     JwtSecurityContextProvider.addNewAuthToken(response, account);
     response.setContentType("application/json");
-    rememberMeServices.loginSuccess(request, response, authentication);
     response.getWriter().write(JsonUtils.mapper().writeValueAsString(ResponseObject.empty()));
   }
 

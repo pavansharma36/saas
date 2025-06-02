@@ -24,7 +24,8 @@ public class RabbitMQListenerConsumer implements ListenerConsumer<RabbitMQListen
 
   @Override
   public RabbitMQListenResponse listen(String queueName, Consumer<byte[]> consumer) {
-    String consumerTag = String.format("%s-%s", CoreConstants.APP_NAME, Utils.randomRequestId());
+    String consumerTag = String.format("%s-%s-%s", CoreConstants.APP_NAME, CoreConstants.APP_TYPE,
+        Utils.randomRequestId());
     DefaultConsumer c = new DefaultConsumer(channel) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope,

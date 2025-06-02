@@ -1,5 +1,6 @@
 package io.github.pavansharma36.core.common.context;
 
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,9 @@ public class RequestInfo {
 
   private String tenantId;
   private String userId;
+  private Set<String> roles;
+
+  private transient String responseJwt;
 
   public boolean isRetry() {
     return retryAttempt > 0;

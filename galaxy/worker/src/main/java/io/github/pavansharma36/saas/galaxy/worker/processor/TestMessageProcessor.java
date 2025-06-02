@@ -41,9 +41,10 @@ public class TestMessageProcessor extends AbstractMessageProcessor<MessageDto> {
   @Override
   protected List<Lock> requiredLocks() {
     return List.of(DefaultLock.builder()
-        .type(LockType.FIXED)
-        .name("test-message-process")
+        .type(LockType.EXTENSIBLE)
+        .name("test-message-process" + Utils.randomRequestId())
         .duration(Duration.ofMinutes(3L))
-        .build());
+        .build()
+    );
   }
 }

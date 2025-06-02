@@ -46,9 +46,8 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
     if (expiry.getTime() < (System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1))) {
       log.info("JWT is about to expire, generating new");
 
-      holder.getResponse().setHeader(Constants.Header.AUTHORIZATION_HEADER,
-          String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER,
-              jwtService.generate(payload)));
+      RequestInfoContextProvider.getInstance().getOrThrow()
+          .setResponseJwt(jwtService.generate(payload));
     }
   }
 
@@ -72,12 +71,16 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
     if (jwtDetails != null) {
       Authentication authentication = new UsernamePasswordAuthenticationToken(
           (AuthenticatedPrincipal) jwtDetails::getUsername,
-          null, jwtDetails.getPayload().getRoles().stream()
+          null, jwtDetails.getPayload().getAuthorities().stream()
           .map(r -> (GrantedAuthority) () -> r).collect(Collectors.toSet()));
-      // addNewAuthTokenIfRequired(requestResponseHolder, jwtDetails);
 
-      RequestInfoContextProvider.getInstance().getOrThrow()
-          .setUserId(jwtDetails.getPayload().getUserId());
+      addNewAuthTokenIfRequired(requestResponseHolder, jwtDetails);
+
+      RequestInfoContextProvider.getInstance().get().ifPresent(r -> {
+        r.setUserId(jwtDetails.getPayload().getUserId());
+        r.setRoles(jwtDetails.getPayload().getAuthorities());
+      });
+      
       return Optional.of(authentication);
     }
     return Optional.empty();

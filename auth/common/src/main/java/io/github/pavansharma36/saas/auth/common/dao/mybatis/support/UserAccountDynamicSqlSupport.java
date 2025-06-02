@@ -23,10 +23,13 @@ public final class UserAccountDynamicSqlSupport {
     public static final SqlColumn<Boolean> accountNonExpired = userAccount.accountNonExpired;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Boolean> credentialsNonExpired = userAccount.credentialsNonExpired;
+    public static final SqlColumn<Boolean> accountNonLocked = userAccount.accountNonLocked;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Boolean> accountNonLocked = userAccount.accountNonLocked;
+    public static final SqlColumn<Boolean> admin = userAccount.admin;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public static final SqlColumn<Date> credentialsExpireAt = userAccount.credentialsExpireAt;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> createdBy = userAccount.createdBy;
@@ -53,9 +56,11 @@ public final class UserAccountDynamicSqlSupport {
 
         public final SqlColumn<Boolean> accountNonExpired = column("account_non_expired", JDBCType.BIT);
 
-        public final SqlColumn<Boolean> credentialsNonExpired = column("credentials_non_expired", JDBCType.BIT);
-
         public final SqlColumn<Boolean> accountNonLocked = column("account_non_locked", JDBCType.BIT);
+
+        public final SqlColumn<Boolean> admin = column("admin", JDBCType.BIT);
+
+        public final SqlColumn<Date> credentialsExpireAt = column("credentials_expire_at", JDBCType.TIMESTAMP);
 
         public final SqlColumn<String> createdBy = column("created_by", JDBCType.VARCHAR);
 

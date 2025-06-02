@@ -2,6 +2,7 @@ package io.github.pavansharma36.saas.auth.common.dao.mybatis.model;
 
 import io.github.pavansharma36.saas.core.dao.mybatis.model.MyBatisModel;
 import jakarta.annotation.Generated;
+import java.util.Date;
 
 public class UserAccount extends MyBatisModel {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -14,10 +15,13 @@ public class UserAccount extends MyBatisModel {
     private boolean accountNonExpired;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private boolean credentialsNonExpired;
+    private boolean accountNonLocked;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private boolean accountNonLocked;
+    private boolean admin;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    private Date credentialsExpireAt;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String attemptId;
@@ -53,16 +57,6 @@ public class UserAccount extends MyBatisModel {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public boolean isAccountNonLocked() {
         return accountNonLocked;
     }
@@ -70,6 +64,26 @@ public class UserAccount extends MyBatisModel {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setAccountNonLocked(boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public Date getCredentialsExpireAt() {
+        return credentialsExpireAt;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setCredentialsExpireAt(Date credentialsExpireAt) {
+        this.credentialsExpireAt = credentialsExpireAt;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

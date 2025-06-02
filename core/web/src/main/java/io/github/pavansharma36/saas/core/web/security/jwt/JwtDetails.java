@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security.jwt;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +20,6 @@ public class JwtDetails {
   public static class JwtPayload {
     private String userId;
     private String tenantId;
-    private List<String> roles;
+    private Set<String> authorities;
   }
 }

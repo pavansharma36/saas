@@ -42,5 +42,9 @@ public class B2BRequestInterceptor implements RequestInterceptor {
         .ifPresent(
             tenantId -> requestTemplate.header(Constants.Header.TENANT_ID_HEADER, tenantId));
 
+    RequestInfoContextProvider.getInstance().get().map(RequestInfo::getRoles)
+        .map(roles -> String.join(",", roles))
+        .ifPresent(r -> requestTemplate.header(Constants.Header.TENANT_ID_HEADER, r));
+
   }
 }

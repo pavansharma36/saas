@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.annotation.web.configurers.RememberMeConfigurer;
 import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,6 +52,7 @@ public class WebSecurityConfig {
         ).logout(LogoutConfigurer::permitAll)
         .csrf(CsrfConfigurer::disable)
         .logout(AbstractHttpConfigurer::disable)
+        .rememberMe(RememberMeConfigurer::disable)
         .sessionManagement(SessionManagementConfigurer::disable)
         .anonymous(AnonymousConfigurer::disable)
         .requestCache(RequestCacheConfigurer::disable)

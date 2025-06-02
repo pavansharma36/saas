@@ -1,0 +1,28 @@
+{
+  "navItems": [
+    {
+      "id": "profile",
+      "uri": "my-profile",
+      "label": "My Profile",
+      "icon": "fa fa-profile",
+      "parentId": null,
+      "requiredScopes": [
+        {
+          "resource": "profile",
+          "actions": [
+            "VIEW"
+          ]
+        }
+      ],
+      "scopes": [
+        {
+          "resource": "profile",
+          "actions": [
+            "VIEW",
+            "EDIT"
+          ]
+        }
+      ]
+    }
+  ]
+}

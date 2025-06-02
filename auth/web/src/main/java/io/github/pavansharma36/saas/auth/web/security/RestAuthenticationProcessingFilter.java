@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 public class RestAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
@@ -21,12 +20,11 @@ public class RestAuthenticationProcessingFilter extends AbstractAuthenticationPr
   private final ObjectMapper mapper = JsonUtils.mapper();
 
   public RestAuthenticationProcessingFilter(AuthenticationManager authenticationManager,
-                                            UserSessionDao userSessionDao,
-                                            RememberMeServices rememberMeServices) {
+                                            UserSessionDao userSessionDao) {
     super(new AntPathRequestMatcher("/api/login", "POST"));
     setAuthenticationManager(authenticationManager);
     setAuthenticationSuccessHandler(
-        new LogInSuccessHandler(userSessionDao, rememberMeServices));
+        new LogInSuccessHandler(userSessionDao));
     setAuthenticationFailureHandler(new LogInFailureHandler());
   }
 

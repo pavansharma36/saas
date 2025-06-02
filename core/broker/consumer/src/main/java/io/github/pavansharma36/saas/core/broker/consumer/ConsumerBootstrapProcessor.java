@@ -61,8 +61,10 @@ public class ConsumerBootstrapProcessor {
   private static void registerShutdownHook(AnnotationConfigApplicationContext context,
                                            Collection<AppLoaderListener> listeners) {
     log.info("Registering app shutdown hook");
-    ShutdownHooks.registerShutdownHook(Integer.MAX_VALUE - 10, () -> {
+    ShutdownHooks.registerShutdownHook(Integer.MAX_VALUE - 10, "StopApplicationContext", () -> {
+      log.info("Invoking stop on all AppLoaderListener");
       listeners.forEach(l -> l.onStop(context));
+      log.warn("Closing application context");
       context.close();
     });
   }

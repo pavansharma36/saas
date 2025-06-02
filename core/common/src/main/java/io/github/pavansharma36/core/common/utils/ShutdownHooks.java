@@ -17,7 +17,7 @@ public class ShutdownHooks {
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
       HOOKS.forEach(h -> {
         try {
-          log.info("Running shutdown hook {}", h);
+          log.info("Running shutdown hook: {}", h.getName());
           h.getRunnable().run();
         } catch (Exception e) {
           log.error("Error while running shutdown hook {}", e.getMessage(), e);
@@ -26,14 +26,15 @@ public class ShutdownHooks {
     }));
   }
 
-  public static void registerShutdownHook(int order, Runnable runnable) {
-    HOOKS.add(new ShutdownHookInfo(order, runnable));
+  public static void registerShutdownHook(int order, String name, Runnable runnable) {
+    HOOKS.add(new ShutdownHookInfo(order, name, runnable));
   }
 
   @Getter
   @RequiredArgsConstructor
   private static class ShutdownHookInfo {
     private final int order;
+    private final String name;
     private final Runnable runnable;
   }
 

@@ -12,6 +12,7 @@ import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyQueue;
 import io.github.pavansharma36.saas.galaxy.common.service.GalaxyTenantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,9 +39,17 @@ public class TenantApiImpl implements TenantApi {
   }
 
   @PostMapping("dispatch")
-  public ResponseObject<Object> dispatch() {
+  public ResponseObject<Object> dispatch(@RequestParam("p") int p) {
+    MessagePriority priority;
+    if (p > 0) {
+      priority = MessagePriority.HIGH;
+    } else if (p == 0) {
+      priority = MessagePriority.NORMAL;
+    } else {
+      priority = MessagePriority.LOW;
+    }
     Message m = Message.builder()
-        .priority(MessagePriority.NORMAL)
+        .priority(priority)
         .messageType(GalaxyMessageType.TEST)
         .messageDto(new MessageDto())
         .trackWithDatabase(true)

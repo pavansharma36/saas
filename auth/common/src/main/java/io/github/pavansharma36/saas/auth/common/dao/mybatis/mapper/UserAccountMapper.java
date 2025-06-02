@@ -2,10 +2,11 @@ package io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper;
 
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.accountNonExpired;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.accountNonLocked;
+import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.admin;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.attemptId;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.createdAt;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.createdBy;
-import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.credentialsNonExpired;
+import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.credentialsExpireAt;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.id;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.password;
 import static io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport.updatedAt;
@@ -47,8 +48,8 @@ public interface UserAccountMapper
     CommonInsertMapper<UserAccount>, CommonUpdateMapper {
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
   BasicColumn[] selectList =
-      BasicColumn.columnList(id, username, password, accountNonExpired, credentialsNonExpired,
-          accountNonLocked, createdBy, createdAt, updatedBy, updatedAt, attemptId);
+      BasicColumn.columnList(id, username, password, accountNonExpired, accountNonLocked, admin,
+          credentialsExpireAt, createdBy, createdAt, updatedBy, updatedAt, attemptId);
 
   @Generated("org.mybatis.generator.api.MyBatisGenerator")
   static UpdateDSL<UpdateModel> updateAllColumns(UserAccount row, UpdateDSL<UpdateModel> dsl) {
@@ -56,8 +57,9 @@ public interface UserAccountMapper
         .set(username).equalTo(row::getUsername)
         .set(password).equalTo(row::getPassword)
         .set(accountNonExpired).equalTo(row::isAccountNonExpired)
-        .set(credentialsNonExpired).equalTo(row::isCredentialsNonExpired)
         .set(accountNonLocked).equalTo(row::isAccountNonLocked)
+        .set(admin).equalTo(row::isAdmin)
+        .set(credentialsExpireAt).equalTo(row::getCredentialsExpireAt)
         .set(createdBy).equalTo(row::getCreatedBy)
         .set(createdAt).equalTo(row::getCreatedAt)
         .set(updatedBy).equalTo(row::getUpdatedBy)
@@ -72,8 +74,9 @@ public interface UserAccountMapper
         .set(username).equalToWhenPresent(row::getUsername)
         .set(password).equalToWhenPresent(row::getPassword)
         .set(accountNonExpired).equalToWhenPresent(row::isAccountNonExpired)
-        .set(credentialsNonExpired).equalToWhenPresent(row::isCredentialsNonExpired)
         .set(accountNonLocked).equalToWhenPresent(row::isAccountNonLocked)
+        .set(admin).equalToWhenPresent(row::isAdmin)
+        .set(credentialsExpireAt).equalToWhenPresent(row::getCredentialsExpireAt)
         .set(createdBy).equalToWhenPresent(row::getCreatedBy)
         .set(createdAt).equalToWhenPresent(row::getCreatedAt)
         .set(updatedBy).equalToWhenPresent(row::getUpdatedBy)
@@ -88,8 +91,9 @@ public interface UserAccountMapper
       @Result(column = "username", property = "username", jdbcType = JdbcType.VARCHAR),
       @Result(column = "password", property = "password", jdbcType = JdbcType.VARCHAR),
       @Result(column = "account_non_expired", property = "accountNonExpired", jdbcType = JdbcType.BIT),
-      @Result(column = "credentials_non_expired", property = "credentialsNonExpired", jdbcType = JdbcType.BIT),
       @Result(column = "account_non_locked", property = "accountNonLocked", jdbcType = JdbcType.BIT),
+      @Result(column = "admin", property = "admin", jdbcType = JdbcType.BIT),
+      @Result(column = "credentials_expire_at", property = "credentialsExpireAt", jdbcType = JdbcType.TIMESTAMP),
       @Result(column = "created_by", property = "createdBy", jdbcType = JdbcType.VARCHAR),
       @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
       @Result(column = "updated_by", property = "updatedBy", jdbcType = JdbcType.VARCHAR),
@@ -127,8 +131,9 @@ public interface UserAccountMapper
             .map(username).toProperty("username")
             .map(password).toProperty("password")
             .map(accountNonExpired).toProperty("accountNonExpired")
-            .map(credentialsNonExpired).toProperty("credentialsNonExpired")
             .map(accountNonLocked).toProperty("accountNonLocked")
+            .map(admin).toProperty("admin")
+            .map(credentialsExpireAt).toProperty("credentialsExpireAt")
             .map(createdBy).toProperty("createdBy")
             .map(createdAt).toProperty("createdAt")
             .map(updatedBy).toProperty("updatedBy")
@@ -144,8 +149,9 @@ public interface UserAccountMapper
             .map(username).toProperty("username")
             .map(password).toProperty("password")
             .map(accountNonExpired).toProperty("accountNonExpired")
-            .map(credentialsNonExpired).toProperty("credentialsNonExpired")
             .map(accountNonLocked).toProperty("accountNonLocked")
+            .map(admin).toProperty("admin")
+            .map(credentialsExpireAt).toProperty("credentialsExpireAt")
             .map(createdBy).toProperty("createdBy")
             .map(createdAt).toProperty("createdAt")
             .map(updatedBy).toProperty("updatedBy")
@@ -162,10 +168,11 @@ public interface UserAccountMapper
             .map(password).toPropertyWhenPresent("password", row::getPassword)
             .map(accountNonExpired)
             .toPropertyWhenPresent("accountNonExpired", row::isAccountNonExpired)
-            .map(credentialsNonExpired)
-            .toPropertyWhenPresent("credentialsNonExpired", row::isCredentialsNonExpired)
             .map(accountNonLocked)
             .toPropertyWhenPresent("accountNonLocked", row::isAccountNonLocked)
+            .map(admin).toPropertyWhenPresent("admin", row::isAdmin)
+            .map(credentialsExpireAt)
+            .toPropertyWhenPresent("credentialsExpireAt", row::getCredentialsExpireAt)
             .map(createdBy).toPropertyWhenPresent("createdBy", row::getCreatedBy)
             .map(createdAt).toPropertyWhenPresent("createdAt", row::getCreatedAt)
             .map(updatedBy).toPropertyWhenPresent("updatedBy", row::getUpdatedBy)
@@ -207,8 +214,9 @@ public interface UserAccountMapper
         c.set(username).equalTo(row::getUsername)
             .set(password).equalTo(row::getPassword)
             .set(accountNonExpired).equalTo(row::isAccountNonExpired)
-            .set(credentialsNonExpired).equalTo(row::isCredentialsNonExpired)
             .set(accountNonLocked).equalTo(row::isAccountNonLocked)
+            .set(admin).equalTo(row::isAdmin)
+            .set(credentialsExpireAt).equalTo(row::getCredentialsExpireAt)
             .set(createdBy).equalTo(row::getCreatedBy)
             .set(createdAt).equalTo(row::getCreatedAt)
             .set(updatedBy).equalTo(row::getUpdatedBy)
@@ -224,8 +232,9 @@ public interface UserAccountMapper
         c.set(username).equalToWhenPresent(row::getUsername)
             .set(password).equalToWhenPresent(row::getPassword)
             .set(accountNonExpired).equalToWhenPresent(row::isAccountNonExpired)
-            .set(credentialsNonExpired).equalToWhenPresent(row::isCredentialsNonExpired)
             .set(accountNonLocked).equalToWhenPresent(row::isAccountNonLocked)
+            .set(admin).equalToWhenPresent(row::isAdmin)
+            .set(credentialsExpireAt).equalToWhenPresent(row::getCredentialsExpireAt)
             .set(createdBy).equalToWhenPresent(row::getCreatedBy)
             .set(createdAt).equalToWhenPresent(row::getCreatedAt)
             .set(updatedBy).equalToWhenPresent(row::getUpdatedBy)

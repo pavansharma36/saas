@@ -30,7 +30,7 @@ public class RabbitMQConsumerFactory
         connectionFactory.newConnection(ExecutorFactory.executorService(), String.format("%s-%s-%s",
             CoreConstants.APP_NAME, CoreConstants.APP_TYPE.getName().toLowerCase(),
             CoreConstants.PROCESS_UUID));
-    ShutdownHooks.registerShutdownHook(1100, () -> {
+    ShutdownHooks.registerShutdownHook(1100, "Disconnect RabbitMQ Consumer Connection", () -> {
       try {
         connection.close();
       } catch (IOException e) {

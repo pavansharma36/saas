@@ -6,6 +6,7 @@ import io.github.pavansharma36.core.common.context.providers.MDCContextProvider;
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
+import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenExecutor;
@@ -19,9 +20,6 @@ import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
-import io.github.pavansharma36.saas.utils.poll.DelayedLogEmitter;
-import io.github.pavansharma36.saas.utils.poll.FixedDelayedLogEmitter;
-import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -62,9 +60,12 @@ public class ConsumerTemplate {
     log.info("Starting listener thread for queue {} with thread count {}", queue.getName(),
         threadCount);
     for (int i = 0; i < threadCount; i++) {
-      ListenExecutor<L> executor =
-          new ListenExecutor<>(queue, c.createListenerConsumer(), getMessageHandler(queue));
-      executor.start();
+      for (MessagePriority priority : queue.supportedPriorities()) {
+        ListenExecutor<L> executor =
+            new ListenExecutor<>(queue, priority, c.createListenerConsumer(),
+                getMessageHandler(queue));
+        executor.start();
+      }
     }
   }
 
@@ -111,7 +112,6 @@ public class ConsumerTemplate {
   }
 
   private Consumer<byte[]> getMessageHandler(Queue queue) {
-    DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30L), log);
     return data -> {
       log.info("Received message on queue {}", queue);
       MessageSerializablePayload payload;
