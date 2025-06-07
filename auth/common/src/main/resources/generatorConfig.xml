@@ -34,12 +34,13 @@
                       value="io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper"/>
         </javaClientGenerator>
 
-        <table tableName="user_account">
+        <table tableName="resource_config">
             <property name="modelType" value="flat"/>
-            <!--            <columnOverride column="enabled" javaType="boolean"/>-->
-            <columnOverride column="account_non_expired" javaType="boolean"/>
-            <columnOverride column="admin" javaType="boolean"/>
-            <columnOverride column="account_non_locked" javaType="boolean"/>
+            <columnOverride column="supported_actions" javaType="java.util.List&lt;java.lang.String&gt;"
+                            typeHandler="io.github.pavansharma36.saas.core.dao.mybatis.type.StringListTypeHandler"/>
+            <!--            <columnOverride column="account_non_expired" javaType="boolean"/>-->
+            <!--            <columnOverride column="admin" javaType="boolean"/>-->
+            <!--            <columnOverride column="account_non_locked" javaType="boolean"/>-->
         </table>
 
     </context>

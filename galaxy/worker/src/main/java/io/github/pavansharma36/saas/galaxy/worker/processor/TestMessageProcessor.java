@@ -5,9 +5,9 @@ import io.github.pavansharma36.core.common.mutex.bean.Lock;
 import io.github.pavansharma36.core.common.mutex.bean.LockType;
 import io.github.pavansharma36.core.common.mutex.service.LockService;
 import io.github.pavansharma36.saas.core.broker.common.api.MessageType;
-import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.AbstractMessageProcessor;
+import io.github.pavansharma36.saas.galaxy.common.TestMessageDto;
 import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyMessageType;
 import io.github.pavansharma36.saas.utils.Utils;
 import java.time.Duration;
@@ -18,15 +18,15 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class TestMessageProcessor extends AbstractMessageProcessor<MessageDto> {
+public class TestMessageProcessor extends AbstractMessageProcessor<TestMessageDto> {
 
   public TestMessageProcessor(MessageInfoDao messageInfoDao,
                               LockService lockService) {
-    super(MessageDto.class, messageInfoDao, lockService);
+    super(TestMessageDto.class, messageInfoDao, lockService);
   }
 
   @Override
-  protected void processImpl(MessageDto messageDto) {
+  protected void processImpl(TestMessageDto messageDto) {
     log.info("Processing message {}", messageDto);
     int sleep = RandomUtils.nextInt(10, 100);
     log.warn("Sleeping for {} millis", sleep);

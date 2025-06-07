@@ -5,13 +5,14 @@ import io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper.UserAccountMa
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserAccountDynamicSqlSupport;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
-import io.github.pavansharma36.saas.core.dao.mybatis.dao.AbstractMyBatisDao;
+import io.github.pavansharma36.saas.core.dao.mybatis.dao.AbstractRetryingInsertDao;
 import java.util.Optional;
 import org.mybatis.dynamic.sql.SqlBuilder;
+import org.mybatis.dynamic.sql.SqlColumn;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserAccountDao extends AbstractMyBatisDao<UserAccount, UserAccountMapper>
+public class UserAccountDao extends AbstractRetryingInsertDao<UserAccount, UserAccountMapper>
     implements Dao<UserAccount> {
 
   protected UserAccountDao(UserAccountMapper mapper) {
@@ -23,4 +24,8 @@ public class UserAccountDao extends AbstractMyBatisDao<UserAccount, UserAccountM
         q -> q.where(UserAccountDynamicSqlSupport.username, SqlBuilder.isEqualTo(userName)));
   }
 
+  @Override
+  protected SqlColumn<String> getAttemptIdColumn() {
+    return UserAccountDynamicSqlSupport.attemptId;
+  }
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({CoreCommonConfiguration.class, GalaxyClientConfig.class, RedisConfig.class})
-@ComponentScan("io.github.pavansharma36.saas.auth.common")
+@ComponentScan({"io.github.pavansharma36.auth.api", "io.github.pavansharma36.saas.auth.common"})
 public class AuthCommonConfiguration {
 
 }

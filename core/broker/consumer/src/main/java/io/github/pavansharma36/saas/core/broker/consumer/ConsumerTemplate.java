@@ -181,7 +181,7 @@ public class ConsumerTemplate {
 
     Optional.ofNullable(producerTemplateMap.get(queue.type())).orElseThrow(() ->
             new ServerRuntimeException("ProducerTemplate required for : " + queue.getName()))
-        .produce(queue, nextQueue, BrokerUtils.serialize(payload));
+        .produce(queue, nextQueue, payload, BrokerUtils::serialize);
     log.info("Successfully redispatched message");
   }
 

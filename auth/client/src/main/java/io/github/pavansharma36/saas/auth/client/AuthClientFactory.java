@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.auth.client;
 
+import io.github.pavansharma36.auth.api.SelfApi;
 import io.github.pavansharma36.auth.api.UserAccountApi;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.saas.core.client.feign.B2BClientBuilder;
@@ -14,5 +15,9 @@ public abstract class AuthClientFactory {
 
   public static UserAccountApi userAccountApi() {
     return B2BClientBuilder.build(UserAccountApi.class, AUTH_API_URL);
+  }
+
+  public static SelfApi selfApi() {
+    return B2BClientBuilder.build(SelfApi.class, AUTH_API_URL);
   }
 }

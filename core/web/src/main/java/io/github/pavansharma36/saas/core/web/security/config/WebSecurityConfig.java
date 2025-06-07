@@ -25,7 +25,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, proxyTargetClass = true)
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
 @ComponentScan("io.github.pavansharma36.saas.core.web.security")
 public class WebSecurityConfig {
 
