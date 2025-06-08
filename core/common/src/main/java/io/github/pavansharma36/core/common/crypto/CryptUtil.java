@@ -1,7 +1,6 @@
 package io.github.pavansharma36.core.common.crypto;
 
 import io.github.pavansharma36.core.common.config.Config;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.resource.ResourceUtils;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +32,7 @@ public abstract class CryptUtil {
       keys = new CryptKeys(in, keystorePassword, KEYSTORE_TYPE);
       manager = new CryptManager(keys);
     } catch (IOException e) {
-      throw new ServerRuntimeException(e);
+      throw new CryptException(e.getMessage(), e);
     }
   }
 

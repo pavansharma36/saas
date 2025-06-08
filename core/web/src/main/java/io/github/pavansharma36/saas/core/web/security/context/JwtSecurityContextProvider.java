@@ -1,10 +1,10 @@
 package io.github.pavansharma36.saas.core.web.security.context;
 
 import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtDetails;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtService;
 import io.github.pavansharma36.saas.utils.Constants;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticatedPrincipal;
@@ -34,7 +35,7 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
 
   public static void addNewAuthToken(HttpServletResponse response, UserDetails userDetails) {
     response.setHeader(Constants.Header.AUTHORIZATION_HEADER,
-        String.format("%s %s", Constants.AUTHORIZATION_TYPE_BEARER,
+        CoreUtils.authorizationHeader(Constants.AUTHORIZATION_TYPE_BEARER,
             jwtService.generate(RequestInfoContextProvider.getInstance().getOrThrow().getUserId(),
                 RequestInfoContextProvider.getInstance().getOrThrow().getTenantId(),
                 userDetails)));
@@ -59,15 +60,8 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
       return Optional.empty();
     }
 
-    String[] tokens = auth.split(" ");
-    if (tokens.length != 2) {
-      throw new ServerRuntimeException("Authorization must contain <TokenType/TokenValue>");
-    }
-    String jwt = null;
-    if (tokens[0].equals(Constants.AUTHORIZATION_TYPE_BEARER)) {
-      jwt = tokens[1];
-    }
-    JwtDetails jwtDetails = jwtService.parse(jwt);
+    Pair<String, String> authorization = CoreUtils.parseAuthorizationHeader(auth);
+    JwtDetails jwtDetails = jwtService.parse(authorization.getRight());
     if (jwtDetails != null) {
       Authentication authentication = new UsernamePasswordAuthenticationToken(
           (AuthenticatedPrincipal) jwtDetails::getUsername,
@@ -80,7 +74,7 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
         r.setUserId(jwtDetails.getPayload().getUserId());
         r.setRoles(jwtDetails.getPayload().getAuthorities());
       });
-      
+
       return Optional.of(authentication);
     }
     return Optional.empty();

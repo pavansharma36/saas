@@ -3,9 +3,11 @@ package io.github.pavansharma36.saas.utils.collections;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -44,6 +46,17 @@ public abstract class CollectionUtils {
       return mutable ? new LinkedList<>() : Collections.emptyList();
     }
     return list;
+  }
+
+  public static <T> Set<T> nullSafeSet(Set<T> set) {
+    return nullSafeSet(set, false);
+  }
+
+  public static <T> Set<T> nullSafeSet(Set<T> set, boolean mutable) {
+    if (set == null) {
+      return mutable ? new HashSet<>() : Collections.emptySet();
+    }
+    return set;
   }
 
   public static <K, V> Map<K, V> nullSafeMap(Map<K, V> map) {

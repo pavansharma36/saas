@@ -34,8 +34,10 @@ public class AppUserDetailsService implements UserDetailsService {
       UserDto userDto = userService.getUserById(ua.getId());
 
       UserContextProvider.getInstance().set(userDto);
-      RequestInfoContextProvider.getInstance().getOrThrow().setUserId(userDto.getId());
-      RequestInfoContextProvider.getInstance().getOrThrow().setTenantId(userDto.getTenantId());
+      RequestInfoContextProvider.getInstance().get().ifPresent(r -> {
+        r.setUserId(userDto.getId());
+        r.setTenantId(userDto.getTenantId());
+      });
 
       return new User(ua.getUsername(), ua.getPassword(), userDto.isEnabled(),
           ua.isAccountNonExpired(),

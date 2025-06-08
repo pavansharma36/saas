@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.auth.dto.utils;
+package io.github.pavansharma36.core.common.utils;
 
 public class AuthSharedConstants {
 
