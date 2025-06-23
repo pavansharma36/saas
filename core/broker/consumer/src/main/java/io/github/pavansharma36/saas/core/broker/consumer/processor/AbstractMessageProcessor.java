@@ -30,6 +30,7 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
   private final Class<T> clazz;
   private final MessageInfoDao messageInfoDao;
   private final LockService lockService;
+  private final AlwaysLogEmitter alwaysLogEmitter = AlwaysLogEmitter.getInstance(log);
 
   protected abstract void processImpl(T messageDto);
 
@@ -71,8 +72,8 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
   public ProcessInstruction canProcess(Queue queue, MessageSerializablePayload payload)
       throws IOException {
     MessageInfo messageInfo = null;
-    if (BrokerUtils.isQueueBlocked(queue, payload.getPriority(),
-        AlwaysLogEmitter.getInstance(log))) {
+    if (BrokerUtils.isQueueBlocked(queue, payload.getPriority(), alwaysLogEmitter)
+        || BrokerUtils.isMessageTypeBlocked(payload.getMessageType(), log)) {
       return new ProcessInstruction(ProcessInstruction.Instruction.DELAY, messageInfo,
           CompositeLockInfo.build(lockService), payload);
     }

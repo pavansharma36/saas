@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class BrokerUtils {
@@ -52,6 +53,14 @@ public abstract class BrokerUtils {
       }
     }
 
+    return false;
+  }
+
+  public static boolean isMessageTypeBlocked(String messageType, Logger log) {
+    if (Config.getBoolean(String.format("%s.message.block.all", messageType), false)) {
+      log.info("MessageType is blocked, not processing now");
+      return true;
+    }
     return false;
   }
 

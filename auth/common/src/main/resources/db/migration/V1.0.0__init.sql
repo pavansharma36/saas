@@ -39,10 +39,9 @@ CREATE TABLE IF NOT EXISTS user_group (
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_by VARCHAR(64) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE (tenant_id, name)
 );
-
-CREATE INDEX IF NOT EXISTS user_group_tenant_id_idx ON user_group (tenant_id);
 
 CREATE TABLE IF NOT EXISTS user_group_resources (
     id VARCHAR(32) NOT NULL,
@@ -63,7 +62,6 @@ CREATE TABLE IF NOT EXISTS user_group_map (
     user_group_id VARCHAR(32) NOT NULL REFERENCES user_group(id),
     created_by VARCHAR(64) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE(user_id, user_group_id)
 );
-
-CREATE INDEX IF NOT EXISTS user_group_map_user_id_idx ON user_group_map (user_id);

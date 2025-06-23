@@ -2,6 +2,7 @@
   "navItems": [
     {
       "id": "profile",
+      "description": "User profile page.",
       "uri": "my-profile",
       "label": "My Profile",
       "icon": "fa fa-profile",
@@ -19,8 +20,20 @@
         {
           "resource": "profile",
           "actions": [
-            "VIEW",
-            "EDIT"
+            {
+              "action": "VIEW"
+            },
+            {
+              "action": "EDIT",
+              "requiredScopes": [
+                {
+                  "resource": "profile",
+                  "actions": [
+                    "VIEW"
+                  ]
+                }
+              ]
+            }
           ]
         }
       ]
