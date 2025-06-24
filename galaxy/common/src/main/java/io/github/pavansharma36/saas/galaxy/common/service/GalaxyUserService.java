@@ -5,6 +5,8 @@ import io.github.pavansharma36.core.common.context.UserContext;
 import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.service.UserService;
+import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.auth.client.AuthClientFactory;
 import io.github.pavansharma36.saas.core.dto.common.CreateUserDto;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
@@ -14,8 +16,10 @@ import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao.UserInfoDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.UserInfo;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GalaxyUserService implements UserService {
@@ -55,12 +59,18 @@ public class GalaxyUserService implements UserService {
   }
 
   @Override
+  public UserDto getCurrentUser() {
+    return getUserById(CoreUtils.getUserIdOrThrow());
+  }
+
+  @Override
   public UserDto getUserById(String id) {
-    if ("system".equals(id)) {
+    log.info("Get user : {}", id);
+    if (CoreConstants.SYSTEM_USER_ID.equals(id)) {
       UserDto dto = new UserDto();
-      dto.setId("system");
-      dto.setFirstName("system");
-      dto.setLastName("system");
+      dto.setId(CoreConstants.SYSTEM_USER_ID);
+      dto.setFirstName(CoreConstants.SYSTEM_USER_ID);
+      dto.setLastName(CoreConstants.SYSTEM_USER_ID);
       dto.setEnabled(true);
       return dto;
     }
@@ -72,7 +82,6 @@ public class GalaxyUserService implements UserService {
     dto.setEnabled(userInfo.isEnabled());
     return dto;
   }
-
 
   @PostConstruct
   public void postConstruct() {

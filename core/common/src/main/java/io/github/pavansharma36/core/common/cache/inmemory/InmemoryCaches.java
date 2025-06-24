@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common.cache;
+package io.github.pavansharma36.core.common.cache.inmemory;
 
 import io.github.pavansharma36.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;

@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.auth.common.dao;
+package io.github.pavansharma36.saas.auth.common.dao.mybatis.dao;
 
 import io.github.pavansharma36.core.common.id.utils.IdGeneratorUtils;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper.UserAccountMapper;

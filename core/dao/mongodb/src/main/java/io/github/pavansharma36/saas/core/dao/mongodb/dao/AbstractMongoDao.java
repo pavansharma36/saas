@@ -27,14 +27,14 @@ public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<
       model.setCreatedAt(new Date());
     }
     if (model.getCreatedBy() == null) {
-      model.setCreatedBy(CoreUtils.getUserId());
+      model.setCreatedBy(CoreUtils.getUserIdOrThrow());
     }
     if (model instanceof UpdatableModel m) {
       if (m.getUpdatedAt() == null) {
         m.setUpdatedAt(new Date());
       }
       if (m.getUpdatedBy() == null) {
-        m.setUpdatedBy(CoreUtils.getUserId());
+        m.setUpdatedBy(CoreUtils.getUserIdOrThrow());
       }
     }
   }
@@ -50,7 +50,7 @@ public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<
   protected void preUpdate(T model) {
     if (model instanceof UpdatableModel m) {
       m.setUpdatedAt(new Date());
-      m.setUpdatedBy(CoreUtils.getUserId());
+      m.setUpdatedBy(CoreUtils.getUserIdOrThrow());
     } else {
       throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
     }

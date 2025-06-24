@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common.cache;
+package io.github.pavansharma36.core.common.cache.inmemory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

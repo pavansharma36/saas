@@ -1,4 +1,4 @@
-package io.github.pavansharma36.core.common.cache;
+package io.github.pavansharma36.core.common.cache.inmemory;
 
 public interface InmemoryCache {
 

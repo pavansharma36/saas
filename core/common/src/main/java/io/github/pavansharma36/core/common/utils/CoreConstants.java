@@ -15,5 +15,8 @@ public abstract class CoreConstants {
 
   public static final String PUBSUB_IMPL_CONF = "pubsub.impl";
   public static final String MUTEX_IMPL_CONF = "mutex.impl";
+  public static final String CACHE_IMPL_CONF = "cache.impl";
+
+  public static final String SYSTEM_USER_ID = "system";
 
 }

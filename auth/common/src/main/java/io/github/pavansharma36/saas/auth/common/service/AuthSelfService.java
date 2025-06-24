@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.auth.common.service;
 
 import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.saas.auth.common.dao.UserGroupMapDao;
-import io.github.pavansharma36.saas.auth.common.dao.UserGroupResourcesDao;
+import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserGroupMapDao;
+import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserGroupResourcesDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserGroupMap;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserGroupResources;
 import io.github.pavansharma36.saas.auth.dto.authorization.UserAccessDto;

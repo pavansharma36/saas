@@ -30,6 +30,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.github.pavansharma36.saas.core.dao</groupId>
+            <artifactId>mongodb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.github.pavansharma36.saas.galaxy</groupId>
             <artifactId>client</artifactId>
             <version>${project.version}</version>

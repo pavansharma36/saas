@@ -15,8 +15,13 @@ public class ApiUserService implements UserService {
   private final UserApi userApi = GalaxyClientFactory.userApi();
 
   @Override
+  public UserDto getCurrentUser() {
+    return userApi.getCurrentUser().getData();
+  }
+
+  @Override
   public UserDto getUserById(String id) {
-    return userApi.getUser(id).getData();
+    return userApi.getUserById(id).getData();
   }
 
   @PostConstruct

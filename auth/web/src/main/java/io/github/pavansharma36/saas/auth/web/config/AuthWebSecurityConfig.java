@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.auth.web.config;
 
 import io.github.pavansharma36.core.common.service.UserService;
-import io.github.pavansharma36.saas.auth.common.dao.UserAccountDao;
+import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.web.security.AppUserDetailsService;
 import io.github.pavansharma36.saas.auth.web.security.RestAuthenticationProcessingFilter;
 import io.github.pavansharma36.saas.core.web.security.config.WebSecurityConfig;

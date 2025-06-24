@@ -15,6 +15,9 @@ public enum CoreErrorCode implements ErrorCode {
   OBJECT_VALIDATION_ERROR(4002),
   INVALID_AUTHORIZATION_HEADER(4003),
   FIELD_VALIDATION_ERROR(4004),
+
+  TENANT_NOT_FOUND(5000),
+  USER_CONTEXT_NOT_SET(5001),
   ;
 
   private final int index;

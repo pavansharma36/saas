@@ -3,7 +3,7 @@ package io.github.pavansharma36.saas.auth.web.security;
 import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
 import io.github.pavansharma36.core.common.service.UserService;
-import io.github.pavansharma36.saas.auth.common.dao.UserAccountDao;
+import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.utils.Role;
 import io.github.pavansharma36.saas.core.dto.common.UserDto;
@@ -31,11 +31,13 @@ public class AppUserDetailsService implements UserDetailsService {
     Optional<UserAccount> oua = userAccountDao.userAccount(username);
     if (oua.isPresent()) {
       UserAccount ua = oua.get();
-      UserDto userDto = userService.getUserById(ua.getId());
 
+      RequestInfoContextProvider.getInstance().get().ifPresent(r -> {
+        r.setUserId(ua.getId());
+      });
+      UserDto userDto = userService.getCurrentUser();
       UserContextProvider.getInstance().set(userDto);
       RequestInfoContextProvider.getInstance().get().ifPresent(r -> {
-        r.setUserId(userDto.getId());
         r.setTenantId(userDto.getTenantId());
       });
 

@@ -15,8 +15,10 @@ public interface UserApi {
   @PostMapping
   ResponseObject<UserDto> createUser(@RequestBody CreateUserDto userDto);
 
+  @GetMapping("me")
+  ResponseObject<UserDto> getCurrentUser();
+
   @GetMapping("{id}")
-  ResponseObject<UserDto> getUser(
-      @PathVariable(name = "id") String id);
+  ResponseObject<UserDto> getUserById(@PathVariable String id);
 
 }

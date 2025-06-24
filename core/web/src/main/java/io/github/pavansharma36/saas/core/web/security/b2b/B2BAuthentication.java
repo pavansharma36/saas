@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.core.web.security.b2b;
 
+import io.github.pavansharma36.core.common.utils.CoreConstants;
 import java.util.Collections;
 import java.util.stream.Stream;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -33,6 +34,6 @@ public class B2BAuthentication extends AbstractAuthenticationToken {
     if (delegation != null) {
       return delegation.getPrincipal();
     }
-    return (AuthenticatedPrincipal) () -> "System";
+    return (AuthenticatedPrincipal) () -> CoreConstants.SYSTEM_USER_ID;
   }
 }

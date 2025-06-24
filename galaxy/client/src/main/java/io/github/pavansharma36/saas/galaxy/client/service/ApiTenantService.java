@@ -1,10 +1,11 @@
 package io.github.pavansharma36.saas.galaxy.client.service;
 
-import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
-import io.github.pavansharma36.core.common.cache.InmemoryCache;
+import io.github.pavansharma36.core.common.cache.inmemory.AbstractInMemoryCache;
+import io.github.pavansharma36.core.common.cache.inmemory.InmemoryCache;
 import io.github.pavansharma36.core.common.context.TenantContext;
 import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.service.TenantService;
+import io.github.pavansharma36.core.common.validation.CoreErrorCode;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;
@@ -26,7 +27,7 @@ public class ApiTenantService extends AbstractInMemoryCache<TenantDto>
     }
     tenantDto = tenantApi.getTenant(id).getData();
     if (tenantDto == null) {
-      throw new ServerRuntimeException("Tenant not found");
+      throw new ServerRuntimeException(CoreErrorCode.TENANT_NOT_FOUND.message());
     }
     CACHE.put(id, tenantDto);
     return tenantDto;

@@ -43,6 +43,18 @@ CREATE TABLE IF NOT EXISTS user_group (
     UNIQUE (tenant_id, name)
 );
 
+CREATE TABLE IF NOT EXISTS user_group_nav_items (
+    id VARCHAR(32) NOT NULL,
+    user_group_id VARCHAR(32) NOT NULL REFERENCES user_group(id),
+    nav_item_name VARCHAR(127) NOT NULL,
+    created_by VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_by VARCHAR(64) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE(user_group_id, nav_item_name)
+)
+
 CREATE TABLE IF NOT EXISTS user_group_resources (
     id VARCHAR(32) NOT NULL,
     user_group_id VARCHAR(32) NOT NULL REFERENCES user_group(id),

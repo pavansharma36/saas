@@ -2,7 +2,7 @@ package io.github.pavansharma36.saas.auth.common.service;
 
 import io.github.pavansharma36.core.common.service.UserAccountService;
 import io.github.pavansharma36.core.common.validation.ValidationException;
-import io.github.pavansharma36.saas.auth.common.dao.UserAccountDao;
+import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.utils.AuthErrorCode;
 import io.github.pavansharma36.saas.auth.dto.UserAccountDetailsDto;

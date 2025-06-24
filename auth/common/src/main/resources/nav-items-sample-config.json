@@ -1,42 +1,37 @@
-{
-  "navItems": [
-    {
-      "id": "profile",
-      "description": "User profile page.",
-      "uri": "my-profile",
-      "label": "My Profile",
-      "icon": "fa fa-profile",
-      "parentId": null,
-      "required": true,
-      "requiredScopes": [
-        {
-          "resource": "profile",
-          "actions": [
-            "VIEW"
-          ]
-        }
-      ],
-      "scopes": [
-        {
-          "resource": "profile",
-          "actions": [
-            {
-              "action": "VIEW"
-            },
-            {
-              "action": "EDIT",
-              "requiredScopes": [
-                {
-                  "resource": "profile",
-                  "actions": [
-                    "VIEW"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "profile",
+    "description": "User profile page.",
+    "uri": "my-profile",
+    "label": "My Profile",
+    "icon": "fa fa-profile",
+    "order": 0,
+    "parent": null,
+    "wrapper": false,
+    "required": true,
+    "scopes": [
+      {
+        "resource": "profile",
+        "actions": [
+          {
+            "action": "VIEW",
+            "required": true
+          },
+          {
+            "action": "EDIT",
+            "requiredScopes": [
+              {
+                "resource": "profile",
+                "actions": [
+                  {
+                    "action": "VIEW"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,7 +1,7 @@
 package io.github.pavansharma36.core.common.config.provider;
 
-import io.github.pavansharma36.core.common.cache.InmemoryCache;
-import io.github.pavansharma36.core.common.cache.InmemoryCaches;
+import io.github.pavansharma36.core.common.cache.inmemory.InmemoryCache;
+import io.github.pavansharma36.core.common.cache.inmemory.InmemoryCaches;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.service.ConfigService;
 import io.github.pavansharma36.saas.core.dto.common.ConfigValueDto;

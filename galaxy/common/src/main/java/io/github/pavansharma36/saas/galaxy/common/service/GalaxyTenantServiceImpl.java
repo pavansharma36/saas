@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
-import io.github.pavansharma36.core.common.cache.AbstractInMemoryCache;
+import io.github.pavansharma36.core.common.cache.inmemory.AbstractInMemoryCache;
 import io.github.pavansharma36.core.common.context.TenantContext;
 import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
