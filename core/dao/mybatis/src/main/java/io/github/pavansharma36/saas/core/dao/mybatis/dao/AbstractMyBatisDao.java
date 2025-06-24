@@ -10,15 +10,13 @@ import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import lombok.Getter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 
 public abstract class AbstractMyBatisDao<T extends Model, M extends BaseMapper<T>>
     implements Dao<T> {
 
+  protected final IdGenerator idGenerator;
   private final Class<T> clazz;
-  @Getter
-  private final IdGenerator idGenerator;
   private final M mapper;
 
   protected AbstractMyBatisDao(Class<T> clazz, IdGenerator idGenerator, M mapper) {

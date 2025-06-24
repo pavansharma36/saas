@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS user_group_nav_items (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(user_group_id, nav_item_name)
-)
+);
 
 CREATE TABLE IF NOT EXISTS user_group_resources (
     id VARCHAR(32) NOT NULL,

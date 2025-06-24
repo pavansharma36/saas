@@ -4,6 +4,7 @@ import io.github.pavansharma36.core.common.context.providers.RequestInfoContextP
 import io.github.pavansharma36.core.common.service.TenantService;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,12 +39,10 @@ public class TenantContext extends LazyThreadLocalContext<TenantDto> {
   }
 
   @Override
-  protected void initializeContext() {
-    String tenantId =
-        RequestInfoContextProvider.getInstance().get().map(RequestInfo::getTenantId).orElse(null);
-    if (tenantId != null) {
+  protected Optional<TenantDto> initializeContext() {
+    return RequestInfoContextProvider.getTenantId().map(tenantId -> {
       log.info("initializing tenant context: {}", tenantId);
-      set(tenantService.getTenantById(tenantId));
-    }
+      return tenantService.getTenantById(tenantId);
+    });
   }
 }

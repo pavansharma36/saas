@@ -11,8 +11,9 @@ public abstract class LazyThreadLocalContext<T> extends AbstractThreadLocalConte
     if (t != null) {
       return Optional.of(t);
     }
-    initializeContext();
-    return super.get();
+    Optional<T> ot = initializeContext();
+    ot.ifPresent(this::set);
+    return ot;
   }
 
   @Override
@@ -25,5 +26,5 @@ public abstract class LazyThreadLocalContext<T> extends AbstractThreadLocalConte
     return super.getOrThrow();
   }
 
-  protected abstract void initializeContext();
+  protected abstract Optional<T> initializeContext();
 }

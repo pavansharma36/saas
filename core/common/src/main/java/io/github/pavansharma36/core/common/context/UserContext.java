@@ -4,6 +4,7 @@ import io.github.pavansharma36.core.common.context.providers.RequestInfoContextP
 import io.github.pavansharma36.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.dto.common.UserDto;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,12 +26,10 @@ public class UserContext extends LazyThreadLocalContext<UserDto> {
   }
 
   @Override
-  protected void initializeContext() {
-    String userId =
-        RequestInfoContextProvider.getInstance().get().map(RequestInfo::getUserId).orElse(null);
-    if (userId != null) {
+  protected Optional<UserDto> initializeContext() {
+    return RequestInfoContextProvider.getUserId().map(userId -> {
       log.info("initializing user context: {}", userId);
-      set(userService.getCurrentUser());
-    }
+      return userService.getCurrentUser();
+    });
   }
 }
