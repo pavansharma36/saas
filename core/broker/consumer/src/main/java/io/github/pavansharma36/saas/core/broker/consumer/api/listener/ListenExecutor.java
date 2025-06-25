@@ -37,7 +37,7 @@ public class ListenExecutor<T extends ListenResponse> extends Thread {
     final DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30), log);
     T listener = null;
     while (!Thread.currentThread().isInterrupted()) {
-      String queueName = BrokerUtils.queueName(queue, messagePriority);
+      String queueName = queue.formatQueueName(messagePriority);
       boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
       try {
         if (blocked) {

@@ -1,21 +1,21 @@
-package io.github.pavansharma36.saas.galaxy.common.broker;
+package io.github.pavansharma36.saas.core.broker.rabbitmq.common.message;
 
 import io.github.pavansharma36.saas.core.broker.common.api.MessageType;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
-import io.github.pavansharma36.saas.galaxy.common.utils.GalaxyConstants;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.TenantEventQueue;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum GalaxyMessageType implements MessageType {
+public enum TenantEventMessageTypes implements MessageType {
 
-  TEST(GalaxyConstants.GALAXY_QUEUE),
+  TENANT_CREATED(new TenantEventQueue("created")),
   ;
 
   private final Queue queue;
 
   @Override
   public Queue queue() {
-    return null;
+    return queue;
   }
 
   @Override

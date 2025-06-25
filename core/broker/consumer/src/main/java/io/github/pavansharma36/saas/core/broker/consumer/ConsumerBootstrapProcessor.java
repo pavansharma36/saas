@@ -46,7 +46,8 @@ public class ConsumerBootstrapProcessor {
       log.info("Queue types for process {}", queueMap.keySet());
 
       log.info("Queue names to process {}", Arrays.stream(queues)
-          .map(q -> q.supportedPriorities().stream().map(q::formatQueueName).toList())
+          .map(q -> q.supportedPriorities().stream()
+              .map(q::formatQueueName).toList())
           .flatMap(List::stream).toList());
 
       ConsumerTemplate consumerTemplate = applicationContext.getBean(ConsumerTemplate.class);

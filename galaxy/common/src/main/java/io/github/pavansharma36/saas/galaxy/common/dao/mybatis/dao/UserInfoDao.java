@@ -17,7 +17,7 @@ public class UserInfoDao extends AbstractMyBatisDao<UserInfo, UserInfoMapper>
   }
 
   public IdGenerator getIdGenerator() {
-    return idGenerator;
+    return IdGeneratorUtils.tenant32();
   }
 
 }

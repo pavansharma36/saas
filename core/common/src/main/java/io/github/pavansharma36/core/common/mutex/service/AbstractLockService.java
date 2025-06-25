@@ -116,8 +116,11 @@ public abstract class AbstractLockService<T extends LockModel> implements LockSe
     int extentLockBySeconds = Config.getInt("mutex.lock.extend.seconds", 60);
     log.debug("Extending all locks of current process {} by {} seconds",
         CoreConstants.PROCESS_UUID, extentLockBySeconds);
-    lockDao.updateExpireAtByLockType(LockType.EXTENSIBLE, CoreConstants.PROCESS_UUID,
+    long m = lockDao.updateExpireAtByLockType(LockType.EXTENSIBLE, CoreConstants.PROCESS_UUID,
         new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(extentLockBySeconds)));
+    if (m > 0) {
+      log.info("Extended expiry time of locks by {} for {} locks", extentLockBySeconds, m);
+    }
   }
 
   protected abstract T createModel(Lock lock);

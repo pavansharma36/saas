@@ -21,12 +21,29 @@ public class MessageInfo extends MongoModel {
   public static final String FIELD_ORDER_KEY = "orderKey";
   public static final String FIELD_STATUS = "status";
 
+  // status is used for tracking purpose
   private MessageStatus status;
+
+  // only for informational purpose.
   private String queueName;
   private String messageType;
 
+  /**
+   * A message can be sent to multiple apps, owner takes care of marking it completed.
+   * other apps will clone message info.
+   */
+  private String owner;
+
+  /**
+   * when set message will be delayed if any prev non completed message found in db.
+   * will be cleared after completion to reduce sparse index size.
+   */
   @Indexed(sparse = true)
   private String orderKey;
+
+  /**
+   * if true lock will be acquired with message id as key.
+   */
   private boolean lockOnProcess;
   private boolean idempotent;
 

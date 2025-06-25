@@ -150,7 +150,7 @@ public class ConsumerTemplate {
           }
           case DELAY -> {
             log.warn("Cannot process {} at the moment, redispatching", payload);
-            redispatch(queue, payload);
+            redispatch(queue, instruction.getPayload());
           }
           default ->
               log.error("Unsupported instruction for message {}: {}", instruction.getInstruction(),

@@ -13,7 +13,7 @@ import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitQueue;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.RabbitQueue;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

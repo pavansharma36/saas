@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.core.broker.rabbitmq.common;
+package io.github.pavansharma36.saas.core.broker.rabbitmq.common.exchange;
 
 import io.github.pavansharma36.saas.utils.Named;
 import lombok.RequiredArgsConstructor;

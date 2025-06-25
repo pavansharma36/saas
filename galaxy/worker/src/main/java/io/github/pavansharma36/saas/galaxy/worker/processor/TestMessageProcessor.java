@@ -5,6 +5,7 @@ import io.github.pavansharma36.core.common.mutex.bean.Lock;
 import io.github.pavansharma36.core.common.mutex.bean.LockType;
 import io.github.pavansharma36.core.common.mutex.service.LockService;
 import io.github.pavansharma36.saas.core.broker.common.api.MessageType;
+import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.AbstractMessageProcessor;
 import io.github.pavansharma36.saas.galaxy.common.TestMessageDto;
@@ -39,7 +40,7 @@ public class TestMessageProcessor extends AbstractMessageProcessor<TestMessageDt
   }
 
   @Override
-  protected List<Lock> requiredLocks() {
+  protected List<Lock> requiredLocks(MessageSerializablePayload payload) {
     return List.of(DefaultLock.builder()
         .type(LockType.EXTENSIBLE)
         .name("test-message-process" + Utils.randomRequestId())

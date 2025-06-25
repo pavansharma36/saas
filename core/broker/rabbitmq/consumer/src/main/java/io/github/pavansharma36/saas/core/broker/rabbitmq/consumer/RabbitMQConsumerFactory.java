@@ -8,7 +8,7 @@ import io.github.pavansharma36.core.common.utils.ShutdownHooks;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.ConsumerFactory;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.RabbitQueue;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.RabbitQueue;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.listener.RabbitMQListenResponse;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.listener.RabbitMQListenerConsumer;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller.RabbitMQPollResponse;

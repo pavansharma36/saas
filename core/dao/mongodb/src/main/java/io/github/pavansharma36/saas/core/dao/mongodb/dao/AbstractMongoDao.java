@@ -1,12 +1,13 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.dao;
 
 import com.mongodb.client.result.UpdateResult;
-import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.saas.core.dao.common.DefaultEntityListener;
+import io.github.pavansharma36.saas.core.dao.common.EntityListener;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
-import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
-import java.util.Date;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,48 +18,28 @@ import org.springframework.data.mongodb.core.query.Update;
 public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<T> {
 
   private final Class<T> clazz;
+  private final List<EntityListener<T>> entityListeners;
 
   protected AbstractMongoDao(Class<T> clazz) {
-    this.clazz = clazz;
+    this(clazz, Collections.singletonList(new DefaultEntityListener<>(clazz)));
   }
 
-  protected void preInsert(T model) {
-    if (model.getCreatedAt() == null) {
-      model.setCreatedAt(new Date());
-    }
-    if (model.getCreatedBy() == null) {
-      model.setCreatedBy(CoreUtils.getUserIdOrThrow());
-    }
-    if (model instanceof UpdatableModel m) {
-      if (m.getUpdatedAt() == null) {
-        m.setUpdatedAt(new Date());
-      }
-      if (m.getUpdatedBy() == null) {
-        m.setUpdatedBy(CoreUtils.getUserIdOrThrow());
-      }
-    }
+  protected AbstractMongoDao(Class<T> clazz, List<EntityListener<T>> entityListeners) {
+    this.clazz = clazz;
+    this.entityListeners = entityListeners;
   }
 
   protected abstract MongoTemplate mongoTemplate();
 
   @Override
   public T insert(T model) {
-    preInsert(model);
+    entityListeners.forEach(l -> l.preInsert(model));
     return mongoTemplate().insert(model);
-  }
-
-  protected void preUpdate(T model) {
-    if (model instanceof UpdatableModel m) {
-      m.setUpdatedAt(new Date());
-      m.setUpdatedBy(CoreUtils.getUserIdOrThrow());
-    } else {
-      throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
-    }
   }
 
   @Override
   public T update(T model) {
-    preUpdate(model);
+    entityListeners.forEach(l -> l.preUpdate(model));
     return mongoTemplate().save(model);
   }
 
@@ -84,6 +65,7 @@ public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<
 
   @Override
   public boolean deleteById(String id) {
+    entityListeners.forEach(l -> l.preDelete(id));
     Criteria criteria = Criteria.where(BaseMongoModel.FIELD_ID).is(id);
     return mongoTemplate().remove(new Query(criteria), clazz).wasAcknowledged();
   }

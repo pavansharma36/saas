@@ -1,13 +1,13 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
 import io.github.pavansharma36.core.common.id.IdGenerator;
-import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.saas.core.dao.common.EntityListener;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.common.model.Model;
-import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
+import io.github.pavansharma36.saas.core.dao.mybatis.listener.MyBatisEntityListener;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
@@ -15,53 +15,26 @@ import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 public abstract class AbstractMyBatisDao<T extends Model, M extends BaseMapper<T>>
     implements Dao<T> {
 
-  protected final IdGenerator idGenerator;
-  private final Class<T> clazz;
+  private final List<EntityListener<T>> entityListeners;
   private final M mapper;
 
   protected AbstractMyBatisDao(Class<T> clazz, IdGenerator idGenerator, M mapper) {
-    this.clazz = clazz;
-    this.idGenerator = idGenerator;
+    this(Collections.singletonList(new MyBatisEntityListener<>(clazz, idGenerator)), mapper);
+  }
+
+  protected AbstractMyBatisDao(List<EntityListener<T>> entityListeners, M mapper) {
+    this.entityListeners = entityListeners;
     this.mapper = mapper;
   }
 
-  protected void preInsert(T model) {
-    if (model.getId() == null) {
-      model.setId(idGenerator.nextId(clazz));
-    }
-    if (model.getCreatedAt() == null) {
-      model.setCreatedAt(new Date());
-    }
-    if (model.getCreatedBy() == null) {
-      model.setCreatedBy(CoreUtils.getUserIdOrThrow());
-    }
-    if (model instanceof UpdatableModel m) {
-      if (m.getUpdatedAt() == null) {
-        m.setUpdatedAt(new Date());
-      }
-      if (m.getUpdatedBy() == null) {
-        m.setUpdatedBy(CoreUtils.getUserIdOrThrow());
-      }
-    }
-  }
-
   public T insert(T model) {
-    preInsert(model);
+    entityListeners.forEach(l -> l.preInsert(model));
     mapper.insert(model);
     return model;
   }
 
-  protected void preUpdate(T model) {
-    if (model instanceof UpdatableModel m) {
-      m.setUpdatedAt(new Date());
-      m.setUpdatedBy(CoreUtils.getUserIdOrThrow());
-    } else {
-      throw new ServerRuntimeException("Entity not supported for update " + clazz.getName());
-    }
-  }
-
   public T update(T model) {
-    preUpdate(model);
+    entityListeners.forEach(l -> l.preUpdate(model));
     mapper.updateByPrimaryKey(model);
     return model;
   }
@@ -81,6 +54,7 @@ public abstract class AbstractMyBatisDao<T extends Model, M extends BaseMapper<T
 
   @Override
   public boolean deleteById(String id) {
+    entityListeners.forEach(l -> l.preDelete(id));
     return mapper.deleteByPrimaryKey(id) > 0;
   }
 

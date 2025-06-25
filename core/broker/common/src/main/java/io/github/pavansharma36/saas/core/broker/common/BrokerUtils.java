@@ -18,20 +18,17 @@ import org.slf4j.Logger;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class BrokerUtils {
 
-  public static String queueName(Queue queue, MessagePriority priority) {
-    return String.format("%s%s", queue.getName(), priority.queueNameSuffix());
-  }
-
-  public static String queueName(Queue queue, DelayedQueue delayedQueue) {
-    return String.format("%s%s", queue.getName(), delayedQueue.getQueueNameSuffix());
-  }
-
   public static byte[] serialize(MessageSerializablePayload payload) {
     return Utils.serialize(payload);
   }
 
   public static MessageSerializablePayload deserialize(byte[] data) {
     return Utils.deserialize(data, MessageSerializablePayload.class);
+  }
+
+  public static List<MessagePriority> sortDesc(List<MessagePriority> priorities) {
+    return priorities.stream().sorted((a, b) -> b.priority() - a.priority())
+        .toList();
   }
 
   public static boolean isQueueBlocked(Queue queue, MessagePriority priority,
@@ -44,7 +41,7 @@ public abstract class BrokerUtils {
       return true;
     }
     if (priority != null) {
-      String queueName = queueName(queue, priority);
+      String queueName = queue.formatQueueName(priority);
       if (Config.getBoolean(
           String.format("%s.priority.queue.block.all", queueName),
           false)) {

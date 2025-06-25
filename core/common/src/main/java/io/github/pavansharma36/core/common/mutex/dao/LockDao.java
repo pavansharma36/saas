@@ -10,6 +10,6 @@ public interface LockDao<T extends LockModel> {
 
   boolean remove(Set<String> lockIds);
 
-  void updateExpireAtByLockType(LockType lockType, String processUuid, Date expireAt);
+  long updateExpireAtByLockType(LockType lockType, String processUuid, Date expireAt);
 
 }

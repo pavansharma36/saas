@@ -10,7 +10,15 @@ public interface Queue extends Named {
 
   List<DelayedQueue> supportedDelayedQueues();
 
+  default String formatSeparator() {
+    return "-";
+  }
+
   default String formatQueueName(MessagePriority priority) {
-    return getName() + priority.queueNameSuffix();
+    return String.format("%s%s%s", getName(), formatSeparator(), priority.queueNameSuffix());
+  }
+
+  default String formatQueueName(DelayedQueue delayedQueue) {
+    return String.format("%s%s%s", getName(), formatSeparator(), delayedQueue.getQueueNameSuffix());
   }
 }

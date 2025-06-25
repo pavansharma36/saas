@@ -72,6 +72,7 @@ public class JwtSecurityContextProvider implements AppSecurityContextProvider {
 
       RequestInfoContextProvider.getInstance().get().ifPresent(r -> {
         r.setUserId(jwtDetails.getPayload().getUserId());
+        r.setTenantId(jwtDetails.getPayload().getTenantId());
         r.setRoles(jwtDetails.getPayload().getAuthorities());
       });
 

@@ -44,10 +44,10 @@ public class MongoLockDao extends AbstractGlobalMongoDao<MongoLockModel>
   }
 
   @Override
-  public void updateExpireAtByLockType(LockType lockType, String processUuid, Date expireAt) {
+  public long updateExpireAtByLockType(LockType lockType, String processUuid, Date expireAt) {
     Criteria criteria = Criteria.where(MongoLockModel.FIELD_LOCK_TYPE).is(lockType)
         .and(MongoLockModel.FIELD_PROCESS_UUID).is(processUuid);
     Update update = Update.update(MongoLockModel.FIELD_EXPIRE_AT, expireAt);
-    updateMulti(new Query(criteria), update);
+    return updateMulti(new Query(criteria), update).getModifiedCount();
   }
 }

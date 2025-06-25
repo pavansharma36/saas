@@ -1,6 +1,7 @@
 package io.github.pavansharma36.saas.core.broker.producer;
 
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
+import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.Message;
@@ -39,6 +40,7 @@ public class MessageSender {
       info.setLockOnProcess(message.isLockOnProcess());
       info.setIdempotent(message.isIdempotent());
       info.setExpireAt(message.getMessageDto().getExpireAt());
+      info.setOwner(CoreConstants.APP_NAME);
 
       return Optional.of(messageInfoDao.insert(info).getId());
     }

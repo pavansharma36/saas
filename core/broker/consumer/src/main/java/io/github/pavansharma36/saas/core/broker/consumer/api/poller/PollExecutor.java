@@ -26,7 +26,7 @@ public class PollExecutor<T extends PollResponse> extends Thread {
   @Override
   public void run() {
     PollDelayGenerator delayGenerator = new FixedPollDelayGenerator(TimeUnit.SECONDS.toMillis(1L));
-    List<MessagePriority> priorities = MessagePriority.sortDesc(queue.supportedPriorities());
+    List<MessagePriority> priorities = BrokerUtils.sortDesc(queue.supportedPriorities());
 
     DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30L), log);
     while (!Thread.currentThread().isInterrupted()) {
@@ -34,7 +34,7 @@ public class PollExecutor<T extends PollResponse> extends Thread {
       boolean result = false;
 
       for (MessagePriority messagePriority : priorities) {
-        String queueName = BrokerUtils.queueName(queue, messagePriority);
+        String queueName = queue.formatQueueName(messagePriority);
 
         boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
         if (!blocked) {

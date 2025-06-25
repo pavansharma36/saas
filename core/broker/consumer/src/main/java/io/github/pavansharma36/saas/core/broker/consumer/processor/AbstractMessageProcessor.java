@@ -4,6 +4,7 @@ import io.github.pavansharma36.core.common.mutex.bean.CompositeLockInfo;
 import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
 import io.github.pavansharma36.core.common.mutex.bean.Lock;
 import io.github.pavansharma36.core.common.mutex.service.LockService;
+import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;
@@ -55,6 +56,21 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
     }
   }
 
+  protected boolean isOwner(MessageInfo messageInfo) {
+    return CoreConstants.APP_NAME.equals(messageInfo.getOwner());
+  }
+
+  protected MessageInfo own(MessageInfo messageInfo) {
+    messageInfo.setOwner(CoreConstants.APP_NAME);
+    messageInfo.setId(null);
+    messageInfo.setLastPickedAt(new Date());
+    messageInfo.setStatus(MessageStatus.DISPATCHED);
+    if (messageInfo.getOrderKey() != null) {
+      messageInfo.setOrderKey(CoreConstants.APP_NAME + messageInfo.getOrderKey());
+    }
+    return messageInfoDao.insert(messageInfo);
+  }
+
   private void complete(MessageInfo messageInfo, MessageStatus status, Exception e) {
     if (messageInfo != null) {
       messageInfo.setStatus(status);
@@ -77,13 +93,19 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
       return new ProcessInstruction(ProcessInstruction.Instruction.DELAY, messageInfo,
           CompositeLockInfo.build(lockService), payload);
     }
-    List<Lock> requiredLocks = new LinkedList<>(requiredLocks());
+    List<Lock> requiredLocks = new LinkedList<>(requiredLocks(payload));
     boolean expired = payload.getMessageDto().getExpireAt() != null &&
         System.currentTimeMillis() > payload.getMessageDto().getExpireAt().getTime();
     if (payload.getMessageId() != null) {
       messageInfo = messageInfoDao.findByIdOrThrow(payload.getMessageId());
-      messageInfo.setLastPickedAt(new Date());
-      messageInfoDao.update(messageInfo);
+
+      if (!isOwner(messageInfo)) {
+        messageInfo = own(messageInfo);
+        payload.setMessageId(messageInfo.getId());
+      } else {
+        messageInfo.setLastPickedAt(new Date());
+        messageInfoDao.update(messageInfo);
+      }
 
       if (messageInfo.getStatus().isFinal()) {
         log.warn("Message status is already in final state ignoring message {}", messageInfo);
@@ -132,7 +154,7 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
     }
   }
 
-  protected List<Lock> requiredLocks() {
+  protected List<Lock> requiredLocks(MessageSerializablePayload payload) {
     return Collections.emptyList();
   }
 }

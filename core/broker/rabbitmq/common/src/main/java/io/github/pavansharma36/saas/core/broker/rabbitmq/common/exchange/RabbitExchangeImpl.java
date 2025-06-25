@@ -1,12 +1,9 @@
-package io.github.pavansharma36.saas.core.broker.rabbitmq.common;
+package io.github.pavansharma36.saas.core.broker.rabbitmq.common.exchange;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum CommonRabbitExchange implements RabbitExchange {
-
-  DEFAULT("", RabbitExchangeType.DEFAULT),
-  ;
+public class RabbitExchangeImpl implements RabbitExchange {
 
   private final String name;
   private final RabbitExchangeType type;
