@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.auth.web.api;
 
 import io.github.pavansharma36.auth.api.UserAccountApi;
-import io.github.pavansharma36.saas.auth.common.service.AuthUserAccountService;
 import io.github.pavansharma36.saas.auth.dto.UserAccountDetailsDto;
+import io.github.pavansharma36.saas.auth.web.service.AuthUserAccountService;
 import io.github.pavansharma36.saas.core.dto.common.UserAccountDto;
 import io.github.pavansharma36.saas.core.dto.response.ListResponseObject;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;

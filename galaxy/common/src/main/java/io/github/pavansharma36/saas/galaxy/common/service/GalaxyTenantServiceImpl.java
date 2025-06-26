@@ -10,6 +10,12 @@ import io.github.pavansharma36.core.common.mutex.service.LockService;
 import io.github.pavansharma36.core.common.pubsub.payload.InMemoryCacheCleanupPayload;
 import io.github.pavansharma36.core.common.pubsub.payload.Payload;
 import io.github.pavansharma36.core.common.pubsub.publisher.PublisherManager;
+import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
+import io.github.pavansharma36.saas.core.broker.common.bean.Message;
+import io.github.pavansharma36.saas.core.broker.producer.MessageSender;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.message.TenantCreatedMessageDto;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.message.TenantEventMessageTypes;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.TenantEventQueue;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
@@ -27,6 +33,7 @@ public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
 
   private final PublisherManager publisher;
   private final LockService lockService;
+  private final MessageSender messageSender;
 
   @Override
   public TenantDto getTenantById(String id) {
@@ -51,12 +58,22 @@ public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
   public String createTenant(TenantDto tenantDto) {
     log.info("trying to acquire lock on create tenant");
     try (LockInfo lock = lockService.acquireLock(DefaultLock.builder()
-        .name("createTenant")
+        .name("tenant_create")
         .type(LockType.FIXED)
         .maxCount(10)
         .duration(Duration.ofMinutes(2))
         .build()).orElseThrow(() -> new ServerRuntimeException("Couldn't acquire lock"))) {
-      return Utils.randomRequestId();
+      String id = Utils.randomRequestId();
+
+      Message m = Message.builder()
+          .priority(MessagePriority.NORMAL)
+          .messageType(TenantEventMessageTypes.TENANT_CREATED)
+          .messageDto(TenantCreatedMessageDto.builder().id(id).build())
+          .trackWithDatabase(true)
+          .lockOnProcess(true)
+          .build();
+      messageSender.send(TenantEventQueue.TENANT_CREATED_QUEUE, m);
+      return id;
     }
   }
 

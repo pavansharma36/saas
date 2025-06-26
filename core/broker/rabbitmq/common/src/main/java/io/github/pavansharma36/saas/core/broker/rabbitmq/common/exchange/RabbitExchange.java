@@ -16,6 +16,30 @@ public interface RabbitExchange extends Named {
     }
   };
 
+  RabbitExchange DIRECT = new RabbitExchange() {
+    @Override
+    public RabbitExchangeType type() {
+      return RabbitExchangeType.DIRECT;
+    }
+
+    @Override
+    public String getName() {
+      return "amq.direct";
+    }
+  };
+
+  RabbitExchange TOPIC = new RabbitExchange() {
+    @Override
+    public RabbitExchangeType type() {
+      return RabbitExchangeType.TOPIC;
+    }
+
+    @Override
+    public String getName() {
+      return "amq.topic";
+    }
+  };
+
   RabbitExchangeType type();
 
 }

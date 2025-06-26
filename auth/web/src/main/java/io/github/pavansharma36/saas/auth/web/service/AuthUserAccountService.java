@@ -1,4 +1,4 @@
-package io.github.pavansharma36.saas.auth.common.service;
+package io.github.pavansharma36.saas.auth.web.service;
 
 import io.github.pavansharma36.core.common.service.UserAccountService;
 import io.github.pavansharma36.core.common.validation.ValidationException;

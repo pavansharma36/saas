@@ -70,9 +70,96 @@
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "",
+        "x-dead-letter-routing-key": "galaxy",
+        "x-message-ttl": 60000
+      }
+    },
+    {
+      "name": "auth",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
       "arguments": {}
+    },
+    {
+      "name": "auth.one-minute-delayed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "",
+        "x-dead-letter-routing-key": "auth",
+        "x-message-ttl": 60000
+      }
     }
   ],
   "exchanges": [],
-  "bindings": []
+  "bindings": [
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "auth",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.created",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "galaxy",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.created",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "auth.one-minute-delayed",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.created.one-minute-delayed",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "galaxy.one-minute-delayed",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.created.one-minute-delayed",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "auth",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.deleted",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "galaxy",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.deleted",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "auth.one-minute-delayed",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.deleted.one-minute-delayed",
+      "arguments": {}
+    },
+    {
+      "source": "amq.direct",
+      "vhost": "/",
+      "destination": "galaxy.one-minute-delayed",
+      "destination_type": "queue",
+      "routing_key": "tenant.event.deleted.one-minute-delayed",
+      "arguments": {}
+    }
+  ]
 }

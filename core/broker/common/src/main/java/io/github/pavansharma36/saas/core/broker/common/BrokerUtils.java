@@ -1,14 +1,19 @@
 package io.github.pavansharma36.saas.core.broker.common;
 
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
+import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
+import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
+import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.poll.DelayedLogEmitter;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import lombok.AccessLevel;
@@ -84,6 +89,24 @@ public abstract class BrokerUtils {
     throw new ServerRuntimeException(
         String.format("Delayed queues are required: %s", queue.getName()));
 
+  }
+
+  public static void completeMessage(MessageInfoDao messageInfoDao, MessageInfo messageInfo,
+                                     MessageStatus status, Exception e) {
+    if (messageInfo != null) {
+      messageInfo.setStatus(status);
+      messageInfo.setCompletedAt(new Date());
+      // nullify order key to reduce sparse index size.
+      messageInfo.setOrderKey(null);
+      if (e != null) {
+        messageInfo.setMessage(e.getMessage());
+      }
+      messageInfoDao.update(messageInfo);
+    }
+  }
+
+  public static boolean isOwner(MessageInfo messageInfo) {
+    return CoreConstants.APP_NAME.equals(messageInfo.getOwner());
   }
 
 }

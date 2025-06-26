@@ -57,10 +57,12 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
   }
 
   protected boolean isOwner(MessageInfo messageInfo) {
-    return CoreConstants.APP_NAME.equals(messageInfo.getOwner());
+    return BrokerUtils.isOwner(messageInfo);
   }
 
   protected MessageInfo own(MessageInfo messageInfo) {
+    log.info("Message is owned by {}, owning to current app {}", messageInfo.getOwner(),
+        CoreConstants.APP_NAME);
     messageInfo.setOwner(CoreConstants.APP_NAME);
     messageInfo.setId(null);
     messageInfo.setLastPickedAt(new Date());
@@ -72,16 +74,7 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
   }
 
   private void complete(MessageInfo messageInfo, MessageStatus status, Exception e) {
-    if (messageInfo != null) {
-      messageInfo.setStatus(status);
-      messageInfo.setCompletedAt(new Date());
-      // nullify order key to reduce sparse index size.
-      messageInfo.setOrderKey(null);
-      if (e != null) {
-        messageInfo.setMessage(e.getMessage());
-      }
-      messageInfoDao.update(messageInfo);
-    }
+    BrokerUtils.completeMessage(messageInfoDao, messageInfo, status, e);
   }
 
   @Override

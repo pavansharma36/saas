@@ -9,6 +9,9 @@ import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
+import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
+import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
+import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenExecutor;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenResponse;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.ConsumerFactory;
@@ -16,6 +19,7 @@ import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollExecutor
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollResponse;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.MessageProcessor;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessInstruction;
+import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessorNotFoundException;
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;
@@ -34,13 +38,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsumerTemplate {
 
+  private final MessageInfoDao messageInfoDao;
   private final Map<String, ConsumerFactory<?, ?>> consumerFactoryMap;
   private final Map<String, ProducerTemplate> producerTemplateMap;
   private final Map<String, MessageProcessor> messageProcessorMap;
 
-  public ConsumerTemplate(List<ConsumerFactory<?, ?>> pollerConsumerFactories,
+  public ConsumerTemplate(MessageInfoDao messageInfoDao,
+                          List<ConsumerFactory<?, ?>> pollerConsumerFactories,
                           List<ProducerTemplate> producerTemplates,
                           List<MessageProcessor> messageProcessors) {
+    this.messageInfoDao = messageInfoDao;
     consumerFactoryMap =
         pollerConsumerFactories.stream().collect(Collectors.toMap(ConsumerFactory::type,
             f -> f));
@@ -135,7 +142,7 @@ public class ConsumerTemplate {
 
         MessageProcessor processor =
             Optional.ofNullable(messageProcessorMap.get(payload.getMessageType())).orElseThrow(
-                () -> new ServerRuntimeException(
+                () -> new ProcessorNotFoundException(
                     "Message processor not found : " + payload.getMessageType()));
         log.info("Found message processor {}", processor.getClass());
 
@@ -155,6 +162,13 @@ public class ConsumerTemplate {
           default ->
               log.error("Unsupported instruction for message {}: {}", instruction.getInstruction(),
                   payload);
+        }
+      } catch (ProcessorNotFoundException e) {
+        if (payload.getMessageId() != null) {
+          Optional<MessageInfo> om = messageInfoDao.findById(payload.getMessageId());
+          if (om.isPresent() && BrokerUtils.isOwner(om.get())) {
+            BrokerUtils.completeMessage(messageInfoDao, om.get(), MessageStatus.FAILED, e);
+          }
         }
       } catch (Exception e) {
         log.error("Error while processing message {}: {}", e.getMessage(), payload, e);

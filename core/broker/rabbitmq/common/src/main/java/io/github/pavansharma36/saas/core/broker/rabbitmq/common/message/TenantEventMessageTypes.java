@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TenantEventMessageTypes implements MessageType {
 
-  TENANT_CREATED(new TenantEventQueue("created")),
+  TENANT_CREATED(TenantEventQueue.TENANT_CREATED_QUEUE),
   ;
 
   private final Queue queue;
