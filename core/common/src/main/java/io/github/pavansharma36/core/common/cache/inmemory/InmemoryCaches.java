@@ -1,7 +1,7 @@
 package io.github.pavansharma36.core.common.cache.inmemory;
 
 import io.github.pavansharma36.core.common.factory.ExecutorFactory;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;

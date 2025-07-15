@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.utils;
 
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public abstract class Utils {
       sleep(millis);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new ServerRuntimeException(e) {
+      throw new AppRuntimeException(e.getMessage(), e) {
       };
     }
   }
@@ -52,7 +52,8 @@ public abstract class Utils {
       sleepSeconds(seconds);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new ServerRuntimeException(e);
+      throw new AppRuntimeException(e.getMessage(), e) {
+      };
     }
   }
 
@@ -61,7 +62,8 @@ public abstract class Utils {
          ObjectInputStream inObject = new ObjectInputStream(in)) {
       return clazz.cast(inObject.readObject());
     } catch (Exception e) {
-      throw new ServerRuntimeException(e);
+      throw new AppRuntimeException(e.getMessage(), e) {
+      };
     }
   }
 
@@ -72,7 +74,8 @@ public abstract class Utils {
       out.flush();
       return byteOut.toByteArray();
     } catch (IOException e) {
-      throw new ServerRuntimeException(e);
+      throw new AppRuntimeException(e.getMessage(), e) {
+      };
     }
   }
 }

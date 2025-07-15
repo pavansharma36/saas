@@ -7,8 +7,8 @@ import io.github.pavansharma36.core.common.context.providers.RequestInfoContextP
 import io.github.pavansharma36.core.common.validation.AppValidatorFactory;
 import io.github.pavansharma36.core.common.validation.BadRequestException;
 import io.github.pavansharma36.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.Enums;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
@@ -48,7 +48,7 @@ public abstract class CoreUtils {
         .orElseThrow(
             () -> new ServerRuntimeException(CoreErrorCode.USER_CONTEXT_NOT_SET.message()));
   }
-  
+
   public static String authorizationHeader(String type, String value) {
     return type + AUTH_HEADER_TYPE_SEPARATOR + value;
   }

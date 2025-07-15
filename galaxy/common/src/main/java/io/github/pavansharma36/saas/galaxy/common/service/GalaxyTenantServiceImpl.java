@@ -10,6 +10,7 @@ import io.github.pavansharma36.core.common.mutex.service.LockService;
 import io.github.pavansharma36.core.common.pubsub.payload.InMemoryCacheCleanupPayload;
 import io.github.pavansharma36.core.common.pubsub.payload.Payload;
 import io.github.pavansharma36.core.common.pubsub.publisher.PublisherManager;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.bean.Message;
 import io.github.pavansharma36.saas.core.broker.producer.MessageSender;
@@ -18,7 +19,6 @@ import io.github.pavansharma36.saas.core.broker.rabbitmq.common.message.TenantEv
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.TenantEventQueue;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.utils.Utils;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;

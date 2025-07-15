@@ -5,7 +5,6 @@ import io.github.pavansharma36.saas.core.dao.common.DefaultEntityListener;
 import io.github.pavansharma36.saas.core.dao.common.EntityListener;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -44,23 +43,8 @@ public abstract class AbstractMongoDao<T extends BaseMongoModel> implements Dao<
   }
 
   @Override
-  public T save(T model) {
-    if (model.getId() == null) {
-      return insert(model);
-    } else {
-      return update(model);
-    }
-  }
-
-  @Override
   public Optional<T> findById(String id) {
     return Optional.ofNullable(mongoTemplate().findById(new ObjectId(id), clazz));
-  }
-
-  @Override
-  public T findByIdOrThrow(String id) {
-    return findById(id).orElseThrow(
-        () -> new ServerRuntimeException("Not able to find entity by id " + id));
   }
 
   @Override

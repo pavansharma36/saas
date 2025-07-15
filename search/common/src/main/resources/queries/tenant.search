@@ -1,0 +1,11 @@
+{
+    "combined_fields": {
+      "query": "${QUERY}",
+      "fields": [
+        "name^3",
+        "code^2",
+        "description"
+      ],
+      "operator": "and"
+    }
+}

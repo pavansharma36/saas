@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dto.query;
 
 import io.github.pavansharma36.saas.utils.collections.CollectionUtils;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
 import jakarta.validation.constraints.Max;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +44,8 @@ public class PageableQuery implements Query {
         SortDirection direction = SortDirection.valueOf(tokens[1]);
         sorts.add(new Sort(tokens[0], direction));
       } else {
-        throw new ServerRuntimeException("");
+        throw new AppRuntimeException("") {
+        };
       }
     }
     return sorts;

@@ -1,8 +1,8 @@
 package io.github.pavansharma36.core.common.context.providers;
 
 import io.github.pavansharma36.core.common.context.TenantContext;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Optional;
 import java.util.function.Supplier;
 

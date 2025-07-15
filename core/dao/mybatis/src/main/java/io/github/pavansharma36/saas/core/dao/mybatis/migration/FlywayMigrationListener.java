@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.migration;
 
 import io.github.pavansharma36.core.common.listener.AppLoaderListener;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.context.ApplicationContext;

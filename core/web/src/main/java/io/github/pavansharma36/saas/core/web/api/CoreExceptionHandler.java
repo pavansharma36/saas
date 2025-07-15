@@ -2,14 +2,15 @@ package io.github.pavansharma36.saas.core.web.api;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import io.github.pavansharma36.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.core.common.validation.ErrorCodeException;
 import io.github.pavansharma36.core.common.validation.ValidationException;
 import io.github.pavansharma36.saas.core.dto.ex.ResponseRuntimeException;
 import io.github.pavansharma36.saas.core.dto.response.Message;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -51,16 +53,20 @@ public class CoreExceptionHandler {
     return exception.getResponse();
   }
 
-  @ExceptionHandler(ServerRuntimeException.class)
-  public ResponseObject<Object> handleServerRuntimeException(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      ServerRuntimeException exception) {
-    log.error("Error while processing {}: {}", request.getRequestURI(),
-        exception.getMessage(), exception);
+  @ExceptionHandler(ErrorCodeException.class)
+  public ResponseObject<Object> handleErrorCodeException(HttpServletRequest request,
+                                                         HttpServletResponse response,
+                                                         ErrorCodeException exception) {
+    if (exception.isError()) {
+      log.error("Error while processing {}: {}", request.getRequestURI(),
+          exception.getMessage(), exception);
+    } else {
+      log.warn("exception while processing {}: {}", request.getRequestURI(),
+          exception.getMessage());
+    }
     response.setStatus(exception.statusCode());
-    return ResponseObject.response(CoreErrorCode.SERVER_ERROR.code(),
-        CoreErrorCode.SERVER_ERROR.message());
+    return ResponseObject.response(exception.getErrorCode().code(),
+        exception.getErrorCode().message(exception.getParams()));
   }
 
   @ExceptionHandler(AppRuntimeException.class)
@@ -72,7 +78,7 @@ public class CoreExceptionHandler {
       log.error("Error while processing {}: {}", request.getRequestURI(),
           appRuntimeException.getMessage(), appRuntimeException);
     } else {
-      log.error("exception while processing {}: {}", request.getRequestURI(),
+      log.warn("exception while processing {}: {}", request.getRequestURI(),
           appRuntimeException.getMessage());
     }
     response.setStatus(appRuntimeException.statusCode());
@@ -136,6 +142,13 @@ public class CoreExceptionHandler {
   public ResponseObject<Object> handleAccessDenied(AccessDeniedException exception) {
     return ResponseObject.response(CoreErrorCode.UNAUTHORIZED.code(),
         CoreErrorCode.UNAUTHORIZED.message());
+  }
+
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public ResponseObject<Object> handleNoHandler(NoHandlerFoundException exception) {
+    return ResponseObject.response(CoreErrorCode.NOT_FOUND.code(),
+        CoreErrorCode.NOT_FOUND.message(Collections.singletonMap("id", exception.getRequestURL())));
   }
 
 

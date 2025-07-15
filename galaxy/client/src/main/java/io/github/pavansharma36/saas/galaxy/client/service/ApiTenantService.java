@@ -6,10 +6,10 @@ import io.github.pavansharma36.core.common.context.TenantContext;
 import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
 import io.github.pavansharma36.core.common.service.TenantService;
 import io.github.pavansharma36.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 

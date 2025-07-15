@@ -1,5 +1,6 @@
 package io.github.pavansharma36.saas.core.web.api;
 
+import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.context.providers.MDCContextProvider;
 import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.core.common.utils.CoreUtils;
@@ -12,12 +13,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class CoreApiRequestInterceptor implements HandlerInterceptor {
 
+  private final boolean apiInMDC = Config.getBoolean("web.api.pattern.mdc.enabled", false);
+
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
-    String attributeName =
-        (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
-    MDCContextProvider.put(Constants.API_MDC_KEY, attributeName);
+    if (apiInMDC) {
+      String attributeName =
+          (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+      MDCContextProvider.put(Constants.API_MDC_KEY, attributeName);
+    }
     return true;
   }
 

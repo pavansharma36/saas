@@ -20,6 +20,10 @@ public class RequestInfo {
   private String userId;
   private Set<String> roles;
 
+  /**
+   * auth filter doesnt have response where we can update jwt.
+   * keep it here and set in response if not null.
+   */
   private transient String responseJwt;
 
   public boolean isRetry() {

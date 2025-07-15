@@ -14,6 +14,7 @@
         <module>core</module>
         <module>auth</module>
         <module>galaxy</module>
+        <module>search</module>
     </modules>
 
     <properties>
@@ -41,6 +42,7 @@
         <postgres.driver.version>42.7.3</postgres.driver.version>
         <mongo.driver.version>5.4.0</mongo.driver.version>
         <flyway.version>10.16.0</flyway.version>
+        <elastic.client.version>9.0.3</elastic.client.version>
 
         <!-- data tools -->
         <rabbitmq.client.version>5.25.0</rabbitmq.client.version>
@@ -52,6 +54,7 @@
         <commons.codec.version>1.16.0</commons.codec.version>
         <commons.pool2.version>2.12.1</commons.pool2.version>
         <apache.http.client.version>5.3.1</apache.http.client.version>
+        <commons.io.version>2.19.0</commons.io.version>
 
         <!-- PLUGINS -->
         <mybatis.generator.plugin.version>1.4.2</mybatis.generator.plugin.version>

@@ -4,6 +4,7 @@ package io.github.pavansharma36.saas.core.broker.consumer;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.context.providers.MDCContextProvider;
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
@@ -23,7 +24,6 @@ import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessorNotF
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

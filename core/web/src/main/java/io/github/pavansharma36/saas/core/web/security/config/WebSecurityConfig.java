@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.web.security.config;
 
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

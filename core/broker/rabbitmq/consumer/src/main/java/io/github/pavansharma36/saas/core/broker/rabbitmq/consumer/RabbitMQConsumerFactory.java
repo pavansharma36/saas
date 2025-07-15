@@ -5,6 +5,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import io.github.pavansharma36.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
 import io.github.pavansharma36.core.common.utils.ShutdownHooks;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.ConsumerFactory;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
@@ -13,7 +14,6 @@ import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.listener.Rabbi
 import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.listener.RabbitMQListenerConsumer;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller.RabbitMQPollResponse;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller.RabbitMQPollerConsumer;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 import org.springframework.stereotype.Component;

@@ -7,9 +7,9 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.utils.Utils;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.io.IOException;
 import java.util.function.Consumer;
 

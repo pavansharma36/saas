@@ -6,7 +6,6 @@ import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.common.model.Model;
 import io.github.pavansharma36.saas.core.dao.mybatis.listener.MyBatisEntityListener;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,17 +38,8 @@ public abstract class AbstractMyBatisDao<T extends Model, M extends BaseMapper<T
     return model;
   }
 
-  public T save(T model) {
-    return model.getId() == null ? insert(model) : update(model);
-  }
-
   public Optional<T> findById(String id) {
     return mapper.selectByPrimaryKey(id);
-  }
-
-  public T findByIdOrThrow(String id) {
-    return findById(id).orElseThrow(
-        () -> new ServerRuntimeException("Not able to find entity by id " + id));
   }
 
   @Override

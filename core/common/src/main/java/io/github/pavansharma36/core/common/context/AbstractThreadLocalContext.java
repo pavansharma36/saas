@@ -1,7 +1,7 @@
 package io.github.pavansharma36.core.common.context;
 
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import java.util.Optional;
 
 public abstract class AbstractThreadLocalContext<T> implements ThreadLocalContext {

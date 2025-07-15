@@ -1,7 +1,7 @@
 package io.github.pavansharma36.core.common.context.providers;
 
 import io.github.pavansharma36.core.common.context.UserContext;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 
 public class UserContextProvider {
   private static UserContext userContext;

@@ -45,3 +45,17 @@ services:
       RABBITMQ_DEFAULT_USER: rabbit
       RABBITMQ_DEFAULT_PASS: password
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbitmq_management load_definitions "/tmp/rabbitmq-conf.json"
+
+
+  saas-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.3
+    container_name: saas-elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node # For single-node cluster
+      - xpack.security.enabled=false # Disable security for local development (not recommended for production)
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Allocate memory for Elasticsearch
+    ports:
+      - "9200:9200" # Expose HTTP port
+      - "9300:9300" # Expose Transport port
+

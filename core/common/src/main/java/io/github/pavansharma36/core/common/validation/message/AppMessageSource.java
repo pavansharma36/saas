@@ -1,6 +1,6 @@
 package io.github.pavansharma36.core.common.validation.message;
 
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.ex.code.ErrorCode;
 import io.github.pavansharma36.saas.utils.resource.ResourceUtils;
 import java.io.File;

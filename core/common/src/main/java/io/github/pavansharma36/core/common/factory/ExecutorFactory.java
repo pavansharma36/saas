@@ -2,8 +2,8 @@ package io.github.pavansharma36.core.common.factory;
 
 import io.github.pavansharma36.core.common.config.Config;
 import io.github.pavansharma36.core.common.utils.ShutdownHooks;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.Utils;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

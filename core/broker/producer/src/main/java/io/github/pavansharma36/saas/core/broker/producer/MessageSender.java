@@ -2,6 +2,7 @@ package io.github.pavansharma36.saas.core.broker.producer;
 
 import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.Message;
@@ -9,7 +10,6 @@ import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializableP
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

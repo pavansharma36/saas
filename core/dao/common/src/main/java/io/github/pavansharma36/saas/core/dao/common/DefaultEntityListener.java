@@ -1,9 +1,9 @@
 package io.github.pavansharma36.saas.core.dao.common;
 
 import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.dao.common.model.Model;
 import io.github.pavansharma36.saas.core.dao.common.model.UpdatableModel;
-import io.github.pavansharma36.saas.utils.ex.ServerRuntimeException;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 

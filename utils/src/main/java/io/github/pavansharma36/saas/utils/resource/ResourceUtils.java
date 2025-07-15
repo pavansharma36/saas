@@ -1,14 +1,17 @@
 package io.github.pavansharma36.saas.utils.resource;
 
 import io.github.pavansharma36.saas.utils.ex.AppConfigurationException;
+import io.github.pavansharma36.saas.utils.ex.AppRuntimeException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.Properties;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.io.IOUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class ResourceUtils {
@@ -48,6 +51,15 @@ public abstract class ResourceUtils {
       throw new AppConfigurationException(e.getMessage(), e);
     }
     return props;
+  }
+
+  public static String readClasspathFile(String fileName, Class<?> clazz) {
+    try {
+      return IOUtils.resourceToString(fileName, StandardCharsets.UTF_8, clazz.getClassLoader());
+    } catch (IOException e) {
+      throw new AppRuntimeException(e.getMessage(), e) {
+      };
+    }
   }
 
 }
