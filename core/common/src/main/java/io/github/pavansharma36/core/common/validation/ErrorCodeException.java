@@ -11,27 +11,34 @@ public class ErrorCodeException extends AppRuntimeException {
 
   private final ErrorCode errorCode;
   private final Map<String, Object> params;
+  private final int status;
 
-  public ErrorCodeException(ErrorCode errorCode) {
-    this(errorCode.message(), errorCode, Collections.emptyMap());
+  public ErrorCodeException(ErrorCode errorCode, int status) {
+    this(errorCode.message(), errorCode, Collections.emptyMap(), status);
   }
 
-  public ErrorCodeException(ErrorCode errorCode, Map<String, Object> params) {
-    this(errorCode.message(), errorCode, params);
+  public ErrorCodeException(ErrorCode errorCode, Map<String, Object> params, int status) {
+    this(errorCode.message(), errorCode, params, status);
   }
 
-  public ErrorCodeException(String message, ErrorCode errorCode, Map<String, Object> params) {
+  public ErrorCodeException(String message, ErrorCode errorCode, Map<String, Object> params,
+                            int status) {
     super(message);
     this.errorCode = errorCode;
     this.params = params;
+    this.status = status;
   }
 
-  public ErrorCodeException(ErrorCode errorCode, Map<String, Object> params,
+  public ErrorCodeException(ErrorCode errorCode, Map<String, Object> params, int status,
                             Throwable cause) {
     super(cause.getMessage(), cause);
     this.errorCode = errorCode;
     this.params = params;
+    this.status = status;
   }
 
-
+  @Override
+  public int statusCode() {
+    return this.status;
+  }
 }

@@ -1,11 +1,12 @@
 {
-    "combined_fields": {
+    "multi_match": {
       "query": "${QUERY}",
       "fields": [
         "name^3",
         "code^2",
         "description"
       ],
+      "fuzziness": "AUTO",
       "operator": "and"
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public abstract class CoreConstants {
 
   public static final String PROCESS_UUID = Utils.randomRequestId();
+  public static final String CORE = "core";
   public static final String APP_NAME = Config.get("app.name");
   public static final Enums.AppType APP_TYPE = Enums.AppType.fromName(Config.get("app.type"));
 
@@ -18,5 +19,4 @@ public abstract class CoreConstants {
   public static final String CACHE_IMPL_CONF = "cache.impl";
 
   public static final String SYSTEM_USER_ID = "system";
-
 }

@@ -63,7 +63,7 @@ public class AppMessageSource extends AbstractMessageSource implements MessageSo
         baseName =
             String.format("file:%s/%s_messages", file.get().getAbsolutePath(),
                 clazz.getSimpleName());
-        log.info("Registering message from {}", baseName);
+        log.info("Registering message from {} for {}", baseName, clazz);
         ReloadableResourceBundleMessageSource ms =
             (ReloadableResourceBundleMessageSource) getParentMessageSource();
         ms.addBasenames(baseName);

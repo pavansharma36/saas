@@ -4,19 +4,16 @@ import io.github.pavansharma36.saas.core.dao.common.DefaultEntityListener;
 import io.github.pavansharma36.saas.core.dao.common.EntityListener;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.elasticsearch.model.BaseElasticModel;
-import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import org.apache.commons.text.StringSubstitutor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.Query;
-import org.springframework.data.elasticsearch.core.query.StringQuery;
 
+@Slf4j
 public abstract class AbstractElasticSearchDao<T extends BaseElasticModel> implements Dao<T> {
 
   private final Class<T> clazz;
@@ -63,19 +60,13 @@ public abstract class AbstractElasticSearchDao<T extends BaseElasticModel> imple
   }
 
   public List<T> search(String query, Pageable pageable) {
-    return elasticsearchTemplate.search(buildSearchQuery(query, pageable), clazz).get()
+    Query queryObj = buildSearchQuery(query, pageable);
+    log.debug("Executing search query for term {} on {} : {}", query, clazz, queryObj);
+    return elasticsearchTemplate.search(queryObj, clazz).get()
         .map(SearchHit::getContent).toList();
   }
 
-  private Query buildSearchQuery(String query, Pageable pageable) {
-    Map<String, Object> context = new HashMap<>();
-    context.put("QUERY", query);
-    String queryJson = new StringSubstitutor(context).replace(getSearchQueryTemplate());
-    JsonUtils.fromJson(queryJson, Object.class);
-    return new StringQuery(queryJson, pageable);
-  }
-
-  protected abstract String getSearchQueryTemplate();
+  protected abstract Query buildSearchQuery(String query, Pageable pageable);
 
   public abstract String entityName();
 }

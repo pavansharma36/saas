@@ -93,7 +93,8 @@ public class ConsumerTemplate {
 
     for (Map.Entry<String, List<Queue>> typeQueues : typeQueueMap.entrySet()) {
       boolean usePollerForType =
-          Config.getBoolean(String.format("%s.queue.type.poller.enabled", typeQueues.getKey()),
+          Config.getBoolean(
+              String.format("%s.queue.type.consumer.poller.enabled", typeQueues.getKey()),
               Config.getBoolean("consumer.poller.enabled", false));
 
       for (Queue queue : typeQueues.getValue()) {
@@ -104,7 +105,7 @@ public class ConsumerTemplate {
                         typeQueues.getKey())));
 
         boolean usePollerForQueue =
-            Config.getBoolean(String.format("%s.queue.consumerFactor.enabled", queue.getName()),
+            Config.getBoolean(String.format("%s.queue.consumer.poller.enabled", queue.getName()),
                 usePollerForType);
 
         if (usePollerForQueue) {

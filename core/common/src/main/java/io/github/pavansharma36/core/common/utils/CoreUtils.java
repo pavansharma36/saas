@@ -34,8 +34,8 @@ public abstract class CoreUtils {
         new PropertiesFileConfigProvider(
             String.format("conf/env/%s.properties", getEnv()), 8000));
 
-    AppValidatorFactory.registerAppMessages("core");
-    AppValidatorFactory.registerErrorCodeMessages("core", CoreErrorCode.class);
+    AppValidatorFactory.registerAppMessages(CoreConstants.CORE);
+    AppValidatorFactory.registerErrorCodeMessages(CoreConstants.CORE, CoreErrorCode.class);
     AppValidatorFactory.registerAppMessages(appName);
   }
 

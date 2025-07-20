@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.search.api;
 
-import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
+import io.github.pavansharma36.saas.search.dto.TenantDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;

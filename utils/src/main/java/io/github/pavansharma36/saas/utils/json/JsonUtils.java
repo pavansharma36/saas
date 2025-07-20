@@ -20,6 +20,7 @@ public class JsonUtils {
     MAPPER.findAndRegisterModules();
     MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    MAPPER.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
   }
 
   public static ObjectMapper mapper() {

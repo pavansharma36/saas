@@ -5,6 +5,7 @@ import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.message.BasicHeader;
@@ -32,7 +33,7 @@ public class ElasticSearchConfig {
     }
 
     ElasticsearchTransport transport = new RestClientTransport(
-        restClient.build(), new JacksonJsonpMapper());
+        restClient.build(), new JacksonJsonpMapper(JsonUtils.mapper()));
 
     ElasticsearchClient esClient = new ElasticsearchClient(transport);
     return new ElasticsearchTemplate(esClient);

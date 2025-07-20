@@ -6,15 +6,11 @@ import java.util.Map;
 public class BadRequestException extends ErrorCodeException {
 
   public BadRequestException(ErrorCode errorCode) {
-    super(errorCode);
+    super(errorCode, 400);
   }
 
   public BadRequestException(ErrorCode errorCode, Map<String, Object> params) {
-    super(errorCode, params);
+    super(errorCode, params, 400);
   }
-
-  @Override
-  public int statusCode() {
-    return 400;
-  }
+  
 }
