@@ -3,9 +3,10 @@ package io.github.pavansharma36.saas.core.common.storage;
 import java.io.InputStream;
 
 public interface StorageService {
-  StorageType type();
 
-  int priority();
+  String IMPL_CONF = "storage.impl";
+
+  StorageType type();
 
   boolean exists(String key);
 

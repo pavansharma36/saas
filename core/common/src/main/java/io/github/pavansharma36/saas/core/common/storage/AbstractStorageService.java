@@ -7,15 +7,10 @@ import lombok.RequiredArgsConstructor;
 public abstract class AbstractStorageService implements StorageService {
 
   private final StorageType type;
-  private final int priority;
 
   @Override
   public StorageType type() {
     return type;
   }
-
-  @Override
-  public int priority() {
-    return priority;
-  }
+  
 }

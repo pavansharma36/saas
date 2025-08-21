@@ -10,15 +10,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 @Service
+@Conditional(LocalStorageCondition.class)
 public class LocalStorageService extends AbstractStorageService {
 
   private final String basePath;
 
   public LocalStorageService() {
-    super(StorageType.LOCAL, -1);
+    super(StorageType.LOCAL);
     basePath = Config.get("local.storage.basePath", "/tmp");
   }
 
