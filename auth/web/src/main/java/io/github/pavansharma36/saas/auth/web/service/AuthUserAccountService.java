@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.auth.web.service;
 
-import io.github.pavansharma36.core.common.service.UserAccountService;
-import io.github.pavansharma36.core.common.validation.ValidationException;
+import io.github.pavansharma36.saas.core.common.service.UserAccountService;
+import io.github.pavansharma36.saas.core.common.validation.ValidationException;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.utils.AuthErrorCode;
@@ -51,7 +51,7 @@ public class AuthUserAccountService implements UserAccountService<UserAccountDet
 
   @Override
   public UserAccountDto getUserAccount(String id) {
-    UserAccount userAccount = userAccountDao.findByIdOrThrow(id);
+    UserAccount userAccount = userAccountDao.findByIdOrThrowBadRequest(id);
 
     UserAccountDto dto = new UserAccountDto();
     dto.setId(userAccount.getId());

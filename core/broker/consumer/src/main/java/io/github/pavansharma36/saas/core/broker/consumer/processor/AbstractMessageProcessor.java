@@ -1,11 +1,11 @@
 package io.github.pavansharma36.saas.core.broker.consumer.processor;
 
-import io.github.pavansharma36.core.common.mutex.bean.CompositeLockInfo;
-import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
-import io.github.pavansharma36.core.common.mutex.bean.Lock;
-import io.github.pavansharma36.core.common.mutex.service.LockService;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
-import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.common.mutex.bean.CompositeLockInfo;
+import io.github.pavansharma36.saas.core.common.mutex.bean.DefaultLock;
+import io.github.pavansharma36.saas.core.common.mutex.bean.Lock;
+import io.github.pavansharma36.saas.core.common.mutex.service.LockService;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;

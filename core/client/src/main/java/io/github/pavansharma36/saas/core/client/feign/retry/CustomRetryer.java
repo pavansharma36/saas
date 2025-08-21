@@ -2,7 +2,7 @@ package io.github.pavansharma36.saas.core.client.feign.retry;
 
 import feign.RetryableException;
 import feign.Retryer;
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.client.AbstractBaseRetry;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;

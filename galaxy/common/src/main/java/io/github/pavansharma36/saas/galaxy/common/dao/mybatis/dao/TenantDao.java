@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao;
 
-import io.github.pavansharma36.core.common.id.utils.IdGeneratorUtils;
+import io.github.pavansharma36.saas.core.common.id.utils.IdGeneratorUtils;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.mybatis.dao.AbstractMyBatisDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper.TenantMapper;

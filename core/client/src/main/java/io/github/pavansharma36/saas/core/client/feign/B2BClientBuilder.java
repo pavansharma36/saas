@@ -6,7 +6,7 @@ import feign.hc5.ApacheHttp5Client;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.spring.SpringContract;
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.client.feign.interceptor.B2BRequestInterceptor;
 import io.github.pavansharma36.saas.core.client.feign.logging.AppSlf4jLogger;
 import io.github.pavansharma36.saas.core.client.feign.retry.Custom5xxErrorDecoder;

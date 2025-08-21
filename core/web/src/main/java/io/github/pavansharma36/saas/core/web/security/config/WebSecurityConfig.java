@@ -1,8 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security.config;
 
-import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,7 +25,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
-@ComponentScan("io.github.pavansharma36.saas.core.web.security")
 public class WebSecurityConfig {
 
   @Bean

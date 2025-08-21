@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.client.http;
 
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.client.AbstractBaseRetry;
 import java.io.IOException;
 import java.time.Instant;

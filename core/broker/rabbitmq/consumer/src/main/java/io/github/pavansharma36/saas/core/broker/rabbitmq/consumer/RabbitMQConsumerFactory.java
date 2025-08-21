@@ -2,10 +2,10 @@ package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer;
 
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import io.github.pavansharma36.core.common.factory.ExecutorFactory;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
-import io.github.pavansharma36.core.common.utils.ShutdownHooks;
-import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.common.factory.ExecutorFactory;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.utils.ShutdownHooks;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.ConsumerFactory;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;

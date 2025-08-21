@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.auth.web.security;
 
-import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
-import io.github.pavansharma36.core.common.service.UserService;
+import io.github.pavansharma36.saas.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.saas.core.common.context.providers.UserContextProvider;
+import io.github.pavansharma36.saas.core.common.service.UserService;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.dao.UserAccountDao;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserAccount;
 import io.github.pavansharma36.saas.auth.common.utils.Role;

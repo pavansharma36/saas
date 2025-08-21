@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.mutex;
 
-import io.github.pavansharma36.core.common.mutex.bean.LockType;
-import io.github.pavansharma36.core.common.mutex.dao.DuplicateModelException;
-import io.github.pavansharma36.core.common.mutex.dao.LockDao;
+import io.github.pavansharma36.saas.core.common.mutex.bean.LockType;
+import io.github.pavansharma36.saas.core.common.mutex.dao.DuplicateModelException;
+import io.github.pavansharma36.saas.core.common.mutex.dao.LockDao;
 import io.github.pavansharma36.saas.core.dao.mongodb.dao.AbstractGlobalMongoDao;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
 import io.github.pavansharma36.saas.utils.collections.CollectionUtils;

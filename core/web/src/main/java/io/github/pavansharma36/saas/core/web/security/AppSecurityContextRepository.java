@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security;
 
-import io.github.pavansharma36.core.common.service.TenantService;
-import io.github.pavansharma36.core.common.service.UserService;
+import io.github.pavansharma36.saas.core.common.service.TenantService;
+import io.github.pavansharma36.saas.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.web.security.context.AppSecurityContextProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

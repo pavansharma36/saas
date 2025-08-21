@@ -1,9 +1,9 @@
 package io.github.pavansharma36.saas.core.web.api;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import io.github.pavansharma36.core.common.validation.CoreErrorCode;
-import io.github.pavansharma36.core.common.validation.ErrorCodeException;
-import io.github.pavansharma36.core.common.validation.ValidationException;
+import io.github.pavansharma36.saas.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.saas.core.common.validation.ErrorCodeException;
+import io.github.pavansharma36.saas.core.common.validation.ValidationException;
 import io.github.pavansharma36.saas.core.dto.ex.ResponseRuntimeException;
 import io.github.pavansharma36.saas.core.dto.response.Message;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;

@@ -1,9 +1,9 @@
 package io.github.pavansharma36.saas.core.web.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.pavansharma36.core.common.crypto.CryptUtil;
-import io.github.pavansharma36.core.common.crypto.KeyType;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.crypto.CryptUtil;
+import io.github.pavansharma36.saas.core.common.crypto.KeyType;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;
 import io.jsonwebtoken.Claims;

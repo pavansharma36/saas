@@ -3,7 +3,7 @@ package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.GetResponse;
-import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
 import java.io.IOException;
 import java.util.Optional;

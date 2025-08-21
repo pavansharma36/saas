@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.auth.client.service;
 
 import io.github.pavansharma36.auth.api.UserAccountApi;
-import io.github.pavansharma36.core.common.service.UserAccountService;
+import io.github.pavansharma36.saas.core.common.service.UserAccountService;
 import io.github.pavansharma36.saas.auth.client.AuthClientFactory;
 import io.github.pavansharma36.saas.core.dto.common.UserAccountDto;
 import java.util.Optional;

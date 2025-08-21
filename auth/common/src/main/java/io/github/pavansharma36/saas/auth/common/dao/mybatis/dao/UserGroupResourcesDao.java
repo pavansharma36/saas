@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.auth.common.dao.mybatis.dao;
 
-import io.github.pavansharma36.core.common.id.utils.IdGeneratorUtils;
+import io.github.pavansharma36.saas.core.common.id.utils.IdGeneratorUtils;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.mapper.UserGroupResourcesMapper;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.model.UserGroupResources;
 import io.github.pavansharma36.saas.auth.common.dao.mybatis.support.UserGroupResourcesDynamicSqlSupport;

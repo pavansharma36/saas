@@ -3,14 +3,12 @@ package io.github.pavansharma36.saas.core.dao.mongodb.config;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.config.Config;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 
 @Configuration
-@ComponentScan("io.github.pavansharma36.saas.core.dao.mongodb")
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
   @Override

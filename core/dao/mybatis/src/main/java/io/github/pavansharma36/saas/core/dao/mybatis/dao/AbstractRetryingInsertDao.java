@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
-import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.saas.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.saas.core.common.id.IdGenerator;
 import io.github.pavansharma36.saas.core.dao.mybatis.mapper.BaseMapper;
 import io.github.pavansharma36.saas.core.dao.mybatis.model.RetryingInsertMyBatisModel;
 import java.util.Optional;

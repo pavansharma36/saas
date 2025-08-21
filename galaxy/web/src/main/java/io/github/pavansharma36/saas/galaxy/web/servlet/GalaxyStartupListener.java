@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.web.servlet;
 
-import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.saas.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.web.listener.StartupListener;
 import io.github.pavansharma36.saas.galaxy.common.utils.GalaxyConstants;
 import io.github.pavansharma36.saas.utils.Enums;

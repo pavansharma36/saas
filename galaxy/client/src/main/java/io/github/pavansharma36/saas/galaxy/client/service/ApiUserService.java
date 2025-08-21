@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.galaxy.client.service;
 
-import io.github.pavansharma36.core.common.context.UserContext;
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
-import io.github.pavansharma36.core.common.service.UserService;
+import io.github.pavansharma36.saas.core.common.context.UserContext;
+import io.github.pavansharma36.saas.core.common.context.providers.UserContextProvider;
+import io.github.pavansharma36.saas.core.common.service.UserService;
 import io.github.pavansharma36.saas.core.dto.common.UserDto;
 import io.github.pavansharma36.saas.galaxy.api.UserApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;

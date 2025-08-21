@@ -1,12 +1,12 @@
 package io.github.pavansharma36.saas.galaxy.client.service;
 
-import io.github.pavansharma36.core.common.cache.inmemory.AbstractInMemoryCache;
-import io.github.pavansharma36.core.common.cache.inmemory.InmemoryCache;
-import io.github.pavansharma36.core.common.context.TenantContext;
-import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
-import io.github.pavansharma36.core.common.service.TenantService;
-import io.github.pavansharma36.core.common.validation.CoreErrorCode;
-import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.common.cache.inmemory.AbstractInMemoryCache;
+import io.github.pavansharma36.saas.core.common.cache.inmemory.InmemoryCache;
+import io.github.pavansharma36.saas.core.common.context.TenantContext;
+import io.github.pavansharma36.saas.core.common.context.providers.TenantContextProvider;
+import io.github.pavansharma36.saas.core.common.service.TenantService;
+import io.github.pavansharma36.saas.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
 import io.github.pavansharma36.saas.galaxy.client.GalaxyClientFactory;

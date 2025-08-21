@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.web.listener;
 
-import io.github.pavansharma36.core.common.listener.AppLoaderListener;
+import io.github.pavansharma36.saas.core.common.listener.AppLoaderListener;
 import jakarta.servlet.ServletContextEvent;
 import java.util.Collections;
 import java.util.LinkedList;

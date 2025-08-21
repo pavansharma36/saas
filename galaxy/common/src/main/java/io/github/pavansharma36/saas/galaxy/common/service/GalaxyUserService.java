@@ -1,12 +1,12 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
 import io.github.pavansharma36.auth.api.UserAccountApi;
-import io.github.pavansharma36.core.common.context.UserContext;
-import io.github.pavansharma36.core.common.context.providers.TenantContextProvider;
-import io.github.pavansharma36.core.common.context.providers.UserContextProvider;
-import io.github.pavansharma36.core.common.service.UserService;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
-import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.saas.core.common.context.UserContext;
+import io.github.pavansharma36.saas.core.common.context.providers.TenantContextProvider;
+import io.github.pavansharma36.saas.core.common.context.providers.UserContextProvider;
+import io.github.pavansharma36.saas.core.common.service.UserService;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.auth.client.AuthClientFactory;
 import io.github.pavansharma36.saas.core.dto.common.CreateUserDto;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
@@ -74,7 +74,7 @@ public class GalaxyUserService implements UserService {
       dto.setEnabled(true);
       return dto;
     }
-    UserInfo userInfo = userInfoDao.findByIdOrThrow(id);
+    UserInfo userInfo = userInfoDao.findByIdOrThrowBadRequest(id);
     UserDto dto = new UserDto();
     dto.setId(userInfo.getId());
     dto.setFirstName(userInfo.getFirstName());

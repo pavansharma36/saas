@@ -2,11 +2,11 @@ package io.github.pavansharma36.saas.core.client.feign.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import io.github.pavansharma36.core.common.config.Config;
-import io.github.pavansharma36.core.common.context.RequestInfo;
-import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.core.common.crypto.CryptUtil;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.context.RequestInfo;
+import io.github.pavansharma36.saas.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.saas.core.common.crypto.CryptUtil;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;
 import org.slf4j.MDC;

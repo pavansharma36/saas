@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.auth.common.utils;
 
-import io.github.pavansharma36.core.common.validation.AppValidatorFactory;
+import io.github.pavansharma36.saas.core.common.validation.AppValidatorFactory;
 import io.github.pavansharma36.saas.utils.ex.code.ErrorCode;
 import java.util.Map;
 

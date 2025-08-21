@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.core.broker.common;
 
-import io.github.pavansharma36.core.common.config.Config;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
-import io.github.pavansharma36.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;

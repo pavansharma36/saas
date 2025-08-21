@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
-import io.github.pavansharma36.core.common.service.ConfigService;
+import io.github.pavansharma36.saas.core.common.service.ConfigService;
 import io.github.pavansharma36.saas.core.dto.common.ConfigValueDto;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.dao.ConfigDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Config;

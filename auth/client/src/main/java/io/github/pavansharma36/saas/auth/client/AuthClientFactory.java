@@ -2,7 +2,7 @@ package io.github.pavansharma36.saas.auth.client;
 
 import io.github.pavansharma36.auth.api.SelfApi;
 import io.github.pavansharma36.auth.api.UserAccountApi;
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.client.feign.B2BClientBuilder;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.search.client;
 
-import io.github.pavansharma36.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.client.feign.B2BClientBuilder;
 import io.github.pavansharma36.saas.search.api.GenericSearchApi;
 import io.github.pavansharma36.saas.search.api.TenantApi;

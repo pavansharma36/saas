@@ -4,7 +4,7 @@ import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.Con
 import static io.github.pavansharma36.saas.galaxy.common.dao.mybatis.support.ConfigDynamicSqlSupport.classifierValue;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
-import io.github.pavansharma36.core.common.id.utils.IdGeneratorUtils;
+import io.github.pavansharma36.saas.core.common.id.utils.IdGeneratorUtils;
 import io.github.pavansharma36.saas.core.dao.mybatis.dao.AbstractMyBatisDao;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.mapper.ConfigMapper;
 import io.github.pavansharma36.saas.galaxy.common.dao.mybatis.model.Config;

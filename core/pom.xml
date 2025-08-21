@@ -23,6 +23,7 @@
         <module>api</module>
         <module>broker</module>
         <module>worker</module>
+        <module>cloud</module>
     </modules>
 
     <dependencies>

@@ -1,9 +1,9 @@
 package io.github.pavansharma36.saas.galaxy.worker.processor;
 
-import io.github.pavansharma36.core.common.mutex.bean.DefaultLock;
-import io.github.pavansharma36.core.common.mutex.bean.Lock;
-import io.github.pavansharma36.core.common.mutex.bean.LockType;
-import io.github.pavansharma36.core.common.mutex.service.LockService;
+import io.github.pavansharma36.saas.core.common.mutex.bean.DefaultLock;
+import io.github.pavansharma36.saas.core.common.mutex.bean.Lock;
+import io.github.pavansharma36.saas.core.common.mutex.bean.LockType;
+import io.github.pavansharma36.saas.core.common.mutex.service.LockService;
 import io.github.pavansharma36.saas.core.broker.common.api.MessageType;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;

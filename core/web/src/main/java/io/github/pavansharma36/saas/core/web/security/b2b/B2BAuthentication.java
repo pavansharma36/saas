@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.web.security.b2b;
 
-import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
 import java.util.Collections;
 import java.util.stream.Stream;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

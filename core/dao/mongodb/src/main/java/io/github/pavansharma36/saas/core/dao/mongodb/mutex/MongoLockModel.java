@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.mutex;
 
-import io.github.pavansharma36.core.common.mutex.bean.LockType;
-import io.github.pavansharma36.core.common.mutex.dao.LockModel;
+import io.github.pavansharma36.saas.core.common.mutex.bean.LockType;
+import io.github.pavansharma36.saas.core.common.mutex.dao.LockModel;
 import io.github.pavansharma36.saas.core.dao.mongodb.model.BaseMongoModel;
 import java.util.Date;
 import lombok.Getter;

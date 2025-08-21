@@ -16,6 +16,7 @@
         <module>galaxy</module>
         <module>search</module>
         <module>scheduler</module>
+        <module>audit</module>
     </modules>
 
     <properties>
@@ -70,6 +71,9 @@
         <checkstyle.version>10.21.3</checkstyle.version>
         <maven-spotbugs-plugin>4.9.3.0</maven-spotbugs-plugin>
         <spotbugs.version>4.9.3</spotbugs.version>
+
+        <!-- configs -->
+        <https.protocols.jvm.arg>-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2</https.protocols.jvm.arg>
     </properties>
 
     <dependencyManagement>
@@ -242,7 +246,7 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${jetty.plugin.version}</version>
                     <configuration>
-                        <jvmArgs>-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2,TLSv1.3</jvmArgs>
+                        <jvmArgs>${https.protocols.jvm.arg}</jvmArgs>
                     </configuration>
                 </plugin>
             </plugins>

@@ -2,8 +2,8 @@ package io.github.pavansharma36.saas.galaxy.common.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import io.github.pavansharma36.core.common.config.Config;
-import io.github.pavansharma36.core.common.factory.ExecutorFactory;
+import io.github.pavansharma36.saas.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.saas.core.dao.mybatis.config.MyBatisConfig;
 import java.util.Map;
 import java.util.Properties;

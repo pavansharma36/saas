@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.dao.mybatis.dao;
 
-import io.github.pavansharma36.core.common.id.IdGenerator;
+import io.github.pavansharma36.saas.core.common.id.IdGenerator;
 import io.github.pavansharma36.saas.core.dao.common.EntityListener;
 import io.github.pavansharma36.saas.core.dao.common.dao.Dao;
 import io.github.pavansharma36.saas.core.dao.common.model.Model;

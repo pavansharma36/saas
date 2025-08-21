@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.web.security.context;
 
-import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.core.common.utils.CoreUtils;
+import io.github.pavansharma36.saas.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.saas.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtDetails;
 import io.github.pavansharma36.saas.core.web.security.jwt.JwtService;
 import io.github.pavansharma36.saas.utils.Constants;

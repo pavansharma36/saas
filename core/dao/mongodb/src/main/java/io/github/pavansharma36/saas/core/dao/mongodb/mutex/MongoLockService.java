@@ -1,8 +1,8 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.mutex;
 
-import io.github.pavansharma36.core.common.mutex.bean.Lock;
-import io.github.pavansharma36.core.common.mutex.service.AbstractLockService;
-import io.github.pavansharma36.core.common.mutex.service.LockService;
+import io.github.pavansharma36.saas.core.common.mutex.bean.Lock;
+import io.github.pavansharma36.saas.core.common.mutex.service.AbstractLockService;
+import io.github.pavansharma36.saas.core.common.mutex.service.LockService;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 

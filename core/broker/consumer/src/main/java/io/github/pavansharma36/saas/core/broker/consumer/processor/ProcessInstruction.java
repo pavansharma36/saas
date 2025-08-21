@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.broker.consumer.processor;
 
-import io.github.pavansharma36.core.common.mutex.bean.CompositeLockInfo;
+import io.github.pavansharma36.saas.core.common.mutex.bean.CompositeLockInfo;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
 import lombok.Builder;

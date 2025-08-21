@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.dao.mongodb.mutex;
 
-import io.github.pavansharma36.core.common.config.Config;
-import io.github.pavansharma36.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;

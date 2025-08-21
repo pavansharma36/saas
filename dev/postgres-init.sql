@@ -1,2 +1,3 @@
 CREATE DATABASE galaxy;
 CREATE DATABASE auth;
+CREATE DATABASE scheduler;

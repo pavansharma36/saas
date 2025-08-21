@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.auth.web.security;
 
-import io.github.pavansharma36.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.saas.core.common.validation.CoreErrorCode;
 import io.github.pavansharma36.saas.auth.common.utils.AuthErrorCode;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.utils.json.JsonUtils;

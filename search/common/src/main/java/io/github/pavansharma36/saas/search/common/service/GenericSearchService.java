@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.search.common.service;
 
-import io.github.pavansharma36.core.common.validation.BadRequestException;
-import io.github.pavansharma36.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.saas.core.common.validation.BadRequestException;
+import io.github.pavansharma36.saas.core.common.validation.CoreErrorCode;
 import io.github.pavansharma36.saas.core.dao.elasticsearch.dao.AbstractElasticSearchDao;
 import java.util.Collections;
 import java.util.List;

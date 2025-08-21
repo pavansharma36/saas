@@ -1,11 +1,11 @@
 package io.github.pavansharma36.saas.core.broker.consumer;
 
-import io.github.pavansharma36.core.common.context.providers.MDCContextProvider;
-import io.github.pavansharma36.core.common.context.providers.RequestInfoContextProvider;
-import io.github.pavansharma36.core.common.context.providers.ThreadLocalContextProviders;
-import io.github.pavansharma36.core.common.listener.AppLoaderListener;
-import io.github.pavansharma36.core.common.utils.CoreUtils;
-import io.github.pavansharma36.core.common.utils.ShutdownHooks;
+import io.github.pavansharma36.saas.core.common.context.providers.MDCContextProvider;
+import io.github.pavansharma36.saas.core.common.context.providers.RequestInfoContextProvider;
+import io.github.pavansharma36.saas.core.common.context.providers.ThreadLocalContextProviders;
+import io.github.pavansharma36.saas.core.common.listener.AppLoaderListener;
+import io.github.pavansharma36.saas.core.common.utils.CoreUtils;
+import io.github.pavansharma36.saas.core.common.utils.ShutdownHooks;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Enums;

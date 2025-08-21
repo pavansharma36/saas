@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.client.service;
 
-import io.github.pavansharma36.core.common.service.ConfigService;
+import io.github.pavansharma36.saas.core.common.service.ConfigService;
 import io.github.pavansharma36.saas.core.dto.common.ConfigValueDto;
 import io.github.pavansharma36.saas.core.dto.response.ListResponseObject;
 import io.github.pavansharma36.saas.galaxy.api.ConfigApi;

@@ -42,7 +42,7 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArgs>-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2,TLSv1.3</jvmArgs>
+                    <jvmArgs>${https.protocols.jvm.arg}</jvmArgs>
                     <httpConnector>
                         <port>8092</port>
                     </httpConnector>

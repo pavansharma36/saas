@@ -1,6 +1,6 @@
 package io.github.pavansharma36.saas.core.dao.redis.pubsub;
 
-import io.github.pavansharma36.core.common.pubsub.subscriber.Subscriber;
+import io.github.pavansharma36.saas.core.common.pubsub.subscriber.Subscriber;
 import io.github.pavansharma36.saas.utils.Utils;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
