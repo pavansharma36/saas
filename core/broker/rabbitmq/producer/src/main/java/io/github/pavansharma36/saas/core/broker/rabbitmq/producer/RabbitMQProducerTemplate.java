@@ -4,17 +4,17 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
+import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
+import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
+import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.RabbitQueue;
 import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.common.factory.ExecutorFactory;
 import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.core.common.utils.ShutdownHooks;
 import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
-import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
-import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
-import io.github.pavansharma36.saas.core.broker.common.api.Queue;
-import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
-import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.RabbitQueue;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
@@ -49,14 +49,15 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
   }
 
   @Override
-  public void produce(Queue queue, MessagePriority priority,
-                      MessageSerializablePayload payload,
+  public void produce(Queue queue, MessageSerializablePayload payload,
                       Function<MessageSerializablePayload, byte[]> serializer) {
     try {
       RabbitQueue rabbitQueue = (RabbitQueue) queue;
       String exchange = rabbitQueue.exchange().getName();
-      String routingKey = rabbitQueue.routingKey(priority);
-      produce(exchange, routingKey, payload, serializer);
+      String routingKey = rabbitQueue.routingKey();
+
+      produce(exchange, routingKey, payload, serializer,
+          BrokerUtils.getPriorityIndex(queue, payload.getPriority()));
     } catch (Exception e) {
       throw new ServerRuntimeException(e);
     }
@@ -69,7 +70,7 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
       RabbitQueue rabbitQueue = (RabbitQueue) queue;
       String exchange = rabbitQueue.exchange().getName();
       String routingKey = rabbitQueue.routingKey(delayedQueue);
-      produce(exchange, routingKey, payload, serializer);
+      produce(exchange, routingKey, payload, serializer, 0);
     } catch (Exception e) {
       throw new ServerRuntimeException(e);
     }
@@ -77,7 +78,8 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
 
   private void produce(String exchange, String routingKey,
                        MessageSerializablePayload payload,
-                       Function<MessageSerializablePayload, byte[]> serializer)
+                       Function<MessageSerializablePayload, byte[]> serializer,
+                       int priority)
       throws Exception {
     log.info("Dispatching message to exchange: {} with routing key: {}", exchange, routingKey);
     Channel channel = channelPool.borrowObject();
@@ -89,6 +91,7 @@ public class RabbitMQProducerTemplate implements ProducerTemplate {
           .messageId(payload.getMessageId())
           .type(payload.getMessageType())
           .appId(CoreConstants.APP_NAME)
+          .priority(priority)
           .build();
       channel.basicPublish(exchange, routingKey, true, props, serializer.apply(payload));
 

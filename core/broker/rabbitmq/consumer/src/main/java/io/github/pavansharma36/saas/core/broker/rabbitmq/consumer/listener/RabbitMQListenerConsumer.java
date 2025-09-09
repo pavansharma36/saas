@@ -5,10 +5,11 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
+import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.core.common.config.Config;
 import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
 import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
-import io.github.pavansharma36.saas.core.broker.consumer.api.listener.ListenerConsumer;
 import io.github.pavansharma36.saas.utils.Utils;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -23,7 +24,7 @@ public class RabbitMQListenerConsumer implements ListenerConsumer<RabbitMQListen
   }
 
   @Override
-  public RabbitMQListenResponse listen(String queueName, Consumer<byte[]> consumer) {
+  public RabbitMQListenResponse listen(Queue queue, Consumer<byte[]> consumer) {
     String consumerTag = String.format("%s-%s-%s", CoreConstants.APP_NAME, CoreConstants.APP_TYPE,
         Utils.randomRequestId());
     DefaultConsumer c = new DefaultConsumer(channel) {
@@ -36,11 +37,11 @@ public class RabbitMQListenerConsumer implements ListenerConsumer<RabbitMQListen
     };
 
     try {
-      channel.basicConsume(queueName, false, consumerTag, c);
+      channel.basicConsume(queue.getName(), false, consumerTag, c);
     } catch (IOException e) {
       throw new ServerRuntimeException(e);
     }
-    return new RabbitMQListenResponse(queueName, consumerTag);
+    return new RabbitMQListenResponse(queue.getName(), consumerTag);
   }
 
   @Override

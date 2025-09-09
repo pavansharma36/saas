@@ -1,12 +1,12 @@
 package io.github.pavansharma36.saas.core.broker.consumer;
 
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.common.context.providers.MDCContextProvider;
 import io.github.pavansharma36.saas.core.common.context.providers.RequestInfoContextProvider;
 import io.github.pavansharma36.saas.core.common.context.providers.ThreadLocalContextProviders;
 import io.github.pavansharma36.saas.core.common.listener.AppLoaderListener;
 import io.github.pavansharma36.saas.core.common.utils.CoreUtils;
 import io.github.pavansharma36.saas.core.common.utils.ShutdownHooks;
-import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Enums;
 import io.github.pavansharma36.saas.utils.Utils;
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -45,10 +46,8 @@ public class ConsumerBootstrapProcessor {
       Map<String, List<Queue>> queueMap = getTypeQueuesMap(queues);
       log.info("Queue types for process {}", queueMap.keySet());
 
-      log.info("Queue names to process {}", Arrays.stream(queues)
-          .map(q -> q.supportedPriorities().stream()
-              .map(q::formatQueueName).toList())
-          .flatMap(List::stream).toList());
+      log.info("Queue names to process {}", Arrays.stream(queues).map(Queue::getName).collect(
+          Collectors.joining()));
 
       ConsumerTemplate consumerTemplate = applicationContext.getBean(ConsumerTemplate.class);
       consumerTemplate.consume(applicationContext, queueMap);

@@ -1,13 +1,8 @@
 package io.github.pavansharma36.saas.core.broker.consumer;
 
 
-import io.github.pavansharma36.saas.core.common.config.Config;
-import io.github.pavansharma36.saas.core.common.context.providers.MDCContextProvider;
-import io.github.pavansharma36.saas.core.common.context.providers.ThreadLocalContextProviders;
-import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
-import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
@@ -22,6 +17,10 @@ import io.github.pavansharma36.saas.core.broker.consumer.processor.MessageProces
 import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessInstruction;
 import io.github.pavansharma36.saas.core.broker.consumer.processor.ProcessorNotFoundException;
 import io.github.pavansharma36.saas.core.broker.producer.ProducerTemplate;
+import io.github.pavansharma36.saas.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.context.providers.MDCContextProvider;
+import io.github.pavansharma36.saas.core.common.context.providers.ThreadLocalContextProviders;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.Constants;
 import io.github.pavansharma36.saas.utils.Utils;
 import java.util.Date;
@@ -67,12 +66,10 @@ public class ConsumerTemplate {
     log.info("Starting listener thread for queue {} with thread count {}", queue.getName(),
         threadCount);
     for (int i = 0; i < threadCount; i++) {
-      for (MessagePriority priority : queue.supportedPriorities()) {
-        ListenExecutor<L> executor =
-            new ListenExecutor<>(queue, priority, c.createListenerConsumer(),
-                getMessageHandler(queue));
-        executor.start();
-      }
+      ListenExecutor<L> executor =
+          new ListenExecutor<>(queue, c.createListenerConsumer(),
+              getMessageHandler(queue));
+      executor.start();
     }
   }
 

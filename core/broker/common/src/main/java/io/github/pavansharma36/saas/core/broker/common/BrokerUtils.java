@@ -1,8 +1,5 @@
 package io.github.pavansharma36.saas.core.broker.common;
 
-import io.github.pavansharma36.saas.core.common.config.Config;
-import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
-import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
@@ -10,6 +7,11 @@ import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializableP
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
+import io.github.pavansharma36.saas.core.common.config.Config;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.utils.PreCondition;
+import io.github.pavansharma36.saas.core.common.validation.CoreErrorCode;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.Utils;
 import io.github.pavansharma36.saas.utils.poll.DelayedLogEmitter;
 import java.util.Comparator;
@@ -31,13 +33,7 @@ public abstract class BrokerUtils {
     return Utils.deserialize(data, MessageSerializablePayload.class);
   }
 
-  public static List<MessagePriority> sortDesc(List<MessagePriority> priorities) {
-    return priorities.stream().sorted((a, b) -> b.priority() - a.priority())
-        .toList();
-  }
-
-  public static boolean isQueueBlocked(Queue queue, MessagePriority priority,
-                                       DelayedLogEmitter log) {
+  public static boolean isQueueBlocked(Queue queue, DelayedLogEmitter log) {
     if (Config.getBoolean("queue.block.all", false)) {
       log.info("All queues are blocked, not polling for any message");
       return true;
@@ -45,16 +41,6 @@ public abstract class BrokerUtils {
       log.info("Queue is blocked, not polling for any message : {}", queue.getName());
       return true;
     }
-    if (priority != null) {
-      String queueName = queue.formatQueueName(priority);
-      if (Config.getBoolean(
-          String.format("%s.priority.queue.block.all", queueName),
-          false)) {
-        log.info("Queue with priority blocked, not polling for any message : {}", queueName);
-        return true;
-      }
-    }
-
     return false;
   }
 
@@ -103,6 +89,14 @@ public abstract class BrokerUtils {
       }
       messageInfoDao.update(messageInfo);
     }
+  }
+
+  public static int getPriorityIndex(Queue queue, MessagePriority priority) {
+    List<MessagePriority> priorities = queue.supportedPriorities().stream()
+        .sorted(Comparator.comparingInt(MessagePriority::priority)).toList();
+    int p = priorities.indexOf(priority);
+    PreCondition.assertCondition(p >= 0, CoreErrorCode.SERVER_ERROR);
+    return p;
   }
 
   public static boolean isOwner(MessageInfo messageInfo) {

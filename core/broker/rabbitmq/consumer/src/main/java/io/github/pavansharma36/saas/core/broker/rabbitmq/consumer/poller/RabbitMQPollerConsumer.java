@@ -3,8 +3,9 @@ package io.github.pavansharma36.saas.core.broker.rabbitmq.consumer.poller;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.GetResponse;
-import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
+import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.consumer.api.poller.PollerConsumer;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import java.io.IOException;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,9 @@ public class RabbitMQPollerConsumer implements PollerConsumer<RabbitMQPollRespon
   }
 
   @Override
-  public Optional<RabbitMQPollResponse> poll(String queueName) {
+  public Optional<RabbitMQPollResponse> poll(Queue queue) {
     try {
-      GetResponse res = channel.basicGet(queueName, false);
+      GetResponse res = channel.basicGet(queue.getName(), false);
       if (res != null) {
         return Optional.of(new RabbitMQPollResponse(res.getBody(), res));
       }

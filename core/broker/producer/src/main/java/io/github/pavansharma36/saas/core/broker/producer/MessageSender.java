@@ -78,7 +78,7 @@ public class MessageSender {
     Optional.ofNullable(templateMap.get(queue.type()))
         .orElseThrow(() -> new ServerRuntimeException(
             String.format("Producer for %s not found", queue.type())))
-        .produce(queue, message.getPriority(), payload, BrokerUtils::serialize);
+        .produce(queue, payload, BrokerUtils::serialize);
   }
 
 }

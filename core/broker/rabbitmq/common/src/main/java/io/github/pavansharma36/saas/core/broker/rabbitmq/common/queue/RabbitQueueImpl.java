@@ -23,7 +23,7 @@ public class RabbitQueueImpl implements RabbitQueue {
   public List<MessagePriority> supportedPriorities() {
     return supportedPriorities;
   }
-
+  
   @Override
   public List<DelayedQueue> supportedDelayedQueues() {
     return supportedDelayedQueues;

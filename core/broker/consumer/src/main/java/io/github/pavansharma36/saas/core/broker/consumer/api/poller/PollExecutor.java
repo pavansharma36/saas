@@ -1,14 +1,12 @@
 package io.github.pavansharma36.saas.core.broker.consumer.api.poller;
 
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
-import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.utils.poll.DelayedLogEmitter;
 import io.github.pavansharma36.saas.utils.poll.FixedDelayedLogEmitter;
 import io.github.pavansharma36.saas.utils.poll.FixedPollDelayGenerator;
 import io.github.pavansharma36.saas.utils.poll.PollDelayGenerator;
 import java.time.Duration;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -26,37 +24,29 @@ public class PollExecutor<T extends PollResponse> extends Thread {
   @Override
   public void run() {
     PollDelayGenerator delayGenerator = new FixedPollDelayGenerator(TimeUnit.SECONDS.toMillis(1L));
-    List<MessagePriority> priorities = BrokerUtils.sortDesc(queue.supportedPriorities());
 
     DelayedLogEmitter logEmitter = new FixedDelayedLogEmitter(Duration.ofSeconds(30L), log);
+
     while (!Thread.currentThread().isInterrupted()) {
-
       boolean result = false;
-
-      for (MessagePriority messagePriority : priorities) {
-        String queueName = queue.formatQueueName(messagePriority);
-
-        boolean blocked = BrokerUtils.isQueueBlocked(queue, messagePriority, logEmitter);
-        if (!blocked) {
-          log.debug("Polling queue for any new message: {}", queueName);
-          try {
-            Optional<T> pollRes = pollerConsumer.poll(queueName);
-            if (pollRes.isPresent()) {
-              try {
-                target.accept(pollRes.get().getBody());
-              } finally {
-                pollerConsumer.ack(pollRes.get());
-              }
-
-              result = true;
-              break;
+      boolean blocked = BrokerUtils.isQueueBlocked(queue, logEmitter);
+      if (!blocked) {
+        log.debug("Polling queue for any new message: {}", queue);
+        try {
+          Optional<T> pollRes = pollerConsumer.poll(queue);
+          if (pollRes.isPresent()) {
+            try {
+              target.accept(pollRes.get().getBody());
+            } finally {
+              pollerConsumer.ack(pollRes.get());
             }
-          } catch (Exception e) {
-            log.error("Error while processing {}", e.getMessage(), e);
+            result = true;
           }
-        } else {
-          logEmitter.info("Not processing any message on queue {} since its blocked", queueName);
+        } catch (Exception e) {
+          log.error("Error while processing {}", e.getMessage(), e);
         }
+      } else {
+        logEmitter.info("Not processing any message on queue {} since its blocked", queue);
       }
 
       delayGenerator.delay(result);

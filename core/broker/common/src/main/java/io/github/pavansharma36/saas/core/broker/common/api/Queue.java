@@ -14,13 +14,6 @@ public interface Queue extends Named {
     return "-";
   }
 
-  default String formatQueueName(MessagePriority priority) {
-    if (priority.queueNameSuffix().isEmpty()) {
-      return getName();
-    }
-    return String.format("%s%s%s", getName(), formatSeparator(), priority.queueNameSuffix());
-  }
-
   default String formatQueueName(DelayedQueue delayedQueue) {
     return String.format("%s%s%s", getName(), formatSeparator(), delayedQueue.getQueueNameSuffix());
   }

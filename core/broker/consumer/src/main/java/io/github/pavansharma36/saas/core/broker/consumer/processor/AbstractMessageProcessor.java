@@ -1,11 +1,5 @@
 package io.github.pavansharma36.saas.core.broker.consumer.processor;
 
-import io.github.pavansharma36.saas.core.common.mutex.bean.CompositeLockInfo;
-import io.github.pavansharma36.saas.core.common.mutex.bean.DefaultLock;
-import io.github.pavansharma36.saas.core.common.mutex.bean.Lock;
-import io.github.pavansharma36.saas.core.common.mutex.service.LockService;
-import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
-import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageDto;
@@ -13,6 +7,12 @@ import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializableP
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
 import io.github.pavansharma36.saas.core.broker.common.dao.MessageInfoDao;
 import io.github.pavansharma36.saas.core.broker.common.dao.model.MessageInfo;
+import io.github.pavansharma36.saas.core.common.mutex.bean.CompositeLockInfo;
+import io.github.pavansharma36.saas.core.common.mutex.bean.DefaultLock;
+import io.github.pavansharma36.saas.core.common.mutex.bean.Lock;
+import io.github.pavansharma36.saas.core.common.mutex.service.LockService;
+import io.github.pavansharma36.saas.core.common.utils.CoreConstants;
+import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
 import io.github.pavansharma36.saas.utils.poll.AlwaysLogEmitter;
 import java.io.IOException;
 import java.time.Duration;
@@ -81,8 +81,7 @@ public abstract class AbstractMessageProcessor<T extends MessageDto> implements 
   public ProcessInstruction canProcess(Queue queue, MessageSerializablePayload payload)
       throws IOException {
     MessageInfo messageInfo = null;
-    if (BrokerUtils.isQueueBlocked(queue, payload.getPriority(), alwaysLogEmitter)
-        || BrokerUtils.isMessageTypeBlocked(payload.getMessageType(), log)) {
+    if (BrokerUtils.isMessageTypeBlocked(payload.getMessageType(), log)) {
       return new ProcessInstruction(ProcessInstruction.Instruction.DELAY, messageInfo,
           CompositeLockInfo.build(lockService), payload);
     }
