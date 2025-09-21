@@ -47,6 +47,9 @@ public class ListenExecutor<T extends ListenResponse> extends Thread {
         } else if (listener == null) {
           log.info("Starting listener for queue {}", queue);
           listener = listenConsumer.listen(queue, target);
+        } else if (!listener.isListening()) {
+          listenConsumer.stop(listener);
+          listener = null;
         }
       } catch (Exception e) {
         log.error("Error in ListenExecutor run {}", e.getMessage(), e);
