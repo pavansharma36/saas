@@ -114,7 +114,7 @@ public interface IdGenerator {
       super(RANDOM, length, clazz -> {
         byte[] bytes = new byte[length];
         XOR_SHIFT_RANDOM.nextBytes(bytes);
-        String suffix = new Base32().encodeAsString(bytes);
+        String suffix = Base32Utils.toString(bytes);
         return suffix.substring(0, length);
       });
     }
