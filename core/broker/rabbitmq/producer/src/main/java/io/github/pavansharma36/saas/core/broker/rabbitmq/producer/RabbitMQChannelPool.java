@@ -1,7 +1,7 @@
 package io.github.pavansharma36.saas.core.broker.rabbitmq.producer;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
+import io.github.pavansharma36.saas.core.broker.rabbitmq.common.ConnectionProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.BasePooledObjectFactory;
@@ -12,11 +12,11 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 @RequiredArgsConstructor
 public class RabbitMQChannelPool extends BasePooledObjectFactory<Channel> {
 
-  private final Connection connection;
+  private final ConnectionProvider connectionProvider;
 
   @Override
   public Channel create() throws Exception {
-    Channel channel = connection.createChannel();
+    Channel channel = connectionProvider.getConnection().createChannel();
     channel.confirmSelect();
     channel.addReturnListener(
         (code, message, exchange, routingKey, basicProperties, bytes) -> log.error(

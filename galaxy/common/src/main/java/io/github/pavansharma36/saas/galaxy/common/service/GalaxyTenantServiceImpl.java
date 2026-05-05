@@ -1,5 +1,9 @@
 package io.github.pavansharma36.saas.galaxy.common.service;
 
+import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
+import io.github.pavansharma36.saas.core.broker.common.bean.IdMessageDto;
+import io.github.pavansharma36.saas.core.broker.common.bean.Message;
+import io.github.pavansharma36.saas.core.broker.producer.MessageSender;
 import io.github.pavansharma36.saas.core.common.cache.inmemory.AbstractInMemoryCache;
 import io.github.pavansharma36.saas.core.common.context.TenantContext;
 import io.github.pavansharma36.saas.core.common.context.providers.TenantContextProvider;
@@ -11,13 +15,8 @@ import io.github.pavansharma36.saas.core.common.pubsub.payload.InMemoryCacheClea
 import io.github.pavansharma36.saas.core.common.pubsub.payload.Payload;
 import io.github.pavansharma36.saas.core.common.pubsub.publisher.PublisherManager;
 import io.github.pavansharma36.saas.core.common.validation.ServerRuntimeException;
-import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
-import io.github.pavansharma36.saas.core.broker.common.bean.Message;
-import io.github.pavansharma36.saas.core.broker.producer.MessageSender;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.message.TenantCreatedMessageDto;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.message.TenantEventMessageTypes;
-import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.TenantEventQueue;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
+import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyMessageType;
 import io.github.pavansharma36.saas.utils.Utils;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
@@ -65,14 +64,15 @@ public class GalaxyTenantServiceImpl extends AbstractInMemoryCache<TenantDto>
         .build()).orElseThrow(() -> new ServerRuntimeException("Couldn't acquire lock"))) {
       String id = Utils.randomRequestId();
 
+
       Message m = Message.builder()
           .priority(MessagePriority.NORMAL)
-          .messageType(TenantEventMessageTypes.TENANT_CREATED)
-          .messageDto(TenantCreatedMessageDto.builder().id(id).build())
+          .messageType(GalaxyMessageType.TENANT_CREATED)
+          .messageDto(new IdMessageDto().setId(id))
           .trackWithDatabase(true)
           .lockOnProcess(true)
           .build();
-      messageSender.send(TenantEventQueue.TENANT_CREATED_QUEUE, m);
+      messageSender.send(m);
       return id;
     }
   }

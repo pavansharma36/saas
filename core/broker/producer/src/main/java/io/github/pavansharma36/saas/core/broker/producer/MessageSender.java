@@ -1,7 +1,6 @@
 package io.github.pavansharma36.saas.core.broker.producer;
 
 import io.github.pavansharma36.saas.core.broker.common.BrokerUtils;
-import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.common.bean.Message;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageSerializablePayload;
 import io.github.pavansharma36.saas.core.broker.common.bean.MessageStatus;
@@ -31,25 +30,26 @@ public class MessageSender {
         producerTemplates.stream().collect(Collectors.toMap(ProducerTemplate::type, k -> k));
   }
 
-  private void validate(Queue queue, Message message) {
-    PreCondition.assertNotNull(queue, CoreErrorCode.SERVER_ERROR);
+  private void validate(Message message) {
     PreCondition.assertNotNull(message, CoreErrorCode.SERVER_ERROR);
     PreCondition.assertNotNull(message.getPriority(), CoreErrorCode.SERVER_ERROR);
     PreCondition.assertNotNull(message.getMessageType(), CoreErrorCode.SERVER_ERROR);
+    PreCondition.assertNotNull(message.getMessageType().queue(), CoreErrorCode.SERVER_ERROR);
     PreCondition.assertNotNull(message.getMessageDto(), CoreErrorCode.SERVER_ERROR);
     if (message.getMessageDto().getExpireAt() != null && message.getMessageDto().getExpireAt()
         .before(new Date())) {
       throw new ServerRuntimeException(
           String.format("Message expiration time is in the past for message %s", message));
     }
-    PreCondition.assertCondition(queue.supportedPriorities().contains(message.getPriority()),
+    PreCondition.assertCondition(
+        message.getMessageType().queue().supportedPriorities().contains(message.getPriority()),
         CoreErrorCode.SERVER_ERROR);
   }
 
-  private Optional<String> createMessageInfo(Queue queue, Message message) {
+  private Optional<String> createMessageInfo(Message message) {
     if (message.isTrackWithDatabase()) {
       MessageInfo info = new MessageInfo();
-      info.setQueueName(queue.getName());
+      info.setQueueName(message.getMessageType().queue().getName());
       info.setMessageType(message.getMessageType().getName());
       info.setDispatchedAt(new Date());
       info.setStatus(MessageStatus.DISPATCHED);
@@ -64,9 +64,9 @@ public class MessageSender {
     return Optional.empty();
   }
 
-  public void send(Queue queue, Message message) {
-    validate(queue, message);
-    Optional<String> mId = createMessageInfo(queue, message);
+  public void send(Message message) {
+    validate(message);
+    Optional<String> mId = createMessageInfo(message);
 
     MessageSerializablePayload payload = new MessageSerializablePayload();
     payload.setMessageId(mId.orElse(null));
@@ -75,10 +75,10 @@ public class MessageSender {
     payload.setMessageDto(message.getMessageDto());
     payload.setContextMap(ThreadLocalContextProviders.serialize());
 
-    Optional.ofNullable(templateMap.get(queue.type()))
+    Optional.ofNullable(templateMap.get(message.getMessageType().queue().type()))
         .orElseThrow(() -> new ServerRuntimeException(
-            String.format("Producer for %s not found", queue.type())))
-        .produce(queue, payload, BrokerUtils::serialize);
+            String.format("Producer for %s not found", message.getMessageType().queue().type())))
+        .produce(message.getMessageType().queue(), payload, BrokerUtils::serialize);
   }
 
 }

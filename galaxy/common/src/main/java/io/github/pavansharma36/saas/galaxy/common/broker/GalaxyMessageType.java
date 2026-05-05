@@ -8,14 +8,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum GalaxyMessageType implements MessageType {
 
-  TEST(GalaxyConstants.GALAXY_QUEUE),
+  TEST,
+  TENANT_CREATED,
   ;
-
-  private final Queue queue;
 
   @Override
   public Queue queue() {
-    return null;
+    return GalaxyConstants.GALAXY_QUEUE;
   }
 
   @Override

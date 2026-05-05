@@ -1,7 +1,6 @@
 package io.github.pavansharma36.saas.galaxy.common.utils;
 
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
-import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.common.api.Queue;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.exchange.RabbitExchange;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue.RabbitQueueImpl;
@@ -18,7 +17,6 @@ public class GalaxyConstants {
 
   public static final Queue GALAXY_QUEUE =
       new RabbitQueueImpl("galaxy", RabbitExchange.DEFAULT,
-          List.of(MessagePriority.NORMAL, MessagePriority.LOW, MessagePriority.HIGH),
           List.of(DelayedQueue.ONE_MINUTE));
 
 }

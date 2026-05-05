@@ -3,6 +3,8 @@ package io.github.pavansharma36.saas.core.broker.rabbitmq.common.queue;
 import io.github.pavansharma36.saas.core.broker.common.api.DelayedQueue;
 import io.github.pavansharma36.saas.core.broker.common.api.MessagePriority;
 import io.github.pavansharma36.saas.core.broker.rabbitmq.common.exchange.RabbitExchange;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +13,6 @@ public class RabbitQueueImpl implements RabbitQueue {
 
   private final String name;
   private final RabbitExchange exchange;
-  private final List<MessagePriority> supportedPriorities;
   private final List<DelayedQueue> supportedDelayedQueues;
 
   @Override
@@ -21,9 +22,9 @@ public class RabbitQueueImpl implements RabbitQueue {
 
   @Override
   public List<MessagePriority> supportedPriorities() {
-    return supportedPriorities;
+    return new ArrayList<>(EnumSet.allOf(MessagePriority.class));
   }
-  
+
   @Override
   public List<DelayedQueue> supportedDelayedQueues() {
     return supportedDelayedQueues;

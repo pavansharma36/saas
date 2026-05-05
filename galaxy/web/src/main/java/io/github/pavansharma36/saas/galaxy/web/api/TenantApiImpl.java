@@ -6,10 +6,9 @@ import io.github.pavansharma36.saas.core.broker.producer.MessageSender;
 import io.github.pavansharma36.saas.core.dto.common.TenantDto;
 import io.github.pavansharma36.saas.core.dto.response.ResponseObject;
 import io.github.pavansharma36.saas.galaxy.api.TenantApi;
-import io.github.pavansharma36.saas.galaxy.common.TestMessageDto;
 import io.github.pavansharma36.saas.galaxy.common.broker.GalaxyMessageType;
+import io.github.pavansharma36.saas.galaxy.common.broker.payload.TestMessageDto;
 import io.github.pavansharma36.saas.galaxy.common.service.GalaxyTenantService;
-import io.github.pavansharma36.saas.galaxy.common.utils.GalaxyConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,7 +56,7 @@ public class TenantApiImpl implements TenantApi {
         .trackWithDatabase(true)
         .lockOnProcess(false)
         .build();
-    messageSender.send(GalaxyConstants.GALAXY_QUEUE, m);
+    messageSender.send(m);
     return ResponseObject.empty();
   }
 }
